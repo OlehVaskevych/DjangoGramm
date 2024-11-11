@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.description }}</p>
+
+    <!-- Display likes count -->
+    <p>Likes: {{ like_count }}</p>
+
+    <!-- Display tags if they exist -->
+    {% if tags %}
+        <p>Tags:
+            {% for tag in tags %}
+                <span>{{ tag.name }}</span>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% endif %}
+
+    <!-- Display images if they exist -->
+    {% if images %}
+        <div class="post-images">
+            {% for image in images %}
+                <img src="{{ image.image_file.url }}" alt="Post Image" style="max-width: 200px;">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Display comments if they exist -->
+    {% if comments %}
+        <h2>Comments</h2>
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <strong>{{ comment.author.username }}:</strong> {{ comment.text }} <br>
+                    <em>{{ comment.created_at }}</em>
+                    {% if request.user.username == comment.author.username %}
+                        <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}">
+                            <button type="submit">delete</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'add_like' post.id %}" >
+        {% csrf_token %}
+        <button type="submit">Like</button>
+    </form>
+
+    <!-- Add a comment form (assuming a form exists in your app) -->
+    <form method="post" action="{% url 'add_comment' post.id %}">
+        {% csrf_token %}
+        <textarea name="comment" placeholder="Add a comment..." required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <p>Posted by: {{ post.user.username }} on {{ post.created_at }}</p>
+
+    {% if request.user.username == post.user.username %}
+        <a href="{% url 'post_edit' post.id %}">Edit Post</a>
+        <form action="{% url 'post_delete' post.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete Post</button>
+        </form>
+    {% endif %}
+
+    <a href="/profile/{{ post.user.username }}">Back</a>
+</body>
+</html>
