@@ -9,7 +9,9 @@
         <h1>{{ user.username }}'s Profile</h1>
         <img src="{{ profile.avatar.url }}" alt="{{ user.username }}'s Avatar" />
         <p>{{ profile.bio }}</p>
-        <a href="{% url 'profile_edit' user.username %}">Edit profile</a>
+        {% if user.username == request.user.username %}
+            <a href="{% url 'profile_update' user.username %}">Edit profile</a>
+        {% endif %}
     </header>
     <section id="profile-info">
         <h1>First name: {{ profile.first_name }}</h1>

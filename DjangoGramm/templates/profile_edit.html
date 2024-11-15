@@ -10,11 +10,20 @@
     </header>
     <section id="edit-profile">
         <form method="post">
+            <input type="hidden" name="_method" value="PUT">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Зберегти зміни</button>
             <a href="{% url 'profile' user.username %}">Скасувати</a>
         </form>
     </section>
+
+    <h2>Видалення профілю</h2>
+    <p>Ви впевнені, що хочете видалити свій профіль?</p>
+    <form method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        {% csrf_token %}
+        <button type="submit">Видалити</button>
+    </form>
 </body>
 </html>

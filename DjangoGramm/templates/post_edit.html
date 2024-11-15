@@ -5,10 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="{% url 'profile_edit' user.username %}" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="PUT">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Редагувати</button>
+    </form>
+    <h2>Видалення посту</h2>
+    <p>Ви впевнені, що хочете видалити цей пост?</p>
+    <form method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        {% csrf_token %}
+        <button type="submit">Видалити</button>
     </form>
 </body>
 </html>

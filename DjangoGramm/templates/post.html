@@ -65,10 +65,6 @@
 
     {% if request.user.username == post.user.username %}
         <a href="{% url 'post_edit' post.id %}">Edit Post</a>
-        <form action="{% url 'post_delete' post.id %}">
-            {% csrf_token %}
-            <button type="submit">Delete Post</button>
-        </form>
     {% endif %}
 
     <a href="/profile/{{ post.user.username }}">Back</a>

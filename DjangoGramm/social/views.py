@@ -1,58 +1,65 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.csrf import csrf_protect
+from functools import wraps
 
 from .forms import ProfileEditForm, PostEditForm, PostCreateForm
 from .models import Profile, Post, Comment, Image
 
 
-def home(request):
-    posts = Post.objects.all()
-    image = Image.objects.all()
+ALLOWED_EXTENSIONS = ['.png', '.jpg', '.jpeg']
 
-    return render(request, 'home.html', {'posts': posts, 'image': image})
+
+def user_is_profile_owner(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        username = kwargs.get('username')
+        if request.user.username != username:
+            return redirect('home')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+def home(request):
+    posts = Post.objects.prefetch_related('images').all()
+
+    return render(request, 'home.html', {'posts': posts})
 
 
 def profile_view(request, username):
-    user = get_object_or_404(User, username=username)
-    profile = get_object_or_404(Profile, user=user)
-    posts = Post.objects.filter(user_id=user.id)
 
-    return render(request, 'profile.html', {'user': user, 'profile': profile, 'posts': posts})
+    # Use select_related to optimize fetching related user and profile objects
+    user = get_object_or_404(User.objects.select_related('profile'), username=username)
+
+    # Use select_related to fetch posts along with the user (if needed)
+    posts = Post.objects.filter(user_id=user.id).select_related('user')
+
+    return render(request, 'profile.html', {'user': user, 'profile': user.profile, 'posts': posts})
 
 
 @login_required
-def profile_edit_view(request, username):
-    if request.user.username != username:
-        return redirect('profile', username=request.user.username)
-
+@user_is_profile_owner
+def profile_update_view(request, username):
     user = get_object_or_404(User, username=username)
     profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
-        form = ProfileEditForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profile', username=request.user.username)
+        if request.POST.get("_method") == 'PUT':
+            form = ProfileEditForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                form.save()
+                return redirect('profile', username=request.user.username)
+        elif request.POST.get("_method") == 'DELETE':
+            user.delete()
+            return redirect('home')
+
     else:
         form = ProfileEditForm(instance=profile)
 
     return render(request, 'profile_edit.html', {'form': form, 'profile': profile, 'user': user})
-
-
-@login_required
-def profile_delete_view(request, username):
-    user = get_object_or_404(User, username=username)
-    if request.user != user:
-        return redirect('profile', username=request.user.username)
-
-    if request.method == 'POST':
-        user.delete()
-        return redirect('home')
-
-    return render(request, 'profile_delete.html', {'profile_user': user})
 
 
 def post_view(request, post_id):
@@ -73,6 +80,7 @@ def post_view(request, post_id):
 
 
 @login_required
+@csrf_protect
 def post_create_view(request):
     if request.method == 'POST':
         form = PostCreateForm(request.POST)
@@ -86,9 +94,16 @@ def post_create_view(request):
             # Handle multiple image uploads
             images = request.FILES.getlist('images')
             for image_file in images:
+                if not image_file.name.lower().endswith(('.png', '.jpg', '.jpeg')):
+                    form.add_error('images', 'Invalid image format. Only JPG, PNG, and GIF are allowed.')
+                    return render(request, 'post_create.html', {'form': form})
+
                 Image.objects.create(post=post, image_file=image_file)
 
             return redirect('post_detail', post_id=post.id)  # Redirect to the post detail page
+
+        else:
+            return render(request, 'post_create.html', {'form': form})
     else:
         form = PostCreateForm()
 
@@ -96,6 +111,7 @@ def post_create_view(request):
 
 
 @login_required
+@csrf_protect
 def post_like_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user in post.likes.all():
@@ -106,6 +122,7 @@ def post_like_view(request, post_id):
 
 
 @login_required
+@csrf_protect
 def post_comment_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -116,6 +133,7 @@ def post_comment_view(request, post_id):
 
 
 @login_required
+@csrf_protect
 def post_comment_delete_view(request, post_id, comment_id):
     post = get_object_or_404(Post, id=post_id)
     comment = get_object_or_404(Comment, id=comment_id, post=post)
@@ -125,25 +143,23 @@ def post_comment_delete_view(request, post_id, comment_id):
 
 
 @login_required
-def post_edit_view(request, post_id):
+@csrf_protect
+def post_update_view(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)
     if request.method == 'POST':
-        form = PostEditForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('post_detail', post_id=post.id)
+        if request.POST.get('_method') == 'PUT':
+            form = PostEditForm(request.POST, request.FILES, instance=post)
+            if form.is_valid():
+                form.save()
+                return redirect('post_detail', post_id=post.id)
+            else:
+                return render(request, 'post_edit.html', {'form': form, 'post': post})
+        elif request.POST.get('_method') == 'DELETE':
+            post.delete()
+            return redirect('home')
     else:
         form = PostEditForm(instance=post)
     return render(request, 'post_edit.html', {'form': form, 'post': post})
-
-
-@login_required
-def post_delete_view(request, post_id):
-    post = get_object_or_404(Post, id=post_id, user=request.user)
-    if request.method == 'POST':
-        post.delete()
-        return redirect('home')
-    return render(request, 'post_delete.html', {'post': post})
 
 
 def register_view(request):
@@ -152,7 +168,6 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            Profile.objects.create(user=user)  # Create an empty profile for the new user
             return redirect('profile', username=user.username)
     else:
         form = UserCreationForm()
