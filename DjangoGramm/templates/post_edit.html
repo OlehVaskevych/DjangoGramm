@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="PUT">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Редагувати</button>
+    </form>
+    <h2>Видалення посту</h2>
+    <p>Ви впевнені, що хочете видалити цей пост?</p>
+    <form method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        {% csrf_token %}
+        <button type="submit">Видалити</button>
+    </form>
+</body>
+</html>

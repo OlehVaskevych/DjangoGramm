@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .comments-section {
+            display: none; /* Hide comments section by default */
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #ccc;
+        }
+    </style>
+    <script>
+        function toggleComments(postId) {
+            const commentsSection = document.getElementById('comments-' + postId);
+            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>DjangoGramm</h1>
+    </header>
+    <nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'post_create' %}">Створити пост</a>
+            <a href="{% url 'profile' user.username %}">Профіль</a>
+            <a href="{% url 'logout' %}">Вийти</a>
+        {% else %}
+            <a href="{% url 'login' %}">Увійти</a>
+            <a href="{% url 'register' %}">Реєстрація</a>
+        {% endif %}
+    </nav>
+    <main>
+        <section id="posts">
+            <h2>Стрічка постів</h2>
+            {% if posts %}
+                {% for post in posts %}
+                    <article class="post">
+                        {% if post.images.all %}
+                            <div class="post-images">
+                                {% for image in post.images.all %}
+                                    <img src="{{ image.image_file.url }}" alt="Post image" style="max-width: 200px;">
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.description }}</p>
+                    
+                        <!-- Display likes count -->
+                        <p>Likes: {{ post.likes.count }}</p>
+                        
+                        <form method="post" action="{% url 'add_like' post.id %}" >
+                            {% csrf_token %}
+                            <button type="submit">Like</button>
+                        </form>
+                    
+                        <!-- Comments Button -->
+                        <button onclick="toggleComments('{{ post.id }}')">Показати коментарі</button>
+                        
+                        <!-- Comments Section -->
+                        <div id="comments-{{ post.id }}" class="comments-section">
+                            {% if post.comments.all %}
+                                {% for comment in post.comments.all %}
+                                    <li>
+                                        <strong>{{ comment.author.username }}:</strong> {{ comment.text }} <br>
+                                        <em>{{ comment.created_at }}</em>
+                                        {% if request.user.username == comment.author.username %}
+                                            <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}">
+                                                <button type="submit">delete</button>
+                                            </form>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <p>Немає коментарів</p>
+                            {% endif %}
+                        
+                            <!-- Add a comment form (assuming a form exists in your app) -->
+                            <form method="post" action="{% url 'add_comment' post.id %}">
+                                {% csrf_token %}
+                                <textarea name="comment" placeholder="Add a comment..." required></textarea>
+                                <button type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <h3>Поки немає постів</h3>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

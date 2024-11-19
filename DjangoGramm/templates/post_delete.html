@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Видалення посту</h2>
+    <p>Ви впевнені, що хочете видалити цей пост?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Видалити</button>
+        <a href="{% url 'post_detail' post.id %}">Скасувати</a>
+    </form>
+</body>
+</html>
