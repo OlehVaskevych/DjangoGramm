@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+
+    
+
+    <div class="container">
+    
+        <header>
+            <h1>DjangoGramm</h1>
+        </header>
+    
+        <ul class="nav bg-info">
+            {% if user.is_authenticated %}
+                
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="/" >HOME</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="{% url 'post_create' %}" class="nav-link link-light">Створити пост</a>
+                </li>
+                    
+                <li class="nav-item">
+                    <a href="{% url 'profile' user.username %}" class="nav-link link-light">Профіль</a>
+                </li>
+                    
+                <li class="nav-item">
+                    <a href="{% url 'news' %}" class="nav-link link-light">Стрічка новин</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link link-light">Вихід</a>
+                </li>
+                
+            {% else %}
+                
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="nav-link link-light">Увійти</a>
+                </li>
+                    
+                <li class="nav-item">
+                    <a href="{% url 'register' %}" class="nav-link link-light">Реєстрація</a>
+                </li>
+                
+            {% endif %}
+        </ul>
+
+    {% block content %}
+    {% endblock %}
+    </div>
+</body>
+</html>

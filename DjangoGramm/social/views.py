@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from functools import wraps
 
 from .forms import ProfileEditForm, PostEditForm, PostCreateForm
-from .models import Profile, Post, Comment, Image
+from .models import Profile, Post, Comment, Image, Follow
 
 
 ALLOWED_EXTENSIONS = ['.png', '.jpg', '.jpeg']
@@ -30,14 +30,27 @@ def home(request):
 
 
 def profile_view(request, username):
-
-    # Use select_related to optimize fetching related user and profile objects
     user = get_object_or_404(User.objects.select_related('profile'), username=username)
-
-    # Use select_related to fetch posts along with the user (if needed)
     posts = Post.objects.filter(user_id=user.id).select_related('user')
+    followers = user.followers.count()
+    followings = user.followings.count()
 
-    return render(request, 'profile.html', {'user': user, 'profile': user.profile, 'posts': posts})
+    # Перевірка, чи поточний користувач підписаний
+    is_following = Follow.objects.filter(follower=request.user, following=user).exists()
+
+    return render(
+        request,
+        'profile.html',
+        {
+            'user': user,
+            'profile': user.profile,
+            'posts': posts,
+            'followers': followers,
+            'followings': followings,
+            'is_following': is_following
+        }
+    )
+
 
 
 @login_required
@@ -191,3 +204,30 @@ def logout_view(request):
         logout(request)
         return redirect('home')
     return render(request, 'logout.html')
+
+
+@login_required
+@csrf_protect
+def follow_view(request, username):
+    user_to_follow = get_object_or_404(User, username=username)
+
+    if request.user == user_to_follow:
+        # Заборонити підписку на себе
+        return redirect('profile', username=username)
+
+    # Перевіряємо, чи вже є підписка
+    existing_follow = Follow.objects.filter(follower=request.user, following=user_to_follow)
+
+    if existing_follow.exists():
+        existing_follow.delete()  # Відписатися
+    else:
+        Follow.objects.create(follower=request.user, following=user_to_follow)  # Підписатися
+
+    return redirect('profile', username=username)
+
+
+@login_required
+def news_feed(request):
+    follows = Follow.objects.filter(follower=request.user)
+    posts = Post.objects.filter(user_id__in=[follow.following for follow in follows]).order_by('-created_at')
+    return render(request, 'news_feed.html', {'posts': posts})
