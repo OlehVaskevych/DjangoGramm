@@ -1,1 +1,8 @@
+DjangoGramm/.idea/
+DjangoGramm/.pytest_cache/
+DjangoGramm/DjangoGramm/__pycache__/
+DjangoGramm/social/__pycache__/
+DjangoGramm/tests/__pycache__/
+__pycache__/
 .idea/
+.pyc

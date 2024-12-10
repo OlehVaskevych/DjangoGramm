@@ -1,3 +1,4 @@
+from django.db import IntegrityError, DatabaseError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
@@ -215,13 +216,24 @@ def follow_view(request, username):
         # Заборонити підписку на себе
         return redirect('profile', username=username)
 
-    # Перевіряємо, чи вже є підписка
-    existing_follow = Follow.objects.filter(follower=request.user, following=user_to_follow)
+    try:
+        follow, created = Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
+        if not created:
 
-    if existing_follow.exists():
-        existing_follow.delete()  # Відписатися
-    else:
-        Follow.objects.create(follower=request.user, following=user_to_follow)  # Підписатися
+            try:
+                follow.delete()
+
+            except DatabaseError as e:
+                print(f"Error deleting follow relationship: {e}")
+                return redirect('profile', username=username)
+
+    except IntegrityError as e:
+        print(f"Integrity Error during follow creation: {e}")
+        return redirect('profile', username=username)
+
+    except DatabaseError as e:
+        print(f"Database Error during follow creation: {e}")
+        return redirect('profile', username=username)
 
     return redirect('profile', username=username)
 

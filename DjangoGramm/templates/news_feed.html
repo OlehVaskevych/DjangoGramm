@@ -1,68 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <div class="container">
-        <h2>News Feed</h2>
-        <div class="row">
-            {% if posts %}
-                {% for post in posts %}
-                    <article class="post">
-                        {% if post.images.all %}
-                            <div class="post-images">
+{% extends 'master.html' %}
+
+{% block title %}News Feed{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <section id="posts">
+        <h2 class="text-center mb-4">News Feed</h2>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="card mb-4">
+                    {% if post.images.all %}
+                        <div id="carousel-{{ post.id }}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
                                 {% for image in post.images.all %}
-                                    <img src="{{ image.image_file.url }}" alt="Post image" style="max-width: 200px;">
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.image_file.url }}" class="d-block w-100" alt="Post image">
+                                    </div>
                                 {% endfor %}
                             </div>
-                        {% endif %}
-                        <h3>{{ post.title }}</h3>
-                        <p>{{ post.description }}</p>
-                    
-                        <!-- Display likes count -->
-                        <p>Likes: {{ post.likes.count }}</p>
                         
-                        <form method="post" action="{% url 'add_like' post.id %}" >
-                            {% csrf_token %}
-                            <button type="submit">Like</button>
-                        </form>
-                    
-                        <!-- Comments Button -->
-                        <button onclick="toggleComments('{{ post.id }}')">Показати коментарі</button>
-                        
-                        <!-- Comments Section -->
-                        <div id="comments-{{ post.id }}" class="comments-section">
-                            {% if post.comments.all %}
-                                {% for comment in post.comments.all %}
-                                    <li>
-                                        <strong>{{ comment.author.username }}:</strong> {{ comment.text }} <br>
-                                        <em>{{ comment.created_at }}</em>
-                                        {% if request.user.username == comment.author.username %}
-                                            <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}">
-                                                <button type="submit">delete</button>
-                                            </form>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                            {% else %}
-                                <p>Немає коментарів</p>
+                             <!-- Відображати стрілки лише якщо є більше одного зображення -->
+                            {% if post.images.count > 1 %}
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h3 class="card-title">{{ post.title }}</h3>
+                        <p class="card-text">{{ post.description }}</p>
+                        <p class="text-muted">Likes: {{ post.likes.count }}</p>
                         
-                            <!-- Add a comment form (assuming a form exists in your app) -->
-                            <form method="post" action="{% url 'add_comment' post.id %}">
+                        <form method="post" action="{% url 'add_like' post.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Like</button>
+                        </form>
+                        
+                        <button class="btn btn-outline-secondary btn-sm" onclick="toggleComments('{{ post.id }}')">Показати коментарі</button>
+                        
+                        <div id="comments-{{ post.id }}" class="mt-3" style="display: none;">
+                            <h5>Коментарі</h5>
+                            <ul class="list-group">
+                                {% if post.comments.all %}
+                                    {% for comment in post.comments.all %}
+                                        <li class="list-group-item">
+                                            <strong>{{ comment.author.username }}:</strong> {{ comment.text }}
+                                            <br>
+                                            <small class="text-muted">{{ comment.created_at }}</small>
+                                            {% if request.user.username == comment.author.username %}
+                                                <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}" method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                                                </form>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li class="list-group-item">Немає коментарів</li>
+                                {% endif %}
+                            </ul>
+                            <form method="post" action="{% url 'add_comment' post.id %}" class="mt-3">
                                 {% csrf_token %}
-                                <textarea name="comment" placeholder="Add a comment..." required></textarea>
-                                <button type="submit">Submit</button>
+                                <textarea name="comment" class="form-control mb-2" placeholder="Додайте коментар..." required></textarea>
+                                <button type="submit" class="btn btn-primary btn-sm">Відправити</button>
                             </form>
                         </div>
-                    </article>
-                {% endfor %}
-            {% else %}
-                <h3>Поки немає постів</h3>
-            {% endif %}
-        </div>
-    </div>
-</body>
-</html>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                Поки немає постів
+            </div>
+        {% endif %}
+    </section>
+</main>
+
+<script>
+    function toggleComments(postId) {
+        const commentsSection = document.getElementById('comments-' + postId);
+        commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+{% endblock %}
