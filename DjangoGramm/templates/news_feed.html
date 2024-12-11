@@ -1,11 +1,11 @@
 {% extends 'master.html' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}News Feed{% endblock %}
 
 {% block content %}
 <main class="container mt-4">
     <section id="posts">
-        <h2 class="text-center mb-4">Стрічка постів</h2>
+        <h2 class="text-center mb-4">News Feed</h2>
         {% if posts %}
             {% for post in posts %}
                 <div class="card mb-4">
@@ -18,8 +18,8 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                    
-                            <!-- Відображати стрілки лише якщо є більше одного зображення -->
+                        
+                             <!-- Відображати стрілки лише якщо є більше одного зображення -->
                             {% if post.images.count > 1 %}
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
