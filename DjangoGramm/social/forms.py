@@ -12,6 +12,17 @@ class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter post title'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Enter post description'
+            })
+        }
 
 
 class PostCreateForm(forms.ModelForm):

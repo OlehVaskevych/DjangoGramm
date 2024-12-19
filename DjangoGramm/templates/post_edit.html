@@ -1,22 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_method" value="PUT">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Редагувати</button>
-    </form>
-    <h2>Видалення посту</h2>
-    <p>Ви впевнені, що хочете видалити цей пост?</p>
-    <form method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        {% csrf_token %}
-        <button type="submit">Видалити</button>
-    </form>
-</body>
-</html>
+{% extends 'master.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <section id="create-profile" class="shadow p-4 rounded bg-light">
+            <h2 class="text-center mb-4">Edit Post</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Render Django form fields -->
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                
+                <!-- Submit button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Confirm changes</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="deleteConfirmation('{{ post.id }}')">Delete Post</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+    <!-- Popup confirmation for deleting -->
+    <div id="delete-confirmation-{{ post.id }}" class="delete-confirmation" style="display: none;">
+        <div class="confirmation-box">
+            <h2>Ви дійсно хочете видалити цей пост?</h2>
+            <form method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                {% csrf_token %}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger">Підтвердити видалення</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="closeConfirmation('{{ post.id }}')">Скасувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the delete confirmation
+        function deleteConfirmation(postId) {
+            const confirmationBox = document.getElementById('delete-confirmation-' + postId);
+            confirmationBox.style.display = 'block';
+        }
+
+        // Function to hide the delete confirmation
+        function closeConfirmation(postId) {
+            const confirmationBox = document.getElementById('delete-confirmation-' + postId);
+            confirmationBox.style.display = 'none';
+        }
+    </script>
+{% endblock %}
