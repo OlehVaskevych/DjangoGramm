@@ -1,13 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Редагування профілю {{ user.username }}</title>
-</head>
-<body>
+{% extends 'master.html' %}
+
+{% block title %}Profile Edit {{ user.username }}{% endblock %}
+
+{% block content %}
+    
     <header>
         <h1>Редагування профілю {{ user.username }}</h1>
     </header>
+
+    <div class="container mt-5">
+        <section id="edit-profile" class="shadow p-4 rounded bg-light">
+            <form method="post">
+                <input type="hidden" name="_method" value="PUT">
+                {% csrf_token %}
+                
+                <!-- Render Django form fields -->
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                
+                <!-- Submit button -->
+                <div class="text-center">
+                    <button type="submit">Зберегти зміни</button>
+                    <a href="{% url 'profile' user.username %}">Скасувати</a>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="deleteConfirmation('{{ post.id }}')">Delete Profile</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    
     <section id="edit-profile">
         <form method="post">
             <input type="hidden" name="_method" value="PUT">
@@ -25,5 +46,4 @@
         {% csrf_token %}
         <button type="submit">Видалити</button>
     </form>
-</body>
-</html>
+{% endblock %}

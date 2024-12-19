@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'master.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
     <h1>Login</h1>
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         {{ form }}
         <button>Submit</button>
     </form>
-</body>
-</html>
+{% endblock %}
