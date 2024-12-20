@@ -29,7 +29,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["54.220.247.247", "localhost"]
+ALLOWED_HOSTS = ["54.171.140.119", "localhost"]
 
 DEFAULT_AVATAR_PATH = env("DEFAULT_AVATAR_PATH", default="avatars/default_avatar.jpg")
 
