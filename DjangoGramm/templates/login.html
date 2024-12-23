@@ -10,7 +10,7 @@
 
 {% block content %}
 <div class="form-container">
-    <h1 class="form-title">Вхід</h1>
+    <h1 class="form-title">Sign-in</h1>
     <form action="{% url 'login' %}" method="post" class="styled-form">
         {% csrf_token %}
         {% for field in form %}
@@ -25,7 +25,8 @@
                 {% endfor %}
             </div>
         {% endfor %}
-        <button type="submit" class="submit-button">Увійти</button>
+        <button type="submit" class="submit-button">Login</button>
+        <a href="{% url 'register' %}" class="submit-button">Register</a>
     </form>
 </div>
 {% endblock %}
