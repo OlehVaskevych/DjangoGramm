@@ -1,49 +1,45 @@
 {% extends 'master.html' %}
 
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post_create.css' %}">
+{% endblock %}
+
 {% block title %}Profile Edit {{ user.username }}{% endblock %}
 
 {% block content %}
-    
-    <header>
-        <h1>Редагування профілю {{ user.username }}</h1>
-    </header>
-
-    <div class="container mt-5">
-        <section id="edit-profile" class="shadow p-4 rounded bg-light">
-            <form method="post">
-                <input type="hidden" name="_method" value="PUT">
-                {% csrf_token %}
-                
-                <!-- Render Django form fields -->
-                <div class="mb-3">
-                    {{ form.as_p }}
-                </div>
-                
-                <!-- Submit button -->
-                <div class="text-center">
-                    <button type="submit">Зберегти зміни</button>
-                    <a href="{% url 'profile' user.username %}">Скасувати</a>
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="deleteConfirmation('{{ post.id }}')">Delete Profile</button>
-                </div>
-            </form>
-        </section>
-    </div>
-    
-    <section id="edit-profile">
-        <form method="post">
+    <div class="form-container">
+        <h1 class="form-title">Редагування профілю {{ user.username }}</h1>
+        <form method="post" enctype="multipart/form-data" class="styled-form">
             <input type="hidden" name="_method" value="PUT">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Зберегти зміни</button>
-            <a href="{% url 'profile' user.username %}">Скасувати</a>
-        </form>
-    </section>
 
-    <h2>Видалення профілю</h2>
-    <p>Ви впевнені, що хочете видалити свій профіль?</p>
-    <form method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        {% csrf_token %}
-        <button type="submit">Видалити</button>
-    </form>
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <!-- Кнопки -->
+            <div class="form-group">
+                <button type="submit" class="submit-button">Зберегти зміни</button>
+            </div>
+        </form>
+
+
+        <!-- Кнопка видалення -->
+        <form method="post" class="delete-form">
+            <input type="hidden" name="_method" value="DELETE">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">Видалити профіль</button>
+        </form>
+    </div>
 {% endblock %}

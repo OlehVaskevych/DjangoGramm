@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.conf import settings
 
-from social.models import Profile, Post, Image, Comment, Like, Tag
+from DjangoGramm.social.models import Profile, Post, Image, Comment, Like, Tag
 
 
 class Command(BaseCommand):

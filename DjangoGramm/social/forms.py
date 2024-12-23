@@ -6,6 +6,24 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['first_name', 'last_name', 'bio', 'avatar']
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name',
+            }),
+            'bio': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Bio',
+            }),
+            'avatar': forms.FileInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Avatar',
+            })
+        }
 
 
 class PostEditForm(forms.ModelForm):

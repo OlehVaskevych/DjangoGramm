@@ -1,12 +1,63 @@
 {% extends 'master.html' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Реєстрація{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h1>Register</h1>
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button>Submit</button>
-    </form>
+    <div class="form-container">
+        <h1 class="form-title">Реєстрація</h1>
+        <form action="{% url 'register' %}" method="post" class="styled-form">
+            {% csrf_token %}
+            {% for field in form %}
+                {% if field.name == 'password1' %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <div class="password-info" style="display: none;">
+                            {% if field.help_text %}
+                                <small class="form-text">{{ field.help_text|safe }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <p class="form-error">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="form-error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="submit-button">Зареєструватися</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.querySelector('.toggle-password-info');
+            const passwordInfo = document.querySelector('.password-info');
+
+            toggleBtn.addEventListener('click', function() {
+                if (passwordInfo.style.display === 'none') {
+                    passwordInfo.style.display = 'block';
+                    toggleBtn.textContent = 'Приховати вимоги до пароля';
+                } else {
+                    passwordInfo.style.display = 'none';
+                    toggleBtn.textContent = 'Показати вимоги до пароля';
+                }
+            });
+        });
+    </script>
 {% endblock %}

@@ -160,20 +160,24 @@ def post_comment_delete_view(request, post_id, comment_id):
 @csrf_protect
 def post_update_view(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)
+
     if request.method == 'POST':
         if request.POST.get('_method') == 'PUT':
             form = PostEditForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
                 form.save()
                 return redirect('post_detail', post_id=post.id)
-            else:
-                return render(request, 'post_edit.html', {'form': form, 'post': post})
         elif request.POST.get('_method') == 'DELETE':
             post.delete()
             return redirect('home')
+        else:
+            # Якщо _method не дорівнює ні PUT, ні DELETE
+            form = PostEditForm(instance=post)  # Форма повертається у вихідному стані
     else:
         form = PostEditForm(instance=post)
+
     return render(request, 'post_edit.html', {'form': form, 'post': post})
+
 
 
 def register_view(request):
@@ -243,3 +247,8 @@ def news_feed(request):
     follows = Follow.objects.filter(follower=request.user)
     posts = Post.objects.filter(user_id__in=[follow.following for follow in follows]).order_by('-created_at')
     return render(request, 'news_feed.html', {'posts': posts})
+
+
+@login_required
+def settings_view(request):
+    return render(request, 'settings.html')

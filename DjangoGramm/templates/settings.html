@@ -1,0 +1,29 @@
+{% extends 'master.html' %}
+
+{% block title %}Налаштування профілю{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h1 class="settings-title">Settings</h1>
+    <ul class="settings-list">
+        <li class="settings-item">
+            <a href="{% url 'profile_update' user.username %}" class="settings-link">
+                Edit Profile
+                <span class="fa fa-edit"></span>
+            </a>
+        </li>
+        <li class="settings-item">
+            <a href="{% url 'logout' %}" class="settings-link settings-link-logout">
+                Logout
+                <span class="fa fa-sign-out"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
