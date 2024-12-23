@@ -1,0 +1,323 @@
+/* Стилі для кнопки лайка */
+.btn-like {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.heart-icon {
+    font-size: 1.5em;
+    color: var(--secondary-color); /* Знебарвлений колір для кнопки лайка */
+}
+
+.heart-icon.liked {
+    color: var(--like-btn-color); /* Червоний колір для лайкнутого серця */
+}
+
+/* Карточки постів */
+.card {
+    background-color: var(--card-bg-color);
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Адаптивні стилі для мобільних пристроїв */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    h2, h3, h5 {
+        font-size: 1.2em;
+    }
+}
+
+/* Стилі для каруселі */
+.carousel-item img {
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Стилі для кнопок */
+button {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+}
+
+/* Попередження */
+.alert-warning {
+    border: 1px solid var(--card-bg-color);
+    background-color: var(--primary-color);
+    color: #212529;
+}
+
+/* Стилі для форми коментарів */
+textarea.form-control {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+/* Покращення вигляду елементів */
+.text-muted {
+    color: var(--muted-text-color);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: var(--muted-text-color);
+}
+
+
+
+/* Стилі для кнопок лайків */
+.custom-btn-like {
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    font-size: 24px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-btn-like i {
+    pointer-events: none; /* Уникаємо додаткових подій на іконку */
+}
+
+.custom-btn-like .fa-solid {
+    color: #ff4d4d; /* Червоний колір для серця */
+}
+
+/* Кнопка лайка (при натисканні або якщо лайк вже є) */
+.custom-btn-like:hover, .custom-btn-like:focus, .custom-btn-like.active {
+    color: #ff4d4d; /* Червоний колір для активного лайка */
+    transform: scale(1.1);
+}
+
+
+
+/* Стилі для кнопки коментарів */
+.custom-btn-comment {
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    font-size: 24px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-btn-comment:hover, .custom-btn-comment:focus, .custom-btn-comment.active {
+    color: var(--primary-color); /* Синій колір для коментаря */
+    transform: scale(1.1);
+}
+
+/* Стиль для секції коментарів */
+.custom-comments-section {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Заголовок коментарів */
+.custom-comments-section h5 {
+    color: var(--text-color);
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+/* Список коментарів */
+.custom-comments-section ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+/* Окремий елемент коментаря */
+.custom-comment-item {
+    background-color: var(--card-bg-color);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-size: 14px;
+    border: 1px solid var(--secondary-color);
+    width: auto;
+}
+
+/* Стиль для автора коментаря */
+.custom-comment-item strong {
+    color: var(--primary-color);
+}
+
+/* Стиль для дати коментаря */
+.custom-comment-item small {
+    color: var(--muted-text-color);
+    font-size: 12px;
+}
+
+/* Форма додавання коментаря */
+.custom-textarea {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    resize: vertical;
+    font-size: 14px;
+}
+
+/* Кнопка відправлення коментаря */
+.custom-submit-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    display: inline-block;
+}
+
+/* Стиль кнопки при наведенні */
+.custom-submit-button:hover {
+    background-color: #1c7cd6; /* Трохи темніший синій для hover */
+}
+
+/* Кнопка видалення коментаря */
+.custom-submit-button.btn-danger {
+    background-color: #ff4d4d; /* Червоний для кнопки видалення */
+}
+
+.custom-submit-button.btn-danger:hover {
+    background-color: #ff1a1a; /* Темніший червоний при наведенні */
+}
+
+/* Стилі для відображення аватарки та ніка автора */
+.d-flex.align-items-center {
+    align-items: center; /* Вирівнювання по вертикалі */
+    gap: 10px; /* Відступ між аватаркою та нікнеймом */
+}
+
+/* Стилі для аватарки */
+.d-flex.align-items-center img {
+    width: 50px; /* Ширина аватарки */
+    height: 50px; /* Висота аватарки */
+    object-fit: cover; /* Збереження пропорцій та заповнення площі */
+    border-radius: 50%; /* Кругла форма аватарки */
+    margin-left: 2%;
+    margin-top: 2%;
+    border: 1px solid var(--secondary-color);
+}
+
+.d-flex.align-items-center a {
+    margin-top: 2%;
+    text-decoration: None;
+}
+
+/* Стилі для нікнейма автора */
+.d-flex.align-items-center a span {
+    font-weight: bold; /* Виділення ніка */
+    color: var(--secondary-color); /* Використовуємо основний колір для ніка */
+    font-size: 1.5rem; /* Розмір шрифту для ніка */
+    margin-left: 2%; /* Легкий відступ для відділення ніка від аватарки */
+    margin-top: 1%;
+    text-decoration: none;
+}
+
+/* Додаткове оформлення аватарки для випадку, якщо аватарка не встановлена */
+.d-flex.align-items-center img[src="https://via.placeholder.com/40"] {
+    border: 2px solid var(--secondary-color); /* Легкий бордер для "плейсхолдерної" аватарки */
+}
+
+/* Загальний стиль для блоку з аватаркою та нікнеймом */
+.d-flex.align-items-center.mb-3 {
+    margin-bottom: 15px; /* Легкий відступ від інших елементів */
+}
+
+/* Загальний стиль для редагування */
+.d-flex.align-items-center .edit-icon {
+    margin-left: auto; /* Зміщує іконку редагування до правого краю */
+    font-size: 1.2rem; /* Розмір іконки */
+    color: var(--secondary-color); /* Основний колір іконки */
+    text-decoration: none; /* Видаляємо підкреслення для посилання */
+    margin-right: 2%;
+}
+
+.edit-icon:hover, .edit-icon:focus, .edit-icon.active {
+    color: var(--primary-color); /* Зміна кольору при наведенні */
+    transform: scale(1.1);
+}
+
+
+/* Окремий елемент коментаря */
+.custom-comment-item {
+    position: relative; /* Додаємо для використання абсолютного позиціонування кнопки */
+    padding-right: 50px; /* Додаємо відступ, щоб текст коментаря не накладався на кнопку */
+}
+
+/* Кнопка видалення коментаря */
+.custom-comment-item form {
+    position: absolute;
+    top: 50%; /* Вирівнюємо кнопку по вертикалі */
+    right: 15px; /* Відступ від правого краю */
+    transform: translateY(-50%); /* Центруємо по вертикалі */
+    margin: 0; /* Забираємо стандартні відступи */
+}
+
+.custom-comment-item form .btn-danger {
+    background-color: #ff4d4d; /* Червоний для кнопки видалення */
+    border: none;
+    padding: 5px 10px;
+}
+
+.custom-comment-item form .btn-danger:hover {
+    background-color: #ff1a1a; /* Темніший червоний при наведенні */
+}

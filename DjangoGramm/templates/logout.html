@@ -5,6 +5,7 @@
 {% block content %}
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit">Logout</button>
+        <button class="btn btn-secondary" type="submit">Confirm Logout</button>
+        <a class="btn btn-secondary" href="{% url 'settings' %}">Cancel</a>
     </form>
 {% endblock %}

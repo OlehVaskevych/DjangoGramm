@@ -2,11 +2,30 @@
 
 {% block title %}Login{% endblock %}
 
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>Login</h1>
-    <form action="{% url 'login' %}" method="post">
+<div class="form-container">
+    <h1 class="form-title">Вхід</h1>
+    <form action="{% url 'login' %}" method="post" class="styled-form">
         {% csrf_token %}
-        {{ form }}
-        <button>Submit</button>
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="submit-button">Увійти</button>
     </form>
+</div>
 {% endblock %}

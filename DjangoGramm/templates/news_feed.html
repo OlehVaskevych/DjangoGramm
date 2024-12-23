@@ -2,13 +2,32 @@
 
 {% block title %}News Feed{% endblock %}
 
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
 <main class="container mt-4">
     <section id="posts">
-        <h2 class="text-center mb-4">News Feed</h2>
+        <h2 class="text-center mb-4">Home Page</h2>
         {% if posts %}
             {% for post in posts %}
                 <div class="card mb-4">
+                    <!-- Аватарка та нікнейм автора -->
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ post.user.profile.avatar.url }}" alt="Avatar" class="rounded-circle">
+                        <a href="{% url 'profile' post.user.username %}">
+                            <span class="ms-2">{{ post.user }}</span>
+                        </a>
+
+                        {% if request.user.username == post.user.username %}
+                            <a href="{% url 'post_edit' post.id %}" class="edit-icon ms-auto">
+                                <span class="fa fa-edit"></span>
+                            </a>
+                        {% endif %}
+                    </div>
                     {% if post.images.all %}
                         <div id="carousel-{{ post.id }}" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
@@ -18,8 +37,8 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                        
-                             <!-- Відображати стрілки лише якщо є більше одного зображення -->
+
+                            <!-- Відображати стрілки лише якщо є більше одного зображення -->
                             {% if post.images.count > 1 %}
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -37,47 +56,65 @@
                         <h3 class="card-title">{{ post.title }}</h3>
                         <p class="card-text">{{ post.description }}</p>
                         <p class="text-muted">Likes: {{ post.likes.count }}</p>
-                        
+
+                        {% if user.is_authenticated %}
                         <form method="post" action="{% url 'add_like' post.id %}" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary btn-sm">Like</button>
+                            <button type="submit" class="custom-btn-like btn btn-sm">
+                                {% if request.user in post.likes.all %}
+                                    <i style="font-size:24px" class="fa-solid fa-heart"></i>
+                                {% else %}
+                                    <i style="font-size:24px" class="fa-regular fa-heart"></i>
+                                {% endif %}
+                            </button>
                         </form>
-                        
-                        <button class="btn btn-outline-secondary btn-sm" onclick="toggleComments('{{ post.id }}')">Показати коментарі</button>
-                        
-                        <div id="comments-{{ post.id }}" class="mt-3" style="display: none;">
+                        {% else %}
+                            <a href="{% url 'login' %}" class="custom-btn-like btn btn-sm">
+                                <i style="font-size:24px" class="fa-regular fa-heart"></i>
+                            </a>
+                        {% endif %}
+
+                        <button class="custom-btn-comment btn btn-sm" onclick="toggleComments('{{ post.id }}')">
+                            <i style="font-size:24px" class="fa-regular fa-comment"></i>
+                        </button>
+
+                        <div id="comments-{{ post.id }}" class="custom-comments-section mt-3" style="display: none;">
                             <h5>Коментарі</h5>
                             <ul class="list-group">
                                 {% if post.comments.all %}
                                     {% for comment in post.comments.all %}
-                                        <li class="list-group-item">
+                                        <li class="custom-comment-item list-group-item">
                                             <strong>{{ comment.author.username }}:</strong> {{ comment.text }}
                                             <br>
                                             <small class="text-muted">{{ comment.created_at }}</small>
                                             {% if request.user.username == comment.author.username %}
                                                 <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}" method="post" class="d-inline">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i style="font-size:24px" class="fa-solid fa-trash"></i></button>
                                                 </form>
                                             {% endif %}
                                         </li>
                                     {% endfor %}
                                 {% else %}
-                                    <li class="list-group-item">Немає коментарів</li>
+                                    <li class="custom-comment-item list-group-item">Немає коментарів</li>
                                 {% endif %}
                             </ul>
                             <form method="post" action="{% url 'add_comment' post.id %}" class="mt-3">
                                 {% csrf_token %}
-                                <textarea name="comment" class="form-control mb-2" placeholder="Додайте коментар..." required></textarea>
-                                <button type="submit" class="btn btn-primary btn-sm">Відправити</button>
+                                <textarea name="comment" class="custom-textarea form-control mb-2" placeholder="Додайте коментар..." required></textarea>
+                                {% if user.is_authenticated %}
+                                    <button type="submit" class="custom-submit-button btn btn-sm">Відправити</button>
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="custom-submit-button btn btn-sm">Відправити</a>
+                                {% endif %}
                             </form>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         {% else %}
-            <div class="alert alert-warning text-center" role="alert">
-                Поки немає постів
+            <div class="alert alert-warning text-center">
+                You haven`t subscribes.
             </div>
         {% endif %}
     </section>

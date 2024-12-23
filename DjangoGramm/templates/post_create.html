@@ -2,29 +2,35 @@
 
 {% block title %}Create Post{% endblock %}
 
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post_create.css' %}">
+{% endblock %}
+
 {% block content %}
-    <div class="container mt-5">
-        <section id="create-profile" class="shadow p-4 rounded bg-light">
-            <h2 class="text-center mb-4">Create Post</h2>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <!-- Render Django form fields -->
-                <div class="mb-3">
-                    {{ form.as_p }}
+    <div class="form-container">
+        <h1 class="form-title">Create post</h1>
+        <form method="post" enctype="multipart/form-data" class="styled-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
                 </div>
-
-                <!-- File upload input -->
-                <div class="mb-3">
-                    <label for="images" class="form-label">Upload Images</label>
-                    <input type="file" name="images" class="form-control" id="images" multiple>
-                </div>
-
-                <!-- Submit button -->
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Create Post</button>
-                </div>
-            </form>
-        </section>
+            {% endfor %}
+            <div class="form-group">
+                <label for="images">Upload photos:</label>
+                <input type="file" name="images" id="images" multiple class="file-input" required>
+            </div>
+            <button type="submit" class="submit-button">Create</button>
+        </form>
     </div>
+
 {% endblock %}
