@@ -2,7 +2,7 @@ from django.db import IntegrityError, DatabaseError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from functools import wraps
@@ -12,6 +12,7 @@ from .models import Profile, Post, Comment, Image, Follow
 
 
 ALLOWED_EXTENSIONS = ['.png', '.jpg', '.jpeg']
+MAX_IMAGE_SIZE = 10 * 1024 * 1024 # 10mb
 
 
 def user_is_profile_owner(view_func):
@@ -36,8 +37,10 @@ def profile_view(request, username):
     followers = user.followers.count()
     followings = user.followings.count()
 
-    # Перевірка, чи поточний користувач підписаний
-    is_following = Follow.objects.filter(follower=request.user, following=user).exists()
+    # Перевірка, чи користувач авторизований
+    is_following = False
+    if request.user.is_authenticated:
+        is_following = Follow.objects.filter(follower=request.user, following=user).exists()
 
     return render(
         request,
@@ -98,30 +101,45 @@ def post_view(request, post_id):
 def post_create_view(request):
     if request.method == 'POST':
         form = PostCreateForm(request.POST)
-        if form.is_valid():
-            # Save the post instance
-            post = form.save(commit=False)
-            post.user = request.user  # Associate the post with the logged-in user
-            post.save()
-            form.save_m2m()  # Save any many-to-many fields, if applicable
+        images = request.FILES.getlist('images')
+        if images:
+            # Отримати невалідні зображення
+            invalid_images = [image_file.name for image_file in images if image_file.size > MAX_IMAGE_SIZE]
 
-            # Handle multiple image uploads
-            images = request.FILES.getlist('images')
-            for image_file in images:
-                if not image_file.name.lower().endswith(('.png', '.jpg', '.jpeg')):
-                    form.add_error('images', 'Invalid image format. Only JPG, PNG, and GIF are allowed.')
-                    return render(request, 'post_create.html', {'form': form})
+            if invalid_images:
+                # Якщо є невалідні зображення, повертаємо форму з помилкою
+                error_message = f"The following images are too large (max 10MB): {', '.join(invalid_images)}"
+                return render(request, 'post_create.html', {
+                    'form': form,
+                    'error_message': error_message
+                })
 
-                Image.objects.create(post=post, image_file=image_file)
+            # Перевірка форми
+            if form.is_valid():
+                # Зберегти пост
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
 
-            return redirect('post_detail', post_id=post.id)  # Redirect to the post detail page
+                # Зберегти зображення
+                for image_file in images:
+                    Image.objects.create(post=post, image_file=image_file)
 
+                return redirect('post_detail', post_id=post.id)
+
+            else:
+                return render(request, 'post_create.html', {'form': form})
         else:
-            return render(request, 'post_create.html', {'form': form})
+            error_message = "The must select at least one image for post creation."
+            return render(request, 'post_create.html', {
+                'form': form,
+                'error_message': error_message
+            })
     else:
         form = PostCreateForm()
 
     return render(request, 'post_create.html', {'form': form})
+
 
 
 @login_required

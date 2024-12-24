@@ -2,7 +2,7 @@
     max-width: 400px;
     margin: 2rem auto;
     padding: 2rem;
-    background-color: rgba(0, 128, 0, 0.05);
+    background-color: var(--card-bg-color);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 255, 0, 0.1);
 }
@@ -60,10 +60,16 @@
     margin-top: 0.25rem;
 }
 
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Відступ між кнопками */
+}
+
 .styled-form .submit-button {
-    width: 100%;
+    width: 100%; /* Однакова ширина для обох кнопок */
     padding: 0.75rem;
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     color: var(--background-color);
     border: none;
     border-radius: 4px;
@@ -71,27 +77,20 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.styled-form .register-button {
+    background-color: var(--secondary-color); /* Інший колір для кнопки реєстрації */
+}
+
+.styled-form .register-button:hover {
+    background-color: var(--primary-color); /* Ефект при наведенні */
 }
 
 .styled-form .submit-button:hover {
-    background-color: var(--accent-color);
-}
-
-.form-links {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-}
-
-.form-links a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
-
-.form-links a:hover {
-    color: var(--accent-color);
+    background-color: var(--primary-color); /* Ефект при наведенні */
 }
 
 @media (max-width: 768px) {
@@ -99,4 +98,24 @@
         padding: 1.5rem;
     }
 }
+
+.button-container p {
+    font-size: 0.875rem; /* Розмір тексту */
+    color: var(--text-color); /* Колір тексту */
+    text-align: center; /* Центрування тексту */
+    margin: 0; /* Прибирання зайвих відступів */
+}
+
+.button-container p a {
+    color: var(--primary-color); /* Колір посилання */
+    font-weight: bold; /* Напівжирний текст для посилання */
+    text-decoration: none; /* Відключення стандартного підкреслення */
+    transition: color 0.3s ease; /* Ефект зміни кольору при наведенні */
+}
+
+.button-container p a:hover {
+    color: var(--secondary-color); /* Інший колір при наведенні */
+    text-decoration: underline; /* Додавання підкреслення при наведенні */
+}
+
 

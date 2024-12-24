@@ -23,10 +23,14 @@
                             {% if user.username == request.user.username %}
                                 <a href="{% url 'profile_update' user.username %}" class="btn btn-warning btn-sm">Edit Profile</a>
                             {% else %}
-                                {% if is_following %}
-                                    <a href="{% url 'follow' user.username %}" class="btn btn-danger btn-sm">Unfollow</a>
+                                {% if request.user %}
+                                    {% if is_following %}
+                                        <a href="{% url 'follow' user.username %}" class="btn btn-danger btn-sm">Unfollow</a>
+                                    {% else %}
+                                        <a href="{% url 'follow' user.username %}" class="btn btn-success btn-sm">Follow</a>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{% url 'follow' user.username %}" class="btn btn-success btn-sm">Follow</a>
+                                    <a href="{% url 'login' %}" class="btn btn-success btn-sm">Follow</a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}

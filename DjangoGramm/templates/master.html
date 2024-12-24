@@ -101,42 +101,46 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const $list = document.querySelectorAll('li');
+        const $list = document.querySelectorAll('.navigation ul li');
         const $indicator = document.querySelector('.indicator');
 
-        // Функція для встановлення активного пункту меню та індикатора
         function setActiveLink() {
-            const currentPath = window.location.pathname;
+            const currentPath = window.location.pathname; // Отримуємо поточний шлях
 
-            // Затримка для анімації
-            setTimeout(() => {
-                // Змінюємо кожен пункт меню
-                $list.forEach(($li, index) => {
-                    const link = $li.querySelector('a'); // Отримуємо посилання в пункті меню
-                    const href = link?.getAttribute('href'); // URL посилання
+            let activeIndex = -1; // Індекс активного пункту
 
-                    // Якщо посилання збігається з поточним шляхом, встановлюємо активний клас
-                    if (href === currentPath) {
-                        $li.classList.add('active');
-                        $indicator.style.transform = `translateX(${index * 70}px)`; // Встановлюємо індикатор на відповідну вкладку
-                    } else {
-                        $li.classList.remove('active');
-                    }
-                });
-            }, 0); // Затримка 100 мс перед початком анімації
+            $list.forEach(($li, index) => {
+                const link = $li.querySelector('a');
+                const href = link?.getAttribute('href');
+
+                if (href === currentPath) {
+                    $li.classList.add('active');
+                    activeIndex = index; // Зберігаємо індекс активного пункту
+                } else {
+                    $li.classList.remove('active');
+                }
+            });
+
+            if (activeIndex !== -1) {
+                $indicator.style.transform = `translateX(${activeIndex * 70}px)`; // Рухаємо індикатор
+            } else {
+                $indicator.style.transform = 'translateX(0)'; // Скидаємо індикатор, якщо активного пункту немає
+            }
         }
 
-        // Встановлення активного класу при завантаженні сторінки
+        // Встановлюємо активний пункт при завантаженні сторінки
         setActiveLink();
 
-        // Обробка кліків для взаємодії
+        // Оновлюємо стан при кліку
         $list.forEach(($li) => {
             $li.addEventListener('click', function () {
-                $list.forEach(($li) => $li.classList.remove('active'));
+                $list.forEach((item) => item.classList.remove('active'));
                 this.classList.add('active');
             });
         });
     });
-    </script>
+</script>
+
+
 </body>
 </html>
