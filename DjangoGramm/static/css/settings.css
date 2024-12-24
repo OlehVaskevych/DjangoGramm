@@ -24,7 +24,8 @@
 }
 
 .settings-item {
-    width: 31vw;
+    display: block;
+    width: 135%;
     margin: 10% 12.5%;
     border-bottom: 1px solid var(--border-color);
 }
@@ -40,6 +41,8 @@
     text-decoration: none;
     transition: background-color 0.3s ease;
     margin-bottom: 1rem; /* Added margin to separate the links */
+    width: 100%; /* Кнопка займає всю ширину контейнера */
+    max-width: 500px; /* Максимальна ширина кнопки */
     border-radius: 8px;
     background-color: var(--background-color);
 }

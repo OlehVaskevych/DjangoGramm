@@ -2,10 +2,22 @@
 
 {% block title %}Logout{% endblock %}
 
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+
 {% block content %}
-    <form method="POST" action="{% url 'logout' %}">
+<div class="form-container">
+    <h1 class="form-title">Confirm Logout?</h1>
+    <form method="POST" action="{% url 'logout' %}" class="styled-form">
         {% csrf_token %}
-        <button class="btn btn-secondary" type="submit">Confirm Logout</button>
-        <a class="btn btn-secondary" href="{% url 'settings' %}">Cancel</a>
+        <div class="button-container">
+            <button class="submit-button" type="submit">Confirm</button>
+            <a class="submit-button" href="{% url 'settings' %}">Cancel</a>
+        </div>
     </form>
+</div>
 {% endblock %}

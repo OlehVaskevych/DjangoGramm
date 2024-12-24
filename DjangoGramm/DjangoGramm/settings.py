@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import environ
+import os
 from pathlib import Path
 
 from django.conf.global_settings import LOGIN_URL
@@ -29,9 +30,9 @@ environ.Env.read_env()
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["54.171.140.119", "localhost"]
+ALLOWED_HOSTS = ["54.74.216.246", "localhost"]
 
 DEFAULT_AVATAR_PATH = env("DEFAULT_AVATAR_PATH", default="avatars/default_avatar.jpg")
 
@@ -100,6 +101,46 @@ DATABASES = {
         'PASSWORD': 'superuser',
         'HOST': 'djangogramm-db.cd68oaqwwye0.eu-west-1.rds.amazonaws.com',
         'PORT': '5432',
+    }
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'DjangoGramm': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False,
+        }
     }
 }
 

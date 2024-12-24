@@ -25,8 +25,10 @@
                 {% endfor %}
             </div>
         {% endfor %}
-        <button type="submit" class="submit-button">Login</button>
-        <a href="{% url 'register' %}" class="submit-button">Register</a>
+        <div class="button-container">
+            <button type="submit" class="submit-button">Login</button>
+            <p>If you don`t have account <a href="{% url 'register' %}">register here</a></p>
+        </div>
     </form>
 </div>
 {% endblock %}
