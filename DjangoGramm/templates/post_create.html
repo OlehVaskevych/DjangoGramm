@@ -4,36 +4,14 @@
 
 {% load static %}
 
-{% block styles %}
-    <link rel="stylesheet" href="{% static 'css/post_create.css' %}">
+{% block script %}
+    <script src="{% static 'dist/bundle.js' %}"></script>
+{% endblock %}
+
+{% block token %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
 {% endblock %}
 
 {% block content %}
-    <div class="form-container">
-        <h1 class="form-title">Create post</h1>
-        {% if error_message %}
-            <p>{{ error_message }}</p>
-        {% endif %}
-        <form method="post" enctype="multipart/form-data" class="styled-form">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small class="form-text">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p class="form-error">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-            <div class="form-group">
-                <label for="images">Upload photos:</label>
-                <input type="file" name="images" id="images" multiple class="file-input" required>
-            </div>
-            <button type="submit" class="submit-button">Create</button>
-        </form>
-    </div>
-
+    <div id="create-post-app"></div>
 {% endblock %}

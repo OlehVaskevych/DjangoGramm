@@ -30,7 +30,7 @@ environ.Env.read_env()
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["54.74.216.246", "localhost"]
 
@@ -66,6 +66,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_COOKIE_SECURE = False  # Встановіть True, якщо сайт використовує HTTPS
+CSRF_COOKIE_HTTPONLY = False  # Це дозволяє JavaScript доступ до cookies
 
 ROOT_URLCONF = "DjangoGramm.urls"
 
@@ -179,10 +182,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Додайте папку static в кореневу директорію вашого проекту
-]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

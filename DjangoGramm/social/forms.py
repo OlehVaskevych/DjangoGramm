@@ -20,7 +20,7 @@ class ProfileEditForm(forms.ModelForm):
                 'placeholder': 'Bio',
             }),
             'avatar': forms.FileInput(attrs={
-                'class': 'form-control',
+                'class': 'file-input',
                 'placeholder': 'Avatar',
             })
         }

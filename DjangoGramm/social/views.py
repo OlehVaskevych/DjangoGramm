@@ -1,5 +1,6 @@
 from django.db import IntegrityError, DatabaseError
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User, AnonymousUser
@@ -102,17 +103,14 @@ def post_create_view(request):
     if request.method == 'POST':
         form = PostCreateForm(request.POST)
         images = request.FILES.getlist('images')
+
         if images:
-            # Отримати невалідні зображення
+            # Перевірка на розмір зображень
             invalid_images = [image_file.name for image_file in images if image_file.size > MAX_IMAGE_SIZE]
 
             if invalid_images:
-                # Якщо є невалідні зображення, повертаємо форму з помилкою
                 error_message = f"The following images are too large (max 10MB): {', '.join(invalid_images)}"
-                return render(request, 'post_create.html', {
-                    'form': form,
-                    'error_message': error_message
-                })
+                return JsonResponse({'status': 'error', 'error_message': error_message}, status=400)
 
             # Перевірка форми
             if form.is_valid():
@@ -121,20 +119,18 @@ def post_create_view(request):
                 post.user = request.user
                 post.save()
 
-                # Зберегти зображення
+                uploaded_files = []
                 for image_file in images:
-                    Image.objects.create(post=post, image_file=image_file)
+                    image_instance = Image.objects.create(post=post, image_file=image_file)
+                    uploaded_files.append(image_instance.image_file.url)
 
                 return redirect('post_detail', post_id=post.id)
-
             else:
-                return render(request, 'post_create.html', {'form': form})
+                return JsonResponse({'status': 'error', 'error_message': 'Form is invalid'}, status=400)
         else:
-            error_message = "The must select at least one image for post creation."
-            return render(request, 'post_create.html', {
-                'form': form,
-                'error_message': error_message
-            })
+            error_message = "You must select at least one image to create the post."
+            return JsonResponse({'status': 'error', 'error_message': error_message}, status=400)
+
     else:
         form = PostCreateForm()
 
