@@ -30,7 +30,14 @@ environ.Env.read_env()
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
+
+
+if DEBUG:
+    os.environ['WEBPACK_MODE'] = 'development'
+else:
+    os.environ['WEBPACK_MODE'] = 'production'
+
 
 ALLOWED_HOSTS = ["54.74.216.246", "localhost"]
 
@@ -67,8 +74,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_COOKIE_SECURE = False  # Встановіть True, якщо сайт використовує HTTPS
-CSRF_COOKIE_HTTPONLY = False  # Це дозволяє JavaScript доступ до cookies
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
 
 ROOT_URLCONF = "DjangoGramm.urls"
 
@@ -185,7 +192,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 # Default primary key field type

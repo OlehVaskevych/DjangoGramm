@@ -1,136 +1,203 @@
 <template>
-    <div class="form-container">
-        <h1 class="form-title">Create post</h1>
-        <form @submit.prevent="submitForm" enctype="multipart/form-data" class="styled-form">
-            <div class="form-group" v-for="field in fields" :key="field.id">
-                <label :for="field.id">{{ field.label }}</label>
-                <input
-                    v-bind="field.attrs"
-                    :id="field.id"
-                    v-model="field.value"
-                />
-                <small v-if="field.helpText" class="form-text">{{ field.helpText }}</small>
-                <p v-for="error in field.errors" :key="error" class="form-error">
-                    {{ error }}
-                </p>
-            </div>
-            <div class="form-group">
-                <label for="images">Upload photos:</label>
-                <input
-                    ref="fileInput"
-                    type="file"
-                    id="images"
-                    name="images"
-                    multiple
-                    class="file-input"
-                    @change="handleFileUpload"
-                />
-            </div>
-            <div v-if="previews.length" class="image-previews">
-                <label>Uploaded photos:</label>
-                <div v-for="(src, index) in previews" :key="index" class="preview">
-                    <img :src="src" alt="Preview" class="preview-img" />
-                </div>
-            </div>
-            <button type="submit" class="submit-button">Create</button>
-        </form>
-    </div>
+  <div class="form-container">
+    <h1 class="form-title">Create post</h1>
+    <form @submit.prevent="submitForm" enctype="multipart/form-data" class="styled-form">
+      <div v-if="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <div class="form-group" v-for="field in fields" :key="field.id">
+        <label :for="field.id">{{ field.label }}</label>
+        <input
+          :id="field.id"
+          v-model="field.value"
+          :type="field.attrs.type"
+          :name="field.id"
+          :required="field.attrs.required"
+        />
+        <small v-if="field.helpText" class="form-text">{{ field.helpText }}</small>
+        <p v-for="error in field.errors" :key="error" class="form-error">
+          {{ error }}
+        </p>
+      </div>
+      <div class="form-group">
+        <label for="images">Upload photos (max 10):</label>
+        <input
+          ref="fileInput"
+          type="file"
+          id="images"
+          name="images"
+          multiple
+          class="file-input"
+          @change="handleFileUpload"
+        />
+      </div>
+      <p v-if="errors.images" v-for="error in errors.images" :key="error" class="form-error">
+        {{ error }}
+      </p>
+      <div v-if="previews.length" class="image-previews">
+        <label>Uploaded photos ({{ previews.length }}/10):</label>
+        <div v-for="(src, index) in previews" :key="index" class="preview">
+          <div class="preview-container">
+            <img :src="src" alt="Preview" class="preview-img" />
+            <button
+              type="button"
+              class="remove-button"
+              @click="removePreview(index)"
+            >
+              &#x2715;
+            </button>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="submit-button" :disabled="isSubmitting">
+        <span v-if="!isSubmitting">Create</span>
+        <span v-else class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </span>
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
+export default {
+  data() {
+    return {
+      fields: [
+        { id: 'title', label: 'Title', value: '', attrs: { type: 'text', required: true }, errors: [] },
+        { id: 'description', label: 'Description', value: '', attrs: { type: 'text', required: true }, errors: [] },
+      ],
+      images: [],
+      errors: {},
+      errorMessage: '',
+      isSubmitting: false,
+      previews: [],
+      removedIndexes: [],
+    };
+  },
+  methods: {
+    async submitForm() {
+      this.isSubmitting = true;
+      this.clearErrors();
+
+      const formData = new FormData();
+
+      // Add form fields to FormData
+      this.fields.forEach((field) => {
+        formData.append(field.id, field.value);
+      });
+
+      // Add files to FormData
+      const files = this.$refs.fileInput.files;
+      let imageCount = 0;
+      for (let i = 0; i < files.length && imageCount < 10; i++) {
+        if (!this.removedIndexes.includes(i)) {
+          formData.append('images', files[i]);
+          imageCount++;
+        }
+      }
+
+      try {
+        const response = await fetch('/post/', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': this.getCookie('csrftoken'),
+          },
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          window.location.href = data.redirect_url;
+        } else {
+          if (data.status === 'error') {
+            this.errorMessage = data.error_message || 'An error occurred while creating the post.';
+            if (data.errors) {
+              this.updateFieldErrors(data.errors);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        this.errorMessage = 'An unexpected error occurred. Please try again.';
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    clearErrors() {
+      this.errorMessage = '';
+      this.fields.forEach((field) => {
+        field.errors = [];
+      });
+      this.errors = {};
+    },
+    updateFieldErrors(errors) {
+      Object.entries(errors).forEach(([fieldName, fieldErrors]) => {
+        const field = this.fields.find((f) => f.id === fieldName);
+        if (field) {
+          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];
+        } else if (fieldName === 'images') {
+          this.errors.images = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];
+        }
+      });
+    },
+    handleFileUpload(event) {
+      const files = event.target.files;
+      if (files.length > 10) {
+        this.errorMessage = 'You can only upload up to 10 images.';
+        this.$refs.fileInput.value = ''; // Clear the file input
+        return;
+      }
+
+      // Clear previous previews
+      this.destroyPreviews();
+
+      this.previews = Array.from(files).map((file) => URL.createObjectURL(file));
+      this.removedIndexes = [];
+    },
+    removePreview(index) {
+      URL.revokeObjectURL(this.previews[index]);
+      this.previews.splice(index, 1);
+
+      const dt = new DataTransfer();
+      const files = this.$refs.fileInput.files;
+      for (let i = 0; i < files.length; i++) {
+        if (i !== index) {
+          dt.items.add(files[i]);
+        }
+      }
+      this.$refs.fileInput.files = dt.files;
+
+      this.removedIndexes = this.removedIndexes.map((i) => (i > index ? i - 1 : i)).filter((i) => i !== index);
+    },
+    destroyPreviews() {
+      if (this.previews.length) {
+        this.previews.forEach((src) => URL.revokeObjectURL(src));
+        this.previews = [];
+      }
+      this.removedIndexes = [];
+    },
+    getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + '=') {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
-    }
-    return cookieValue;
-}
-
-export default {
-    data() {
-        return {
-            previews: [],
-        };
+      }
+      return cookieValue;
     },
-    methods: {
-        async submitForm() {
-            const csrfToken = getCookie('csrftoken');
-
-            const formData = new FormData();
-
-            // Додаємо дані полів у formData
-            this.fields.forEach((field) => {
-                formData.append(field.id, field.value);
-            });
-
-            // Додаємо файли у formData
-            const files = this.$refs.fileInput.files;
-            for (let i = 0; i < files.length; i++) {
-                formData.append('images', files[i]);
-            }
-
-            try {
-                // Відправляємо POST-запит із CSRF-токеном
-                const response = await fetch('/post/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                        'Accept': 'application/json',
-                    },
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.json();
-                    console.error('Server error:', errorText);
-                    alert('Error creating post. Check console for details.');
-                    return;
-                }
-
-                // Перевіряємо, чи сервер виконав редірект
-                const locationHeader = response.headers.get('Location');
-                if (locationHeader) {
-                    // Якщо є заголовок Location, виконуємо редірект
-                    window.location.href = locationHeader;
-                } else {
-                    alert('Post created successfully!');
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }
-        },
-
-        handleFileUpload(event) {
-            // Звільняємо попередні об’єкти URL
-            if (this.previews.length) {
-                this.previews.forEach((src) => URL.revokeObjectURL(src));
-            }
-            const files = event.target.files;
-            this.previews = Array.from(files).map((file) =>
-                URL.createObjectURL(file)
-            );
-        },
-    },
-    props: {
-        csrfToken: {
-            type: String,
-            default: () => document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        fields: {
-            type: Array,
-            required: true,
-        },
-    },
+  },
+  beforeDestroy() {
+    this.destroyPreviews();
+  },
 };
 </script>
-
 
 <style scoped>
 .image-previews {
@@ -152,4 +219,21 @@ export default {
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
+.preview-container {
+    position: relative; /* Додаємо позиціювання для контейнера */
+}
+
+.remove-button {
+    border-radius: 50%;
+    background-color: var(--background-color);
+    color: var(--error-color);
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    top: -12px;
+    right: -10px;
+    z-index: 10; /* Зробимо кнопку поверх зображення */
+}
+
 </style>

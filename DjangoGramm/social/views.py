@@ -124,7 +124,7 @@ def post_create_view(request):
                     image_instance = Image.objects.create(post=post, image_file=image_file)
                     uploaded_files.append(image_instance.image_file.url)
 
-                return redirect('post_detail', post_id=post.id)
+                return JsonResponse({'status': 'success', 'post_id': post.id, 'redirect_url': f"/post/{post.id}"})
             else:
                 return JsonResponse({'status': 'error', 'error_message': 'Form is invalid'}, status=400)
         else:

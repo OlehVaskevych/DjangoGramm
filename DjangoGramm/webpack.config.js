@@ -2,6 +2,10 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // Підключаємо CleanWebpackPlugin
 const { VueLoaderPlugin } = require('vue-loader');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+
+const mode = process.env.WEBPACK_MODE || 'development';
+const isProduction = mode === 'production';
 
 module.exports = {
     entry: './assets/scripts/index.js', // Головний JS файл
@@ -10,8 +14,14 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: '/static/dist/', // URL для Webpack Dev Server
     },
-    watch: true, // Відстеження змін у файлах
-    mode: 'development',
+    mode,
+    devtool: 'source-map',
+    watch: !isProduction,
+    watchOptions: {
+        ignored: '/node_modules/',
+        poll: 1000,
+        aggregateTimeout: 300,
+    },
     module: {
         rules: [
             {
@@ -47,6 +57,25 @@ module.exports = {
         },
         compress: true,
         port: 8080,
+    },
+    optimization: {
+        minimizer: [
+            ...(isProduction
+                ? [
+                    new ImageMinimizerPlugin({
+                        minimizer: {
+                            implementation: ImageMinimizerPlugin.imageminGenerate,
+                            options: {
+                                plugins: [
+                                    ['imagemin-mozjpeg', {quality: 75}],
+                                    ['imagemin-pngquant', {quality: [0.6, 0.8] }],
+                                ],
+                            },
+                        },
+                    }),
+                ]
+                : []),
+        ],
     },
     plugins: [
         new CleanWebpackPlugin(), // Додаємо плагін для очищення папки dist

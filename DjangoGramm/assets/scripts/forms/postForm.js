@@ -2,39 +2,43 @@ import { createApp } from 'vue';
 import PostForm from '../components/PostForm.vue';
 
 export function initPostForm() {
-    // Знайти контейнер для рендерингу
+    // Знаходимо контейнер для рендерингу
     const appElement = document.getElementById('create-post-app');
 
+    if (!appElement) {
+        console.error('Container for form is not found.');
+        return;
+    }
+
+    // Ініціалізуємо Vue-додаток із компонентом PostForm
     const app = createApp({
         components: { PostForm },
         data() {
             return {
-                formFields: [
+                fields: [
                     {
                         id: 'title',
                         label: 'Title',
                         value: '',
-                        attrs: { type: 'text', name: 'title', required: true },
-                        helpText: 'Enter the title of your post',
-                        errors: [],
+                        type: 'text',
+                        name: 'title',
+                        required: true,
+                        errors: []
                     },
                     {
                         id: 'description',
                         label: 'Description',
                         value: '',
-                        attrs: { type: 'text', name: 'description', required: true },
-                        helpText: 'Enter a short description',
-                        errors: [],
+                        type: 'text',
+                        name: 'description',
+                        required: true,
+                        errors: []
                     },
                 ],
             };
         },
-        template: `<PostForm :fields="formFields" />`,
+        template: '<PostForm :form-model="{ fields }" />',
     });
 
     app.mount(appElement);
-
-    if (!appElement) {
-        console.error('Контейнер #create-post-app не знайдено');
-    }
 }
