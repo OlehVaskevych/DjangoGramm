@@ -50,26 +50,22 @@
                         <p class="card-text card-text-color">{{ post.description }}</p>
                         <p class="card-muted-text-color">Likes: {{ post.likes.count }}</p>
 
-                        {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'add_like' post.id %}" class="d-inline">
-                            {% csrf_token %}
-                            <button type="submit" class="custom-btn-like">
-                                {% if request.user in post.likes.all %}
-                                    <i style="font-size:24px" class="fa-solid fa-heart"></i>
-                                {% else %}
+                        <div class="like-comment-container">
+                            {% if user.is_authenticated %}
+                                <div class="like-container"
+                                     data-post-id="{{ post.id }}"
+                                     data-is-liked="{% if request.user in post.likes.all %}true{% else %}false{% endif %}">
+                                </div>
+                            {% else %}
+                                <a href="{% url 'login' %}" class="custom-btn-like">
                                     <i style="font-size:24px" class="fa-regular fa-heart"></i>
-                                {% endif %}
-                            </button>
-                        </form>
-                        {% else %}
-                            <a href="{% url 'login' %}" class="custom-btn-like">
-                                <i style="font-size:24px" class="fa-regular fa-heart"></i>
-                            </a>
-                        {% endif %}
+                                </a>
+                            {% endif %}
 
-                        <button class="custom-btn-comment" onclick="toggleComments('{{ post.id }}')">
-                            <i style="font-size:24px" class="fa-regular fa-comment"></i>
-                        </button>
+                            <button class="custom-btn-comment" onclick="toggleComments('{{ post.id }}')">
+                                <i style="font-size:24px" class="fa-regular fa-comment"></i>
+                            </button>
+                        </div>
 
                         <div id="comments-{{ post.id }}" class="mt-3 ms-2 me-2" style="display: none;">
                             <h5 class="card-title card-text-color">Коментарі</h5>
@@ -81,10 +77,7 @@
                                             <br>
                                             <small class="card-muted-text-color">{{ comment.created_at }}</small>
                                             {% if request.user.username == comment.author.username %}
-                                                <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}" method="post" class="d-inline">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i style="font-size:24px" class="fa-solid fa-trash"></i></button>
-                                                </form>
+                                                <div class="comment-delete-container" data-post-id="{{ post.id }}" data-comment-id="{{ comment.id }}"></div>
                                             {% endif %}
                                         </li>
                                     {% endfor %}
@@ -92,15 +85,7 @@
                                     <li class="list-group-item card-color comment-text card-muted-text-color">Немає коментарів</li>
                                 {% endif %}
                             </ul>
-                            <form method="post" action="{% url 'add_comment' post.id %}" class="mt-3">
-                                {% csrf_token %}
-                                <textarea name="comment" class="form-control mb-2 comment-text custom-text-area" placeholder="Додайте коментар..." required></textarea>
-                                {% if user.is_authenticated %}
-                                    <button type="submit" class="btn custom-comment-button">Відправити</button>
-                                {% else %}
-                                    <a href="{% url 'login' %}" class="custom-submit-button btn btn-sm">Відправити</a>
-                                {% endif %}
-                            </form>
+                            <div class="comment-container" data-post-id="{{ post.id }}" data-is-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"></div>
                         </div>
                     </div>
                 </div>

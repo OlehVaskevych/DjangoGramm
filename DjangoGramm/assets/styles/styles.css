@@ -630,3 +630,29 @@ body {
 .post-item:hover .post-overlay {
     opacity: 1;
 }
+
+.error-message {
+  color: #f44336; /* Колір для повідомлень про помилки */
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn-form {
+    margin-top: 3%;
+}
+
+.like-comment-container {
+    display: flex;
+    align-items: center;  /* Вертикальне вирівнювання елементів */
+    gap: 10px;  /* Відстань між кнопками */
+}
+
+.custom-btn-like, .custom-btn-comment {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-btn-like i, .custom-btn-comment i {
+    font-size: 24px;  /* Встановлюємо однаковий розмір для іконок */
+}

@@ -8,40 +8,17 @@
     <link rel="stylesheet" href="{% static 'css/post_create.css' %}">
 {% endblock %}
 
+{% block token %}
+    <meta name="csrfToken" content="{{ csrf_token }}">
+{% endblock %}
+
 {% block content %}
-
-     <div class="form-container">
-        <h1 class="form-title">Post Edit</h1>
-        <form method="post" enctype="multipart/form-data" class="styled-form">
-            <input type="hidden" name="_method" value="PUT">
-            {% csrf_token %}
-
-            {% for field in form %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small class="form-text">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p class="form-error">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-
-            <!-- Кнопки -->
-            <div class="form-group">
-                <button type="submit" class="submit-button">Save Changes</button>
-            </div>
-        </form>
-
-
-        <!-- Кнопка видалення -->
-        <form method="post" class="delete-form">
-            <input type="hidden" name="_method" value="DELETE">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger">Delete Post</button>
-        </form>
+    <div class="form-container">
+        <div id="edit-post-app"></div>
+        <div id="delete-post-app"></div>
     </div>
+    <script>
+        let initialData = {{ initial_data | safe }};
+    </script>
 {% endblock %}
 

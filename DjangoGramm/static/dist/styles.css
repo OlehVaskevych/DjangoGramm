@@ -647,6 +647,32 @@ body {
 .post-item:hover .post-overlay {
     opacity: 1;
 }
+
+.error-message {
+  color: #f44336; /* Колір для повідомлень про помилки */
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn-form {
+    margin-top: 3%;
+}
+
+.like-comment-container {
+    display: flex;
+    align-items: center;  /* Вертикальне вирівнювання елементів */
+    gap: 10px;  /* Відстань між кнопками */
+}
+
+.custom-btn-like, .custom-btn-comment {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-btn-like i, .custom-btn-comment i {
+    font-size: 24px;  /* Встановлюємо однаковий розмір для іконок */
+}
 /*!************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/PostForm.vue?vue&type=style&index=0&id=9c52fd10&scoped=true&lang=css ***!
   \************************************************************************************************************************************************************************************************************************************************************************/
@@ -682,6 +708,55 @@ body {
     right: -10px;
     z-index: 10; /* Зробимо кнопку поверх зображення */
 }
+
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/ProfileEditForm.vue?vue&type=style&index=0&id=731166f3&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+
+.avatar-preview-wrapper[data-v-731166f3] {
+  margin-top: 10px;
+}
+.avatar-preview[data-v-731166f3] {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.avatar-container[data-v-731166f3] {
+  position: relative; /* Make this the positioned ancestor */
+}
+.remove-button[data-v-731166f3] {
+  position: absolute;
+  top: -10px;  /* Піднімемо кнопку трохи вище */
+  right: -10px; /* Перемістимо праворуч для точнішого вирівнювання */
+  background-color: var(--primary-color); /* Трошки прозорий фон для елегантності */
+  border: none;
+  border-radius: 50%;
+  width: 30px; /* Встановлюємо розмір кнопки */
+  height: 30px; /* Встановлюємо розмір кнопки */
+  display: flex;
+  align-items: center;  /* Центруємо хрестик */
+  justify-content: center; /* Центруємо хрестик */
+  cursor: pointer;
+  font-size: 18px; /* Розмір шрифту для хрестика */
+  color: var(--text-color); /* Колір хрестика */
+  transition: background-color 0.3s ease; /* Додаємо ефект зміни кольору фону */
+}
+.remove-button[data-v-731166f3]:hover {
+  background-color: rgba(26, 255, 0, 0.3); /* Колір фону при наведенні */
+}
+.remove-button[data-v-731166f3]:focus {
+  outline: none; /* Прибираємо обводку при фокусі */
+}
+
+/* Для самого хрестика */
+.remove-button[data-v-731166f3]::before {
+  content: '×'; /* Символ хрестика */
+  font-size: 20px;  /* Розмір хрестика */
+  font-weight: bold;
+}
+
 
 
 

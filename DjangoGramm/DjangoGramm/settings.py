@@ -42,6 +42,7 @@ else:
 ALLOWED_HOSTS = ["54.74.216.246", "localhost"]
 
 DEFAULT_AVATAR_PATH = env("DEFAULT_AVATAR_PATH", default="avatars/default_avatar.jpg")
+DEFAULT_AVATAR_URL = "https://djangogramm-media.s3.amazonaws.com/avatars/default_avatar.jpg?AWSAccessKeyId=AKIASDRAM3GPSNE4D5D5&amp;Signature=XFPIbA%2BbkZSbJRIMucLoUnbh3N0%3D&amp;Expires=1737905481"
 
 LOGO_PATH = env("LOGO_PATH", default="img/logo.png")
 
@@ -107,9 +108,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'DjangoGramm',
-        'USER': 'superuser',
+        'USER': 'postgres',
         'PASSWORD': 'superuser',
-        'HOST': 'djangogramm-db.cd68oaqwwye0.eu-west-1.rds.amazonaws.com',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

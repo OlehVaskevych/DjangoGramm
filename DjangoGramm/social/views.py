@@ -7,6 +7,10 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from functools import wraps
+import json
+from django.conf import settings
+from django.http import HttpResponseBadRequest
+from django.views.decorators.http import require_http_methods
 
 from .forms import ProfileEditForm, PostEditForm, PostCreateForm
 from .models import Profile, Post, Comment, Image, Follow
@@ -28,8 +32,10 @@ def user_is_profile_owner(view_func):
 
 def home(request):
     posts = Post.objects.prefetch_related('images').all()
-
-    return render(request, 'home.html', {'posts': posts})
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'home.html', context)
 
 
 def profile_view(request, username):
@@ -66,18 +72,39 @@ def profile_update_view(request, username):
 
     if request.method == 'POST':
         if request.POST.get("_method") == 'PUT':
+            if request.POST.get('remove_avatar'):
+                profile.avatar = settings.DEFAULT_AVATAR_PATH
+
             form = ProfileEditForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
                 form.save()
-                return redirect('profile', username=request.user.username)
+                return JsonResponse({'status': 'success', 'redirect_url': f'/profile/{user.username}/'})
+            else:
+                # Повертаємо помилки форми
+                return JsonResponse({
+                    'status': 'error',
+                    'errors': form.errors,
+                    'error_message': 'Form validation failed. Please check the input fields.'
+                }, status=400)
+
         elif request.POST.get("_method") == 'DELETE':
             user.delete()
-            return redirect('home')
+            return JsonResponse({'status': 'success', 'redirect_url': f'/'})
+
+    elif request.method == 'GET':
+        initial_data = {
+            'id': request.user.id,
+            'username': request.user.username,
+            'first_name': request.user.profile.first_name,
+            'last_name': request.user.profile.last_name,
+            'bio': request.user.profile.bio,
+            'avatar': request.user.profile.avatar.url,
+        }
+        return render(request, 'profile_edit.html', {'initial_data': initial_data})
 
     else:
-        form = ProfileEditForm(instance=profile)
+        return JsonResponse({'status': 'error', 'error_message': 'Invalid method specified'}, status=400)
 
-    return render(request, 'profile_edit.html', {'form': form, 'profile': profile, 'user': user})
 
 
 def post_view(request, post_id):
@@ -144,9 +171,11 @@ def post_like_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user in post.likes.all():
         post.likes.remove(request.user)
+        liked = False
     else:
         post.likes.add(request.user)
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+        liked = True
+    return JsonResponse({"liked": liked, "likes_count": post.likes.count()})
 
 
 @login_required
@@ -157,7 +186,10 @@ def post_comment_view(request, post_id):
         comment_text = request.POST.get('comment')
         if comment_text:
             Comment.objects.create(post=post, author=request.user, text=comment_text)
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Comment text is empty'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
 
 
 @login_required
@@ -167,7 +199,7 @@ def post_comment_delete_view(request, post_id, comment_id):
     comment = get_object_or_404(Comment, id=comment_id, post=post)
     if request.user == comment.author:
         comment.delete()
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+        return JsonResponse({'status': 'success'})
 
 
 @login_required
@@ -176,21 +208,34 @@ def post_update_view(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)
 
     if request.method == 'POST':
-        if request.POST.get('_method') == 'PUT':
+
+        method = request.POST.get('_method')
+
+        if method == 'PUT':
             form = PostEditForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
                 form.save()
-                return redirect('post_detail', post_id=post.id)
-        elif request.POST.get('_method') == 'DELETE':
-            post.delete()
-            return redirect('home')
-        else:
-            # Якщо _method не дорівнює ні PUT, ні DELETE
-            form = PostEditForm(instance=post)  # Форма повертається у вихідному стані
-    else:
-        form = PostEditForm(instance=post)
+                return JsonResponse({'status': 'success', 'post_id': post.id, 'redirect_url': f"/post/{post.id}"})
+            else:
+                return JsonResponse({'status': 'error', 'errors': form.errors})
 
-    return render(request, 'post_edit.html', {'form': form, 'post': post})
+        elif method == 'DELETE':
+            post.delete()
+            return JsonResponse({'status': 'success', 'redirect_url': f"/"})
+
+        else:
+            return HttpResponseBadRequest('Invalid _method specified')
+
+    elif request.method == 'GET':
+        initial_data = {
+            'id': post.id,
+            'title': post.title,
+            'description': post.description,
+        }
+        return render(request, 'post_edit.html', {'initial_data': initial_data})
+
+    else:
+        return HttpResponseBadRequest('Invalid _method specified')
 
 
 
@@ -200,7 +245,9 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('profile', username=user.username)
+            return JsonResponse({'status': 'success', 'redirect_url': f"/profile/{user.username}/"})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -211,7 +258,9 @@ def login_view(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('home')
+            return JsonResponse({'status': 'success', 'redirect_url': f"/"})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
@@ -221,7 +270,7 @@ def login_view(request):
 def logout_view(request):
     if request.method == 'POST':
         logout(request)
-        return redirect('home')
+        return JsonResponse({'status': 'success', 'redirect_url': f"/"})
     return render(request, 'logout.html')
 
 
@@ -242,15 +291,12 @@ def follow_view(request, username):
                 follow.delete()
 
             except DatabaseError as e:
-                print(f"Error deleting follow relationship: {e}")
                 return redirect('profile', username=username)
 
     except IntegrityError as e:
-        print(f"Integrity Error during follow creation: {e}")
         return redirect('profile', username=username)
 
     except DatabaseError as e:
-        print(f"Database Error during follow creation: {e}")
         return redirect('profile', username=username)
 
     return redirect('profile', username=username)
