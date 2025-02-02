@@ -1,0 +1,20 @@
+stages:
+  - build
+  - deploy
+
+before_script:
+  - pip install -r requirements.txt
+
+build:
+  stage: build
+  script:
+    - python manage.py collectstatic --noinput
+
+deploy:
+  stage: deploy
+  script:
+    - echo "🚀 Деплоїмо в Azure Web App"
+    - git remote add azure https://$AZURE_USERNAME:$AZURE_PASSWORD@myproject-webapp.scm.azurewebsites.net/myproject-webapp.git
+    - git push --force azure main:master
+  only:
+    - main
