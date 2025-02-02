@@ -39,8 +39,8 @@ else:
     os.environ['WEBPACK_MODE'] = 'production'
 
 
-ALLOWED_HOSTS = ['your-web-app-name.azurewebsites.net']
-CSRF_TRUSTED_ORIGINS = ['https://your-web-app-name.azurewebsites.net']
+ALLOWED_HOSTS = ['djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
 
 DEFAULT_AVATAR_PATH = env("DEFAULT_AVATAR_PATH", default="avatars/default_avatar.jpg")
 DEFAULT_AVATAR_URL = "https://djangogramm-media.s3.amazonaws.com/avatars/default_avatar.jpg?AWSAccessKeyId=AKIASDRAM3GPSNE4D5D5&amp;Signature=XFPIbA%2BbkZSbJRIMucLoUnbh3N0%3D&amp;Expires=1737905481"
