@@ -8,16 +8,10 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
+{% block token %}
+    <meta name="csrfToken" content="{{ csrf_token }}">
+{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h1 class="form-title">Confirm Logout?</h1>
-    <form method="POST" action="{% url 'logout' %}" class="styled-form">
-        {% csrf_token %}
-        <div class="button-container">
-            <button class="submit-button" type="submit">Confirm</button>
-            <a class="submit-button" href="{% url 'settings' %}">Cancel</a>
-        </div>
-    </form>
-</div>
+    <div id="logout-app"></div>
 {% endblock %}

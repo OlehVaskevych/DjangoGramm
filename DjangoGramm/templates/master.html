@@ -5,14 +5,13 @@
     <title>{% block title %}{% endblock %}</title>
     {% load bootstrap5 %}
     {% load static %}
-    {% bootstrap_css %}
     {% bootstrap_javascript %}
-    <link rel="stylesheet" href="{% static 'css/master.css' %}">
-    {% block styles %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+    <script src="{% static 'dist/bundle.js' %}"></script>
+    {% block script %}{% endblock %}
+    {% block token %}{% endblock %}
 </head>
 <body>
-
-
 
     <div class="container">
 
@@ -25,7 +24,7 @@
         <div class="navigation">
             {% if user.is_authenticated %}
                 <ul>
-                    <li>
+                    <li class="{% if request.path == '/' %}active{% endif %}">
                         <a href="{% url 'home' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-house"></i>
@@ -34,7 +33,7 @@
                         </a>
                     </li>
 
-                    <li>
+                    <li class="{% if request.path|slice:':9' == '/profile/' %}active{% endif %}">
                         <a href="{% url 'profile' user.username %}">
                             <span class="icon">
                                 <i class="fa-solid fa-user"></i>
@@ -43,7 +42,7 @@
                         </a>
                     </li>
 
-                    <li>
+                    <li class="{% if request.path == '/news/' %}active{% endif %}">
                         <a href="{% url 'news' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-newspaper"></i>
@@ -52,7 +51,7 @@
                         </a>
                     </li>
 
-                    <li>
+                    <li class="{% if request.path == '/post/' %}active{% endif %}">
                         <a href="{% url 'post_create' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-plus"></i>
@@ -61,7 +60,7 @@
                         </a>
                     </li>
 
-                    <li>
+                    <li class="{% if request.path == '/settings/' %}active{% endif %}">
                         <a href="{% url 'settings' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-gear"></i>
@@ -73,7 +72,7 @@
                 </ul>
             {% else %}
                 <ul>
-                    <li>
+                    <li class="{% if request.path == '/' %}active{% endif %}">
                         <a href="{% url 'home' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-house"></i>
@@ -82,7 +81,7 @@
                         </a>
                     </li>
 
-                    <li>
+                    <li class="{% if request.path == '/auth/login/' %}active{% endif %}">
                         <a href="{% url 'login' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-sign-in"></i>
@@ -100,47 +99,22 @@
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const $list = document.querySelectorAll('.navigation ul li');
-        const $indicator = document.querySelector('.indicator');
+        const $list = document.querySelectorAll('li');
 
-        function setActiveLink() {
-            const currentPath = window.location.pathname; // Отримуємо поточний шлях
-
-            let activeIndex = -1; // Індекс активного пункту
-
-            $list.forEach(($li, index) => {
-                const link = $li.querySelector('a');
-                const href = link?.getAttribute('href');
-
-                if (href === currentPath) {
-                    $li.classList.add('active');
-                    activeIndex = index; // Зберігаємо індекс активного пункту
-                } else {
-                    $li.classList.remove('active');
-                }
+        function activeLink() {
+            $list.forEach(($li) => {
+                $li.classList.remove('active')
             });
-
-            if (activeIndex !== -1) {
-                $indicator.style.transform = `translateX(${activeIndex * 70}px)`; // Рухаємо індикатор
-            } else {
-                $indicator.style.transform = 'translateX(0)'; // Скидаємо індикатор, якщо активного пункту немає
-            }
+            this.classList.add('active');
         }
 
-        // Встановлюємо активний пункт при завантаженні сторінки
-        setActiveLink();
-
-        // Оновлюємо стан при кліку
         $list.forEach(($li) => {
-            $li.addEventListener('click', function () {
-                $list.forEach((item) => item.classList.remove('active'));
-                this.classList.add('active');
-            });
+            $li.addEventListener(
+                'click',
+                activeLink,
+            );
         });
-    });
-</script>
-
+    </script>
 
 </body>
 </html>

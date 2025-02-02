@@ -1,0 +1,658 @@
+@import url("https://use.fontawesome.com/releases/v6.4.2/css/all.css");
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
+:root {
+    /* Основні кольори для темної версії */
+    --primary-color: #66a800; /* Синій для кнопок */
+    --primary-color-hover: #497900; /* Синій для кнопок */
+    --secondary-color: #787c80;
+    --like-btn-color: #ff4d4d; /* Червоний для лайкнутого серця */
+    --background-color: #121212; /* Темний фон */
+    --text-color: #e0e0e0; /* Світлий текст */
+    --card-bg-color: #222; /* Тема карточок */
+    --muted-color-2: #999;
+	--muted-color: #777;
+	--error-color: #b92222;
+    --border-color: #333;
+}
+
+body {
+	min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+    /* HEADER */
+
+    header {
+        display: flex;
+        align-items: center;
+        padding: 30px 20px;
+
+        img {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            margin: 0;
+        }
+    }
+
+    /* NAVIGATION */
+
+    .icon .text {
+        color: var(--text-color);
+    }
+
+    .navigation {
+        position: relative;
+        width: 100%;
+        max-width: 1160px;
+        height: 70px;
+        background: var(--card-bg-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+
+        ul {
+            display: flex;
+            width: auto;
+            padding: 0;
+
+            li {
+                position: relative;
+                list-style: none;
+                width: 70px;
+                height: 70px;
+                z-index: 1;
+
+                a {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    width: 100%;
+                    text-align: center;
+                    font-weight: 500;
+                    text-decoration: none;
+
+                    span {
+                        color: var(--text-color);
+                    }
+
+                    .text {
+                        position: absolute;
+                        font-weight: 400;
+                        font-size: 0.75em;
+                        letter-spacing: 0.05em;
+                        transition: 0.5s;
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+
+                    .icon {
+                        color: var(--text-color);
+                        position: relative;
+                        display: block;
+                        line-height: 75px;
+                        font-size: 1.5em;
+                        text-align: center;
+                        transition: 0.5s;
+                    }
+                }
+            }
+
+            li.active a .icon {
+                transform: translateY(-35px);
+            }
+
+            li.active a .text {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+
+            .indicator {
+                position: absolute;
+                top: -60%;
+                width: 70px;
+                height: 70px;
+                background: var(--primary-color);
+                box-sizing: border-box;
+                border-radius: 50%;
+                border: 6px solid var(--background-color);
+                transition: 0.5s;
+            }
+
+            .indicator::before,
+            .indicator::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                width: 20px;
+                height: 20px;
+                background: transparent;
+            }
+
+            .indicator::before {
+                left: -22px;
+                border-top-right-radius: 20px;
+                box-shadow: 1px -10px 0 0 var(--background-color);
+            }
+
+            .indicator::after {
+                right: -22px;
+                border-top-left-radius: 20px;
+                box-shadow: -1px -10px 0 0 var(--background-color);
+            }
+
+            li.active~.indicator {
+                --x: 0;
+                transform: translateX(var(--x));
+            }
+
+            li:nth-child(2).active~.indicator { --x: 70px; }
+            li:nth-child(3).active~.indicator { --x: 140px; }
+            li:nth-child(4).active~.indicator { --x: 210px; }
+            li:nth-child(5).active~.indicator { --x: 280px; }
+        }
+    }
+}
+
+.card-color {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+}
+
+.card-header-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+}
+
+.user-href {
+    color: var(--muted-color);
+}
+
+.user-href:hover,
+.edit-icon:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+    transition:
+        transform 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+}
+
+.edit-icon {
+    margin-left: auto; /* Зміщує іконку редагування до правого краю */
+    font-size: 1.2rem; /* Розмір іконки */
+    color: var(--secondary-color); /* Основний колір іконки */
+    text-decoration: none; /* Видаляємо підкреслення для посилання */
+}
+
+.custom-btn-like, .custom-btn-comment {
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    font-size: 24px;
+    transition: color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.custom-btn-like i {
+    pointer-events: none;
+}
+
+.custom-btn-like .fa-solid {
+    color: #ff4d4d;
+}
+
+.custom-btn-like:hover, .custom-btn-like:focus, .custom-btn-like.active {
+    color: #ff4d4d;
+    transform: scale(1.1);
+}
+
+.custom-btn-comment {
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    font-size: 24px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-btn-comment:hover, .custom-btn-comment:focus, .custom-btn-comment.active {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.comment-text {
+    color: var(--muted-color);
+}
+
+.comment-text-author {
+    color: var(--muted-color-2);
+}
+
+.custom-text-area:hover,
+.custom-text-area:active,
+.custom-text-area:focus,
+.custom-text-area {
+    border: 1px solid var(--muted-color);
+    height: 80px;
+    background-color: var(--card-bg-color);
+    color: var(--muted-color-2);
+}
+
+.custom-comment-button {
+    background-color: var(--primary-color);
+}
+
+.custom-comment-button:hover {
+    background-color: var(--primary-color-hover);
+    transition: color 0.3s ease-in-out;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.1);
+}
+
+.form-title {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.styled-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.styled-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.styled-form input[type="text"],
+.styled-form input[type="password"],
+.styled-form input[type="email"],
+.styled-form input,
+.styled-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.styled-form input[type="text"]:focus,
+.styled-form input[type="password"]:focus,
+.styled-form input[type="email"]:focus,
+.styled-form input:focus,
+.styled-form textarea:focus,
+.styled-form textarea:active {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.2);
+}
+
+.styled-form .file-input::-webkit-file-upload-button {
+    background-color: var(--muted-color);
+    color: var(--background-color);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.styled-form .file-input::-webkit-file-upload-button:hover {
+    background-color: var(--muted-color-2);
+}
+
+.styled-form .form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.styled-form .form-error {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Відступ між кнопками */
+}
+
+.styled-form .submit-button {
+    width: 100%; /* Однакова ширина для обох кнопок */
+    padding: 0.75rem;
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.styled-form .register-button {
+    background-color: var(--secondary-color); /* Інший колір для кнопки реєстрації */
+}
+
+.styled-form .register-button:hover {
+    background-color: var(--primary-color); /* Ефект при наведенні */
+}
+
+.styled-form .submit-button:hover {
+    background-color: var(--primary-color); /* Ефект при наведенні */
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 1.5rem;
+    }
+}
+
+.button-container p {
+    font-size: 0.875rem; /* Розмір тексту */
+    color: var(--text-color); /* Колір тексту */
+    text-align: center; /* Центрування тексту */
+    margin: 0; /* Прибирання зайвих відступів */
+}
+
+.button-container p a {
+    color: var(--primary-color); /* Колір посилання */
+    font-weight: bold; /* Напівжирний текст для посилання */
+    text-decoration: none; /* Відключення стандартного підкреслення */
+    transition: color 0.3s ease; /* Ефект зміни кольору при наведенні */
+}
+
+.button-container p a:hover {
+    color: var(--secondary-color); /* Інший колір при наведенні */
+    text-decoration: underline; /* Додавання підкреслення при наведенні */
+}
+
+.card-text-color {
+    color: var(--text-color);
+}
+
+.card-muted-text-color {
+    color: var(--muted-color);
+}
+
+.settings-container {
+    max-width: 600px;
+    margin: 5% auto;
+    background-color: var(--card-bg-color);
+    min-height: 150px;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.settings-title {
+    color: var(--primary-color);
+    text-align: center;
+    margin: 0;
+    padding-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.custom-button {
+    margin: 0.5rem;
+    height: max-content;
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.custom-button:hover {
+    background-color: var(--primary-color-hover);
+    border-color: var(--primary-color-hover);
+}
+
+.delete-form button {
+    width: 100%;
+}
+
+.header {
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.1);
+}
+
+.avatar-container {
+    text-align: center;
+    margin-bottom: 30px;
+
+    img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid var(--primary-color);
+        transition: transform 0.3s ease;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+    }
+}
+
+.profile-main-info {
+    text-align: center;
+    margin-bottom: 30px;
+
+    .username-and-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .username {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin: 0;
+    }
+
+    .actions .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .actions .btn-warning {
+        background: var(--primary-color);
+        color: var(--background-color);
+    }
+
+    .actions .btn-success {
+        background: var(--secondary-color);
+        color: var(--text-color);
+    }
+
+    .actions .btn-danger {
+        background: #dc3545;
+        color: var(--text-color);
+    }
+
+    .actions .btn:hover {
+        opacity: 0.8;
+        transform: translateY(-2px);
+    }
+
+    .stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .stats div {
+        text-align: center;
+    }
+
+    .stats h3 {
+        margin: 0;
+        font-size: 24px;
+        color: var(--primary-color);
+    }
+
+    .stats span {
+        font-size: 14px;
+        color: var(--muted-color);
+    }
+}
+
+#profile-info {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+#profile-info h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+#posts {
+    margin-top: 50px;
+}
+
+#posts h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.post-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--primary-color-hover);
+    box-shadow: 0 4px 8px rgba(0, 255, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.post-item:hover {
+    transform: scale(1.03);
+}
+
+.post-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.post-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.post-item:hover .post-overlay {
+    opacity: 1;
+}
+
+.error-message {
+  color: #f44336; /* Колір для повідомлень про помилки */
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn-form {
+    margin-top: 3%;
+}
+
+.like-comment-container {
+    display: flex;
+    align-items: center;  /* Вертикальне вирівнювання елементів */
+    gap: 10px;  /* Відстань між кнопками */
+}
+
+.custom-btn-like, .custom-btn-comment {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-btn-like i, .custom-btn-comment i {
+    font-size: 24px;  /* Встановлюємо однаковий розмір для іконок */
+}

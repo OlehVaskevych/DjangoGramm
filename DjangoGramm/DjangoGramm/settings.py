@@ -30,11 +30,19 @@ environ.Env.read_env()
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG')
+
+
+if DEBUG:
+    os.environ['WEBPACK_MODE'] = 'development'
+else:
+    os.environ['WEBPACK_MODE'] = 'production'
+
 
 ALLOWED_HOSTS = ["54.74.216.246", "localhost"]
 
 DEFAULT_AVATAR_PATH = env("DEFAULT_AVATAR_PATH", default="avatars/default_avatar.jpg")
+DEFAULT_AVATAR_URL = "https://djangogramm-media.s3.amazonaws.com/avatars/default_avatar.jpg?AWSAccessKeyId=AKIASDRAM3GPSNE4D5D5&amp;Signature=XFPIbA%2BbkZSbJRIMucLoUnbh3N0%3D&amp;Expires=1737905481"
 
 LOGO_PATH = env("LOGO_PATH", default="img/logo.png")
 
@@ -67,6 +75,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+
 ROOT_URLCONF = "DjangoGramm.urls"
 
 TEMPLATES = [
@@ -97,9 +108,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'DjangoGramm',
-        'USER': 'superuser',
+        'USER': 'postgres',
         'PASSWORD': 'superuser',
-        'HOST': 'djangogramm-db.cd68oaqwwye0.eu-west-1.rds.amazonaws.com',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -179,10 +190,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Додайте папку static в кореневу директорію вашого проекту
-]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

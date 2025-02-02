@@ -8,28 +8,32 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
+{% block token %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+
 {% block content %}
     <h2></h2>
-    <div class="card mb-4">
+    <div class="card mt-3 card-color">
         <!-- Аватарка та нікнейм автора -->
-        <div class="d-flex align-items-center mb-3">
-            <img src="{{ post.user.profile.avatar.url }}" alt="Avatar" class="rounded-circle">
-            <a href="{% url 'profile' post.user.username %}">
-                <span class="ms-2">{{ post.user }}</span>
+        <div class="card-header d-flex align-items-center mt-2 mb-2">
+            <img src="{{ post.user.profile.avatar.url }}" alt="Avatar" class="card-header-image">
+            <a href="{% url 'profile' post.user.username %}" class="text-decoration-none user-href">
+                <span class="ms-3 fw-bolder fs-4">{{ post.user }}</span>
             </a>
 
             {% if request.user.username == post.user.username %}
-                <a href="{% url 'post_edit' post.id %}" class="edit-icon ms-auto">
+                <a href="{% url 'post_edit' post.id %}" class="edit-icon">
                     <span class="fa fa-edit"></span>
                 </a>
             {% endif %}
         </div>
         {% if post.images.all %}
-            <div id="carousel-{{ post.id }}" class="carousel slide" data-bs-ride="carousel">
+            <div id="carousel-{{ post.id }}" class="carousel slide">
                 <div class="carousel-inner">
                     {% for image in post.images.all %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ image.image_file.url }}" class="d-block w-100" alt="Post image">
+                            <img src="{{ image.image_file.url }}" class="card-img-top" alt="Post image">
                         </div>
                     {% endfor %}
                 </div>
@@ -49,61 +53,46 @@
         {% endif %}
 
         <div class="card-body">
-            <h3 class="card-title">{{ post.title }}</h3>
-            <p class="card-text">{{ post.description }}</p>
-            <p class="text-muted">Likes: {{ post.likes.count }}</p>
+            <h3 class="card-title card-text-color">{{ post.title }}</h3>
+            <p class="card-text card-text-color">{{ post.description }}</p>
+            <p class="card-muted-text-color">Likes: {{ post.likes.count }}</p>
 
-            {% if user.is_authenticated %}
-            <form method="post" action="{% url 'add_like' post.id %}" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="custom-btn-like btn btn-sm">
-                    {% if request.user in post.likes.all %}
-                        <i style="font-size:24px" class="fa-solid fa-heart"></i>
-                    {% else %}
+            <div class="like-comment-container">
+                {% if user.is_authenticated %}
+                    <div class="like-container"
+                         data-post-id="{{ post.id }}"
+                         data-is-liked="{% if request.user in post.likes.all %}true{% else %}false{% endif %}">
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="custom-btn-like">
                         <i style="font-size:24px" class="fa-regular fa-heart"></i>
-                    {% endif %}
+                    </a>
+                {% endif %}
+
+                <button class="custom-btn-comment" onclick="toggleComments('{{ post.id }}')">
+                    <i style="font-size:24px" class="fa-regular fa-comment"></i>
                 </button>
-            </form>
-            {% else %}
-                <a href="{% url 'login' %}" class="custom-btn-like btn btn-sm">
-                    <i style="font-size:24px" class="fa-regular fa-heart"></i>
-                </a>
-            {% endif %}
+            </div>
 
-            <button class="custom-btn-comment btn btn-sm" onclick="toggleComments('{{ post.id }}')">
-                <i style="font-size:24px" class="fa-regular fa-comment"></i>
-            </button>
-
-            <div id="comments-{{ post.id }}" class="custom-comments-section mt-3" style="display: none;">
-                <h5>Коментарі</h5>
+            <div id="comments-{{ post.id }}" class="mt-3 ms-2 me-2" style="display: none;">
+                <h5 class="card-title card-text-color">Коментарі</h5>
                 <ul class="list-group">
                     {% if post.comments.all %}
                         {% for comment in post.comments.all %}
-                            <li class="custom-comment-item list-group-item">
-                                <strong>{{ comment.author.username }}:</strong> {{ comment.text }}
+                            <li class="list-group-item card-color comment-text">
+                                <strong class="card-title">{{ comment.author.username }}:</strong> {{ comment.text }}
                                 <br>
-                                <small class="text-muted">{{ comment.created_at }}</small>
+                                <small class="card-muted-text-color">{{ comment.created_at }}</small>
                                 {% if request.user.username == comment.author.username %}
-                                    <form action="{% url 'comment_delete' post_id=post.id comment_id=comment.id %}" method="post" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm"><i style="font-size:24px" class="fa-solid fa-trash"></i></button>
-                                    </form>
+                                    <div class="comment-delete-container" data-post-id="{{ post.id }}" data-comment-id="{{ comment.id }}"></div>
                                 {% endif %}
                             </li>
                         {% endfor %}
                     {% else %}
-                        <li class="custom-comment-item list-group-item">Немає коментарів</li>
+                        <li class="list-group-item card-color comment-text card-muted-text-color">Немає коментарів</li>
                     {% endif %}
                 </ul>
-                <form method="post" action="{% url 'add_comment' post.id %}" class="mt-3">
-                    {% csrf_token %}
-                    <textarea name="comment" class="custom-textarea form-control mb-2" placeholder="Додайте коментар..." required></textarea>
-                    {% if user.is_authenticated %}
-                        <button type="submit" class="custom-submit-button btn btn-sm">Відправити</button>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="custom-submit-button btn btn-sm">Відправити</a>
-                    {% endif %}
-                </form>
+                <div class="comment-container" data-post-id="{{ post.id }}" data-is-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"></div>
             </div>
         </div>
     </div>
