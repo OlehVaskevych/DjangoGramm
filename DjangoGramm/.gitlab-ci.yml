@@ -1,20 +1,12 @@
 stages:
-  - build
   - deploy
 
-before_script:
-  - pip install -r requirements.txt
-
-build:
-  stage: build
-  script:
-    - python manage.py collectstatic --noinput
-
-deploy:
+deploy_to_azure:
+  image: curlimages/curl
   stage: deploy
   script:
-    - echo "🚀 Деплоїмо в Azure Web App"
-    - git remote add azure https://$AZURE_USERNAME:$AZURE_PASSWORD@myproject-webapp.scm.azurewebsites.net/myproject-webapp.git
-    - git push --force azure main:master
+    - cd DjangoGramm
+    - zip -r django_app.zip .
+    - curl -T django_app.zip -u "$AZURE_FTP_USERNAME:$AZURE_FTP_PASSWORD" "$AZURE_FTP_SERVER/site/wwwroot/django_app.zip"
   only:
     - main
