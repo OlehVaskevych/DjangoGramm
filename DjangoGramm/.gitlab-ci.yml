@@ -2,9 +2,10 @@ stages:
   - deploy
 
 deploy_to_azure:
-  image: curlimages/curl
+  image: alpine
   stage: deploy
   script:
+    - apk add --no-cache zip curl  # Встановлюємо zip і curl
     - cd DjangoGramm
     - zip -r django_app.zip .
     - curl -T django_app.zip -u "$AZURE_FTP_USERNAME:$AZURE_FTP_PASSWORD" "$AZURE_FTP_SERVER/site/wwwroot/django_app.zip"
