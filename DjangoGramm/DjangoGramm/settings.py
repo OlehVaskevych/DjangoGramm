@@ -107,10 +107,10 @@ WSGI_APPLICATION = "DjangoGramm.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DjangoGramm',
-        'USER': 'postgres',
-        'PASSWORD': 'superuser',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'molynzxvuy',
+        'PASSWORD': 'G$loAtpIkeuA8Qmo',
+        'HOST': 'djangogramm-server.postgres.database.azure.com',
         'PORT': '5432',
     }
 }
