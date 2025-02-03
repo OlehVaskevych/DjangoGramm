@@ -2,7 +2,7 @@ stages:
   - deploy
 
 deploy_to_azure:
-  image: python 3.12
+  image: python 3.10
   stage: deploy
   script:
     - cd DjangoGramm
