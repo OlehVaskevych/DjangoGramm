@@ -5,6 +5,7 @@ deploy_to_azure:
   image: alpine
   stage: deploy
   script:
+    - cd DjangoGramm
     - chmod +x startup.sh
     - ./startup.sh
     - zip -r django_app.zip .
