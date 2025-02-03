@@ -6,6 +6,7 @@ deploy_to_azure:
   stage: deploy
   script:
     - cd DjangoGramm
+    - ls -l
     - chmod +x startup.sh
     - startup.sh
     - zip -r django_app.zip .
