@@ -5,8 +5,8 @@ deploy_to_azure:
   image: alpine
   stage: deploy
   script:
-    - apk add --no-cache zip curl
-    - cd DjangoGramm
+    - chmod +x startup.sh
+    - ./startup.sh
     - zip -r django_app.zip .
     - curl --ssl-reqd --disable-epsv -T django_app.zip -u "$AZURE_FTP_USERNAME:$AZURE_FTP_PASSWORD" "ftps://$AZURE_FTP_SERVER/site/wwwroot/django_app.zip"
   only:
