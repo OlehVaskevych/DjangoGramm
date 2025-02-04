@@ -5,103 +5,18 @@
 {% block content %}
 <main class="container mt-1">
     <section id="posts">
-        {% if posts %}
-            {% for post in posts %}
-                <div class="card mt-3 card-color">
-                    <!-- Аватарка та нікнейм автора -->
-                    <div class="card-header d-flex align-items-center mt-2 mb-2">
-                        <img src="{{ post.user.profile.avatar.url }}" alt="Avatar" class="card-header-image">
-                        <a href="{% url 'profile' post.user.username %}" class="text-decoration-none user-href">
-                            <span class="ms-3 fw-bolder fs-4">{{ post.user }}</span>
-                        </a>
-
-                        {% if request.user.username == post.user.username %}
-                            <a href="{% url 'post_edit' post.id %}" class="edit-icon">
-                                <span class="fa fa-edit"></span>
-                            </a>
-                        {% endif %}
-                    </div>
-                    {% if post.images.all %}
-                        <div id="carousel-{{ post.id }}" class="carousel slide">
-                            <div class="carousel-inner">
-                                {% for image in post.images.all %}
-                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                        <img src="{{ image.image_file.url }}" class="card-img-top" alt="Post image">
-                                    </div>
-                                {% endfor %}
-                            </div>
-
-                            <!-- Відображати стрілки лише якщо є більше одного зображення -->
-                            {% if post.images.count > 1 %}
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-
-                    <div class="card-body">
-                        <h3 class="card-title card-text-color">{{ post.title }}</h3>
-                        <p class="card-text card-text-color">{{ post.description }}</p>
-                        <p class="card-muted-text-color">Likes: {{ post.likes.count }}</p>
-
-                        <div class="like-comment-container">
-                            {% if user.is_authenticated %}
-                                <div class="like-container"
-                                     data-post-id="{{ post.id }}"
-                                     data-is-liked="{% if request.user in post.likes.all %}true{% else %}false{% endif %}">
-                                </div>
-                            {% else %}
-                                <a href="{% url 'login' %}" class="custom-btn-like">
-                                    <i style="font-size:24px" class="fa-regular fa-heart"></i>
-                                </a>
-                            {% endif %}
-
-                            <button class="custom-btn-comment" onclick="toggleComments('{{ post.id }}')">
-                                <i style="font-size:24px" class="fa-regular fa-comment"></i>
-                            </button>
-                        </div>
-
-                        <div id="comments-{{ post.id }}" class="mt-3 ms-2 me-2" style="display: none;">
-                            <h5 class="card-title card-text-color">Коментарі</h5>
-                            <ul class="list-group">
-                                {% if post.comments.all %}
-                                    {% for comment in post.comments.all %}
-                                        <li class="list-group-item card-color comment-text">
-                                            <strong class="card-title">{{ comment.author.username }}:</strong> {{ comment.text }}
-                                            <br>
-                                            <small class="card-muted-text-color">{{ comment.created_at }}</small>
-                                            {% if request.user.username == comment.author.username %}
-                                                <div class="comment-delete-container" data-post-id="{{ post.id }}" data-comment-id="{{ comment.id }}"></div>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                {% else %}
-                                    <li class="list-group-item card-color comment-text card-muted-text-color">Немає коментарів</li>
-                                {% endif %}
-                            </ul>
-                            <div class="comment-container" data-post-id="{{ post.id }}" data-is-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"></div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <div class="alert alert-warning text-center" role="alert">
-                No posts yet.
-            </div>
-        {% endif %}
+        <h2 class="text-center mb-4">Home Page</h2>
+        <div id="posts-app">
+            <!-- Vue component will render here -->
+        </div>
     </section>
 </main>
 
 <script>
-    function toggleComments(postId) {
-        const commentsSection = document.getElementById('comments-' + postId);
-        commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
-    }
+    let posts = {{ posts | safe }};
+    let userIsAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    let currentUser = {% if user.is_authenticated %}{{ current_user | safe }}{% else %}null{% endif %};  // Fallback to null if not authenticated
 </script>
+
+
 {% endblock %}

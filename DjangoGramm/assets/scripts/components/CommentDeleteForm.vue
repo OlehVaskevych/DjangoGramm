@@ -30,8 +30,10 @@
 
           const data = await response.json();
 
+          console.log(data);
+
           if (response.ok) {
-            window.location.reload();
+            this.$emit('delete-comment', data);
           } else {
             console.error('Failed to delete comment');
           }

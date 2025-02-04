@@ -1,14 +1,17 @@
 export function initNavigation() {
-    const $list = document.querySelectorAll('.nav-item');
+    const $list = document.querySelectorAll('li');
 
-    function activeLink() {
+        function activeLink() {
+            $list.forEach(($li) => {
+                $li.classList.remove('active')
+            });
+            this.classList.add('active');
+        }
+
         $list.forEach(($li) => {
-            $li.classList.remove('active');
+            $li.addEventListener(
+                'click',
+                activeLink,
+            );
         });
-        this.classList.add('active');
-    }
-
-    $list.forEach(($li) => {
-        $li.addEventListener('click', activeLink);
-    });
 }
