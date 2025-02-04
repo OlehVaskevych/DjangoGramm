@@ -9,3 +9,4 @@ __pycache__/
 .pyc
 DjangoGramm/debug.log
 DjangoGramm/node_modules/
+DjangoGramm/DjangoGramm/settings.py
