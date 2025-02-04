@@ -19,7 +19,6 @@
     methods: {
       async submitForm() {
         try {
-          console.log(this.postId, this.commentId);
           const response = await fetch(`/post/${this.postId}/comments/${this.commentId}/`, {
             method: 'POST',
             headers: {

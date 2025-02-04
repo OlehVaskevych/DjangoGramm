@@ -86,7 +86,6 @@ import CommentDeleteForm from "./CommentDeleteForm.vue";
 
 export default {
     data() {
-        console.log('Posts:', posts);
         return {
             posts,
             currentUser: currentUser,
@@ -123,7 +122,6 @@ export default {
                     post.comments.push(comment);
                 } else if (action === 'delete') {
                     const index = post.comments.findIndex(comment => comment.id === comment.id);
-                    console.log(comment);
                     if (index !== -1) {
                         post.comments.splice(index, 1);
                     }
