@@ -26585,34 +26585,34 @@ function initLogoutForm() {
   });
   app.mount(appElement);
 }
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/post.vue?vue&type=template&id=82b7590a
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/post.vue?vue&type=template&id=3fb361fb
 
-var postvue_type_template_id_82b7590a_hoisted_1 = {
+var postvue_type_template_id_3fb361fb_hoisted_1 = {
   key: 0
 };
-var postvue_type_template_id_82b7590a_hoisted_2 = {
+var postvue_type_template_id_3fb361fb_hoisted_2 = {
   "class": "card-header d-flex align-items-center mt-2 mb-2"
 };
-var postvue_type_template_id_82b7590a_hoisted_3 = ["src"];
-var postvue_type_template_id_82b7590a_hoisted_4 = ["href"];
-var postvue_type_template_id_82b7590a_hoisted_5 = {
+var postvue_type_template_id_3fb361fb_hoisted_3 = ["src"];
+var postvue_type_template_id_3fb361fb_hoisted_4 = ["href"];
+var postvue_type_template_id_3fb361fb_hoisted_5 = {
   "class": "ms-3 fw-bolder fs-4"
 };
-var postvue_type_template_id_82b7590a_hoisted_6 = ["href"];
-var postvue_type_template_id_82b7590a_hoisted_7 = {
+var postvue_type_template_id_3fb361fb_hoisted_6 = ["href"];
+var postvue_type_template_id_3fb361fb_hoisted_7 = {
   key: 0,
   "class": "carousel slide"
 };
-var postvue_type_template_id_82b7590a_hoisted_8 = {
+var postvue_type_template_id_3fb361fb_hoisted_8 = {
   "class": "carousel-inner"
 };
-var postvue_type_template_id_82b7590a_hoisted_9 = ["src"];
-var postvue_type_template_id_82b7590a_hoisted_10 = ["data-bs-target"];
-var postvue_type_template_id_82b7590a_hoisted_11 = ["data-bs-target"];
-var postvue_type_template_id_82b7590a_hoisted_12 = {
+var postvue_type_template_id_3fb361fb_hoisted_9 = ["src"];
+var postvue_type_template_id_3fb361fb_hoisted_10 = ["data-bs-target"];
+var postvue_type_template_id_3fb361fb_hoisted_11 = ["data-bs-target"];
+var postvue_type_template_id_3fb361fb_hoisted_12 = {
   "class": "card-body"
 };
-var postvue_type_template_id_82b7590a_hoisted_13 = {
+var postvue_type_template_id_3fb361fb_hoisted_13 = {
   "class": "card-title card-text-color"
 };
 var _hoisted_14 = {
@@ -26645,28 +26645,28 @@ var _hoisted_23 = {
   "class": "alert alert-warning text-center",
   role: "alert"
 };
-function postvue_type_template_id_82b7590a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_LikeAddForm = resolveComponent("LikeAddForm");
   var _component_CommentDeleteForm = resolveComponent("CommentDeleteForm");
   var _component_CommentSendForm = resolveComponent("CommentSendForm");
-  return $data.posts.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_82b7590a_hoisted_1, [(openBlock(true), createElementBlock(Fragment, null, renderList($data.posts, function (post) {
+  return $data.posts.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_3fb361fb_hoisted_1, [(openBlock(true), createElementBlock(Fragment, null, renderList($data.posts, function (post) {
     return openBlock(), createElementBlock("div", {
       key: post.id,
       "class": "card mt-3 card-color"
-    }, [createBaseVNode("div", postvue_type_template_id_82b7590a_hoisted_2, [createBaseVNode("img", {
+    }, [createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_2, [createBaseVNode("img", {
       src: post.user.profile.avatar.url,
       alt: "Avatar",
       "class": "card-header-image"
-    }, null, 8 /* PROPS */, postvue_type_template_id_82b7590a_hoisted_3), createBaseVNode("a", {
+    }, null, 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_3), createBaseVNode("a", {
       href: '/profile/' + post.user.username,
       "class": "text-decoration-none user-href"
-    }, [createBaseVNode("span", postvue_type_template_id_82b7590a_hoisted_5, toDisplayString(post.user.username), 1 /* TEXT */)], 8 /* PROPS */, postvue_type_template_id_82b7590a_hoisted_4), $data.userIsAuthenticated && post.user.username === $data.currentUser.username ? (openBlock(), createElementBlock("a", {
+    }, [createBaseVNode("span", postvue_type_template_id_3fb361fb_hoisted_5, toDisplayString(post.user.username), 1 /* TEXT */)], 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_4), $data.userIsAuthenticated && post.user.username === $data.currentUser.username ? (openBlock(), createElementBlock("a", {
       key: 0,
       href: '/post/' + post.id + '/update',
       "class": "edit-icon"
     }, _cache[0] || (_cache[0] = [createBaseVNode("span", {
       "class": "fa fa-edit"
-    }, null, -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_82b7590a_hoisted_6)) : createCommentVNode("v-if", true)]), post.images.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_82b7590a_hoisted_7, [createBaseVNode("div", postvue_type_template_id_82b7590a_hoisted_8, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.images, function (image, index) {
+    }, null, -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_6)) : createCommentVNode("v-if", true)]), post.images.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_3fb361fb_hoisted_7, [createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_8, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.images, function (image, index) {
       return openBlock(), createElementBlock("div", {
         key: image.id,
         "class": normalizeClass({
@@ -26677,7 +26677,7 @@ function postvue_type_template_id_82b7590a_render(_ctx, _cache, $props, $setup, 
         src: image.image_file.url,
         "class": "card-img-top",
         alt: "Post image"
-      }, null, 8 /* PROPS */, postvue_type_template_id_82b7590a_hoisted_9)], 2 /* CLASS */);
+      }, null, 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_9)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */))]), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
       key: 0,
       "class": "carousel-control-prev",
@@ -26689,7 +26689,7 @@ function postvue_type_template_id_82b7590a_render(_ctx, _cache, $props, $setup, 
       "aria-hidden": "true"
     }, null, -1 /* HOISTED */), createBaseVNode("span", {
       "class": "visually-hidden"
-    }, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_82b7590a_hoisted_10)) : createCommentVNode("v-if", true), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
+    }, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_10)) : createCommentVNode("v-if", true), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
       key: 1,
       "class": "carousel-control-next",
       type: "button",
@@ -26700,7 +26700,7 @@ function postvue_type_template_id_82b7590a_render(_ctx, _cache, $props, $setup, 
       "aria-hidden": "true"
     }, null, -1 /* HOISTED */), createBaseVNode("span", {
       "class": "visually-hidden"
-    }, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_82b7590a_hoisted_11)) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true), createBaseVNode("div", postvue_type_template_id_82b7590a_hoisted_12, [createBaseVNode("h3", postvue_type_template_id_82b7590a_hoisted_13, toDisplayString(post.title), 1 /* TEXT */), createBaseVNode("p", _hoisted_14, toDisplayString(post.description), 1 /* TEXT */), createBaseVNode("p", _hoisted_15, "Likes: " + toDisplayString(post.likes.count), 1 /* TEXT */), createBaseVNode("div", _hoisted_16, [$data.userIsAuthenticated ? (openBlock(), createBlock(_component_LikeAddForm, {
+    }, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_11)) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true), createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_12, [createBaseVNode("h3", postvue_type_template_id_3fb361fb_hoisted_13, toDisplayString(post.title), 1 /* TEXT */), createBaseVNode("p", _hoisted_14, toDisplayString(post.description), 1 /* TEXT */), createBaseVNode("p", _hoisted_15, "Likes: " + toDisplayString(post.likes.count), 1 /* TEXT */), createBaseVNode("div", _hoisted_16, [$data.userIsAuthenticated ? (openBlock(), createBlock(_component_LikeAddForm, {
       key: 0,
       postId: post.id,
       isLiked: post.likes.all.some(function (like) {
@@ -26754,7 +26754,7 @@ function postvue_type_template_id_82b7590a_render(_ctx, _cache, $props, $setup, 
     }, null, 8 /* PROPS */, ["is-authenticated", "post-id", "onAddComment"])], 8 /* PROPS */, _hoisted_19)])]);
   }), 128 /* KEYED_FRAGMENT */))])) : (openBlock(), createElementBlock("div", _hoisted_23, " No posts yet. "));
 }
-;// ./assets/scripts/components/post.vue?vue&type=template&id=82b7590a
+;// ./assets/scripts/components/post.vue?vue&type=template&id=3fb361fb
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LikeAddForm.vue?vue&type=template&id=4d47e398
 
@@ -27144,8 +27144,8 @@ const CommentDeleteForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(
         if (action === 'send') {
           post.comments.push(comment);
         } else if (action === 'delete') {
-          var index = post.comments.findIndex(function (comment) {
-            return comment.id === comment.id;
+          var index = post.comments.findIndex(function (c) {
+            return c.id === comment.id;
           });
           if (index !== -1) {
             post.comments.splice(index, 1);
@@ -27163,7 +27163,7 @@ const CommentDeleteForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(
 
 
 ;
-const post_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(postvue_type_script_lang_js, [['render',postvue_type_template_id_82b7590a_render]])
+const post_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(postvue_type_script_lang_js, [['render',postvue_type_template_id_3fb361fb_render]])
 
 /* harmony default export */ const post = (post_exports_);
 ;// ./assets/scripts/forms/posts.js

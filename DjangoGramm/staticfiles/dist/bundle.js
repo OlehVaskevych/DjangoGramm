@@ -6587,7 +6587,7 @@ defineJQueryPlugin(Toast);
 
 ;// ./assets/scripts/navigation/navigation.js
 function initNavigation() {
-  var $list = document.querySelectorAll('.nav-item');
+  var $list = document.querySelectorAll('li');
   function activeLink() {
     $list.forEach(function ($li) {
       $li.classList.remove('active');
@@ -26452,23 +26452,23 @@ function initLoginForm() {
   });
   app.mount(appElement);
 }
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LogoutForm.vue?vue&type=template&id=38a92385
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LogoutForm.vue?vue&type=template&id=5829e04a
 
-var LogoutFormvue_type_template_id_38a92385_hoisted_1 = {
+var LogoutFormvue_type_template_id_5829e04a_hoisted_1 = {
   "class": "form-container"
 };
-var LogoutFormvue_type_template_id_38a92385_hoisted_2 = {
+var LogoutFormvue_type_template_id_5829e04a_hoisted_2 = {
   "class": "button-container"
 };
-function LogoutFormvue_type_template_id_38a92385_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", LogoutFormvue_type_template_id_38a92385_hoisted_1, [_cache[3] || (_cache[3] = createBaseVNode("h1", {
+function LogoutFormvue_type_template_id_5829e04a_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", LogoutFormvue_type_template_id_5829e04a_hoisted_1, [_cache[3] || (_cache[3] = createBaseVNode("h1", {
     "class": "form-title"
   }, "Confirm Logout?", -1 /* HOISTED */)), createBaseVNode("form", {
     onSubmit: _cache[1] || (_cache[1] = withModifiers(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"])),
     "class": "styled-form"
-  }, [createBaseVNode("div", LogoutFormvue_type_template_id_38a92385_hoisted_2, [_cache[2] || (_cache[2] = createBaseVNode("button", {
+  }, [createBaseVNode("div", LogoutFormvue_type_template_id_5829e04a_hoisted_2, [_cache[2] || (_cache[2] = createBaseVNode("button", {
     "class": "submit-button",
     type: "submit"
   }, "Confirm", -1 /* HOISTED */)), createBaseVNode("button", {
@@ -26479,7 +26479,7 @@ function LogoutFormvue_type_template_id_38a92385_render(_ctx, _cache, $props, $s
     })
   }, "Cancel")])], 32 /* NEED_HYDRATION */)]);
 }
-;// ./assets/scripts/components/LogoutForm.vue?vue&type=template&id=38a92385
+;// ./assets/scripts/components/LogoutForm.vue?vue&type=template&id=5829e04a
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LogoutForm.vue?vue&type=script&lang=js
 function LogoutFormvue_type_script_lang_js_typeof(o) { "@babel/helpers - typeof"; return LogoutFormvue_type_script_lang_js_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, LogoutFormvue_type_script_lang_js_typeof(o); }
@@ -26509,6 +26509,7 @@ function LogoutFormvue_type_script_lang_js_asyncToGenerator(n) { return function
               return response.json();
             case 6:
               data = _context.sent;
+              console.log(data);
               if (response.ok) {
                 window.location.href = data.redirect_url;
               } else {
@@ -26519,22 +26520,22 @@ function LogoutFormvue_type_script_lang_js_asyncToGenerator(n) { return function
                   }
                 }
               }
-              _context.next = 14;
+              _context.next = 15;
               break;
-            case 10:
-              _context.prev = 10;
+            case 11:
+              _context.prev = 11;
               _context.t0 = _context["catch"](0);
               console.error('Error submitting form:', _context.t0);
               _this.errorMessage = 'An unexpected error occurred. Please try again.';
-            case 14:
-              _context.prev = 14;
+            case 15:
+              _context.prev = 15;
               _this.isSubmitting = false;
-              return _context.finish(14);
-            case 17:
+              return _context.finish(15);
+            case 18:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 10, 14, 17]]);
+        }, _callee, null, [[0, 11, 15, 18]]);
       }))();
     },
     getCookie: function getCookie(name) {
@@ -26564,7 +26565,7 @@ function LogoutFormvue_type_script_lang_js_asyncToGenerator(n) { return function
 
 
 ;
-const LogoutForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(LogoutFormvue_type_script_lang_js, [['render',LogoutFormvue_type_template_id_38a92385_render]])
+const LogoutForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(LogoutFormvue_type_script_lang_js, [['render',LogoutFormvue_type_template_id_5829e04a_render]])
 
 /* harmony default export */ const LogoutForm = (LogoutForm_exports_);
 ;// ./assets/scripts/forms/logoutForm.js
@@ -26584,9 +26585,180 @@ function initLogoutForm() {
   });
   app.mount(appElement);
 }
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LikeAddForm.vue?vue&type=template&id=50bba693
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/post.vue?vue&type=template&id=3fb361fb
 
-function LikeAddFormvue_type_template_id_50bba693_render(_ctx, _cache, $props, $setup, $data, $options) {
+var postvue_type_template_id_3fb361fb_hoisted_1 = {
+  key: 0
+};
+var postvue_type_template_id_3fb361fb_hoisted_2 = {
+  "class": "card-header d-flex align-items-center mt-2 mb-2"
+};
+var postvue_type_template_id_3fb361fb_hoisted_3 = ["src"];
+var postvue_type_template_id_3fb361fb_hoisted_4 = ["href"];
+var postvue_type_template_id_3fb361fb_hoisted_5 = {
+  "class": "ms-3 fw-bolder fs-4"
+};
+var postvue_type_template_id_3fb361fb_hoisted_6 = ["href"];
+var postvue_type_template_id_3fb361fb_hoisted_7 = {
+  key: 0,
+  "class": "carousel slide"
+};
+var postvue_type_template_id_3fb361fb_hoisted_8 = {
+  "class": "carousel-inner"
+};
+var postvue_type_template_id_3fb361fb_hoisted_9 = ["src"];
+var postvue_type_template_id_3fb361fb_hoisted_10 = ["data-bs-target"];
+var postvue_type_template_id_3fb361fb_hoisted_11 = ["data-bs-target"];
+var postvue_type_template_id_3fb361fb_hoisted_12 = {
+  "class": "card-body"
+};
+var postvue_type_template_id_3fb361fb_hoisted_13 = {
+  "class": "card-title card-text-color"
+};
+var _hoisted_14 = {
+  "class": "card-text card-text-color"
+};
+var _hoisted_15 = {
+  "class": "card-muted-text-color"
+};
+var _hoisted_16 = {
+  "class": "like-comment-container"
+};
+var _hoisted_17 = {
+  key: 1,
+  href: '/auth/login/',
+  "class": "custom-btn-like"
+};
+var _hoisted_18 = ["onClick"];
+var _hoisted_19 = ["id"];
+var _hoisted_20 = {
+  "class": "list-group"
+};
+var _hoisted_21 = {
+  "class": "card-title"
+};
+var _hoisted_22 = {
+  "class": "card-muted-text-color"
+};
+var _hoisted_23 = {
+  key: 1,
+  "class": "alert alert-warning text-center",
+  role: "alert"
+};
+function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_LikeAddForm = resolveComponent("LikeAddForm");
+  var _component_CommentDeleteForm = resolveComponent("CommentDeleteForm");
+  var _component_CommentSendForm = resolveComponent("CommentSendForm");
+  return $data.posts.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_3fb361fb_hoisted_1, [(openBlock(true), createElementBlock(Fragment, null, renderList($data.posts, function (post) {
+    return openBlock(), createElementBlock("div", {
+      key: post.id,
+      "class": "card mt-3 card-color"
+    }, [createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_2, [createBaseVNode("img", {
+      src: post.user.profile.avatar.url,
+      alt: "Avatar",
+      "class": "card-header-image"
+    }, null, 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_3), createBaseVNode("a", {
+      href: '/profile/' + post.user.username,
+      "class": "text-decoration-none user-href"
+    }, [createBaseVNode("span", postvue_type_template_id_3fb361fb_hoisted_5, toDisplayString(post.user.username), 1 /* TEXT */)], 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_4), $data.userIsAuthenticated && post.user.username === $data.currentUser.username ? (openBlock(), createElementBlock("a", {
+      key: 0,
+      href: '/post/' + post.id + '/update',
+      "class": "edit-icon"
+    }, _cache[0] || (_cache[0] = [createBaseVNode("span", {
+      "class": "fa fa-edit"
+    }, null, -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_6)) : createCommentVNode("v-if", true)]), post.images.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_3fb361fb_hoisted_7, [createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_8, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.images, function (image, index) {
+      return openBlock(), createElementBlock("div", {
+        key: image.id,
+        "class": normalizeClass({
+          'carousel-item': true,
+          'active': index === 0
+        })
+      }, [createBaseVNode("img", {
+        src: image.image_file.url,
+        "class": "card-img-top",
+        alt: "Post image"
+      }, null, 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_9)], 2 /* CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))]), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
+      key: 0,
+      "class": "carousel-control-prev",
+      type: "button",
+      "data-bs-target": '#carousel-' + post.id,
+      "data-bs-slide": "prev"
+    }, _cache[1] || (_cache[1] = [createBaseVNode("span", {
+      "class": "carousel-control-prev-icon",
+      "aria-hidden": "true"
+    }, null, -1 /* HOISTED */), createBaseVNode("span", {
+      "class": "visually-hidden"
+    }, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_10)) : createCommentVNode("v-if", true), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
+      key: 1,
+      "class": "carousel-control-next",
+      type: "button",
+      "data-bs-target": '#carousel-' + post.id,
+      "data-bs-slide": "next"
+    }, _cache[2] || (_cache[2] = [createBaseVNode("span", {
+      "class": "carousel-control-next-icon",
+      "aria-hidden": "true"
+    }, null, -1 /* HOISTED */), createBaseVNode("span", {
+      "class": "visually-hidden"
+    }, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_11)) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true), createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_12, [createBaseVNode("h3", postvue_type_template_id_3fb361fb_hoisted_13, toDisplayString(post.title), 1 /* TEXT */), createBaseVNode("p", _hoisted_14, toDisplayString(post.description), 1 /* TEXT */), createBaseVNode("p", _hoisted_15, "Likes: " + toDisplayString(post.likes.count), 1 /* TEXT */), createBaseVNode("div", _hoisted_16, [$data.userIsAuthenticated ? (openBlock(), createBlock(_component_LikeAddForm, {
+      key: 0,
+      postId: post.id,
+      isLiked: post.likes.all.some(function (like) {
+        return like.username === $data.currentUser.username;
+      }),
+      onLikeUpdated: function onLikeUpdated($event) {
+        return $options.updateLikes(post.id, $event);
+      }
+    }, null, 8 /* PROPS */, ["postId", "isLiked", "onLikeUpdated"])) : (openBlock(), createElementBlock("a", _hoisted_17, _cache[3] || (_cache[3] = [createBaseVNode("i", {
+      style: {
+        "font-size": "24px"
+      },
+      "class": "fa-regular fa-heart"
+    }, null, -1 /* HOISTED */)]))), createBaseVNode("button", {
+      onClick: function onClick($event) {
+        return $options.toggleComments(post.id);
+      },
+      "class": "custom-btn-comment"
+    }, _cache[4] || (_cache[4] = [createBaseVNode("i", {
+      style: {
+        "font-size": "24px"
+      },
+      "class": "fa-regular fa-comment"
+    }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_18)]), createBaseVNode("div", {
+      "class": "mt-3 ms-2 me-2",
+      id: 'comments-' + post.id,
+      style: {
+        "display": "none"
+      }
+    }, [_cache[6] || (_cache[6] = createBaseVNode("h5", {
+      "class": "card-title card-text-color"
+    }, "Comments", -1 /* HOISTED */)), createBaseVNode("ul", _hoisted_20, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.comments, function (comment) {
+      return openBlock(), createElementBlock("li", {
+        key: comment.id,
+        "class": "list-group-item card-color comment-text"
+      }, [createBaseVNode("strong", _hoisted_21, toDisplayString(comment.author.username) + ":", 1 /* TEXT */), createTextVNode(" " + toDisplayString(comment.text) + " ", 1 /* TEXT */), _cache[5] || (_cache[5] = createBaseVNode("br", null, null, -1 /* HOISTED */)), createBaseVNode("small", _hoisted_22, toDisplayString(comment.created_at), 1 /* TEXT */), createBaseVNode("p", null, "comment - " + toDisplayString(comment.id) + " post - " + toDisplayString(post.id), 1 /* TEXT */), comment.id && post.id && comment.author.username === $data.currentUser.username ? (openBlock(), createBlock(_component_CommentDeleteForm, {
+        key: 0,
+        "class": "comment-delete-container",
+        "post-id": Number(post.id),
+        "comment-id": Number(comment.id),
+        onDeleteComment: function onDeleteComment($event) {
+          return $options.updateComments(post.id, 'delete', $event);
+        }
+      }, null, 8 /* PROPS */, ["post-id", "comment-id", "onDeleteComment"])) : createCommentVNode("v-if", true)]);
+    }), 128 /* KEYED_FRAGMENT */))]), createVNode(_component_CommentSendForm, {
+      "is-authenticated": $data.userIsAuthenticated,
+      "post-id": post.id,
+      onAddComment: function onAddComment($event) {
+        return $options.updateComments(post.id, 'send', $event);
+      }
+    }, null, 8 /* PROPS */, ["is-authenticated", "post-id", "onAddComment"])], 8 /* PROPS */, _hoisted_19)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (openBlock(), createElementBlock("div", _hoisted_23, " No posts yet. "));
+}
+;// ./assets/scripts/components/post.vue?vue&type=template&id=3fb361fb
+
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LikeAddForm.vue?vue&type=template&id=4d47e398
+
+function LikeAddFormvue_type_template_id_4d47e398_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("button", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleLike && $options.toggleLike.apply($options, arguments);
@@ -26599,7 +26771,7 @@ function LikeAddFormvue_type_template_id_50bba693_render(_ctx, _cache, $props, $
     }
   }, null, 2 /* CLASS */)]);
 }
-;// ./assets/scripts/components/LikeAddForm.vue?vue&type=template&id=50bba693
+;// ./assets/scripts/components/LikeAddForm.vue?vue&type=template&id=4d47e398
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LikeAddForm.vue?vue&type=script&lang=js
 function LikeAddFormvue_type_script_lang_js_typeof(o) { "@babel/helpers - typeof"; return LikeAddFormvue_type_script_lang_js_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, LikeAddFormvue_type_script_lang_js_typeof(o); }
@@ -26609,11 +26781,13 @@ function LikeAddFormvue_type_script_lang_js_asyncToGenerator(n) { return functio
 /* harmony default export */ const LikeAddFormvue_type_script_lang_js = ({
   props: {
     postId: Number,
-    isLiked: Boolean
+    isLiked: Boolean,
+    likesCount: Number
   },
   data: function data() {
     return {
-      liked: this.isLiked
+      liked: this.isLiked,
+      likes: this.likesCount
     };
   },
   computed: {
@@ -26647,7 +26821,7 @@ function LikeAddFormvue_type_script_lang_js_asyncToGenerator(n) { return functio
               data = _context.sent;
               if (response.ok) {
                 _this.liked = !_this.liked;
-                window.location.reload();
+                _this.$emit("like-updated", data.likes_count);
               } else {
                 console.error("Failed to update like status");
               }
@@ -26686,37 +26860,18 @@ function LikeAddFormvue_type_script_lang_js_asyncToGenerator(n) { return functio
 
 
 ;
-const LikeAddForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(LikeAddFormvue_type_script_lang_js, [['render',LikeAddFormvue_type_template_id_50bba693_render]])
+const LikeAddForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(LikeAddFormvue_type_script_lang_js, [['render',LikeAddFormvue_type_template_id_4d47e398_render]])
 
 /* harmony default export */ const LikeAddForm = (LikeAddForm_exports_);
-;// ./assets/scripts/forms/likeToogleForm.js
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/CommentSendForm.vue?vue&type=template&id=1130af17
 
-
-function initLikeForm() {
-  var appElements = document.querySelectorAll('.like-container');
-  if (appElements.length === 0) {
-    console.error("No like containers found");
-    return;
-  }
-  appElements.forEach(function (element) {
-    var postId = parseInt(element.dataset.postId, 10);
-    var isLiked = element.dataset.isLiked === 'true';
-    var app = createApp(LikeAddForm, {
-      postId: postId,
-      isLiked: isLiked
-    });
-    app.mount(element);
-  });
-}
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/CommentSendForm.vue?vue&type=template&id=2a9919d0
-
-var CommentSendFormvue_type_template_id_2a9919d0_hoisted_1 = ["disabled"];
-var CommentSendFormvue_type_template_id_2a9919d0_hoisted_2 = {
+var CommentSendFormvue_type_template_id_1130af17_hoisted_1 = ["disabled"];
+var CommentSendFormvue_type_template_id_1130af17_hoisted_2 = {
   key: 1,
   href: "/auth/login/",
   "class": "custom-submit-button btn btn-sm"
 };
-function CommentSendFormvue_type_template_id_2a9919d0_render(_ctx, _cache, $props, $setup, $data, $options) {
+function CommentSendFormvue_type_template_id_1130af17_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("form", {
     onSubmit: _cache[1] || (_cache[1] = withModifiers(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
@@ -26735,9 +26890,9 @@ function CommentSendFormvue_type_template_id_2a9919d0_render(_ctx, _cache, $prop
     type: "submit",
     "class": "btn custom-comment-button",
     disabled: $data.isSubmitting
-  }, "Відправити", 8 /* PROPS */, CommentSendFormvue_type_template_id_2a9919d0_hoisted_1)) : (openBlock(), createElementBlock("a", CommentSendFormvue_type_template_id_2a9919d0_hoisted_2, "Відправити"))], 32 /* NEED_HYDRATION */);
+  }, "Відправити", 8 /* PROPS */, CommentSendFormvue_type_template_id_1130af17_hoisted_1)) : (openBlock(), createElementBlock("a", CommentSendFormvue_type_template_id_1130af17_hoisted_2, "Відправити"))], 32 /* NEED_HYDRATION */);
 }
-;// ./assets/scripts/components/CommentSendForm.vue?vue&type=template&id=2a9919d0
+;// ./assets/scripts/components/CommentSendForm.vue?vue&type=template&id=1130af17
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/CommentSendForm.vue?vue&type=script&lang=js
 function CommentSendFormvue_type_script_lang_js_typeof(o) { "@babel/helpers - typeof"; return CommentSendFormvue_type_script_lang_js_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, CommentSendFormvue_type_script_lang_js_typeof(o); }
@@ -26795,7 +26950,8 @@ function CommentSendFormvue_type_script_lang_js_asyncToGenerator(n) { return fun
             case 11:
               data = _context.sent;
               if (response.ok) {
-                window.location.reload();
+                _this.$emit('add-comment', data);
+                _this.comment = '';
               } else {
                 console.error("Failed to send comment");
               }
@@ -26807,10 +26963,14 @@ function CommentSendFormvue_type_script_lang_js_asyncToGenerator(n) { return fun
               _this.isSubmitting = false;
               console.error('Error:', _context.t0);
             case 19:
+              _context.prev = 19;
+              _this.isSubmitting = false;
+              return _context.finish(19);
+            case 22:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[5, 15]]);
+        }, _callee, null, [[5, 15, 19, 22]]);
       }))();
     },
     getCookie: function getCookie(name) {
@@ -26835,27 +26995,12 @@ function CommentSendFormvue_type_script_lang_js_asyncToGenerator(n) { return fun
 
 
 ;
-const CommentSendForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(CommentSendFormvue_type_script_lang_js, [['render',CommentSendFormvue_type_template_id_2a9919d0_render]])
+const CommentSendForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(CommentSendFormvue_type_script_lang_js, [['render',CommentSendFormvue_type_template_id_1130af17_render]])
 
 /* harmony default export */ const CommentSendForm = (CommentSendForm_exports_);
-;// ./assets/scripts/forms/commentSendForm.js
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/CommentDeleteForm.vue?vue&type=template&id=566c3390
 
-
-function initCommentForm() {
-  var appElements = document.querySelectorAll('.comment-container');
-  appElements.forEach(function (element) {
-    var postId = parseInt(element.dataset.postId, 10);
-    var isAuthenticated = element.dataset.isAuthenticated === 'true';
-    var app = createApp(CommentSendForm, {
-      postId: postId,
-      isAuthenticated: isAuthenticated
-    });
-    app.mount(element);
-  });
-}
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/CommentDeleteForm.vue?vue&type=template&id=b6bd7270
-
-function CommentDeleteFormvue_type_template_id_b6bd7270_render(_ctx, _cache, $props, $setup, $data, $options) {
+function CommentDeleteFormvue_type_template_id_566c3390_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("form", {
     onSubmit: _cache[0] || (_cache[0] = withModifiers(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
@@ -26872,7 +27017,7 @@ function CommentDeleteFormvue_type_template_id_b6bd7270_render(_ctx, _cache, $pr
     "class": "fa-solid fa-trash"
   })], -1 /* HOISTED */)]), 32 /* NEED_HYDRATION */);
 }
-;// ./assets/scripts/components/CommentDeleteForm.vue?vue&type=template&id=b6bd7270
+;// ./assets/scripts/components/CommentDeleteForm.vue?vue&type=template&id=566c3390
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/CommentDeleteForm.vue?vue&type=script&lang=js
 function CommentDeleteFormvue_type_script_lang_js_typeof(o) { "@babel/helpers - typeof"; return CommentDeleteFormvue_type_script_lang_js_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, CommentDeleteFormvue_type_script_lang_js_typeof(o); }
@@ -26899,8 +27044,7 @@ function CommentDeleteFormvue_type_script_lang_js_asyncToGenerator(n) { return f
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              console.log(_this.postId, _this.commentId);
-              _context.next = 4;
+              _context.next = 3;
               return fetch("/post/".concat(_this.postId, "/comments/").concat(_this.commentId, "/"), {
                 method: 'POST',
                 headers: {
@@ -26908,28 +27052,28 @@ function CommentDeleteFormvue_type_script_lang_js_asyncToGenerator(n) { return f
                   'Content-Type': 'application/json'
                 }
               });
-            case 4:
+            case 3:
               response = _context.sent;
-              _context.next = 7;
+              _context.next = 6;
               return response.json();
-            case 7:
+            case 6:
               data = _context.sent;
               if (response.ok) {
-                window.location.reload();
+                _this.$emit('delete-comment', data);
               } else {
                 console.error('Failed to delete comment');
               }
-              _context.next = 14;
+              _context.next = 13;
               break;
-            case 11:
-              _context.prev = 11;
+            case 10:
+              _context.prev = 10;
               _context.t0 = _context["catch"](0);
               console.error('Error:', _context.t0);
-            case 14:
+            case 13:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee, null, [[0, 10]]);
       }))();
     },
     getCookie: function getCookie(name) {
@@ -26954,30 +27098,95 @@ function CommentDeleteFormvue_type_script_lang_js_asyncToGenerator(n) { return f
 
 
 ;
-const CommentDeleteForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(CommentDeleteFormvue_type_script_lang_js, [['render',CommentDeleteFormvue_type_template_id_b6bd7270_render]])
+const CommentDeleteForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(CommentDeleteFormvue_type_script_lang_js, [['render',CommentDeleteFormvue_type_template_id_566c3390_render]])
 
 /* harmony default export */ const CommentDeleteForm = (CommentDeleteForm_exports_);
-;// ./assets/scripts/forms/commentDeleteForm.js
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/post.vue?vue&type=script&lang=js
 
 
-function initCommentDeleteForm() {
-  var appElements = document.querySelectorAll('.comment-delete-container');
-  appElements.forEach(function (element) {
-    var postId = parseInt(element.dataset.postId, 10);
-    var commentId = parseInt(element.dataset.commentId, 10);
-    var app = createApp(CommentDeleteForm, {
-      postId: postId,
-      commentId: commentId
-    });
-    app.mount(element);
+
+/* harmony default export */ const postvue_type_script_lang_js = ({
+  data: function data() {
+    return {
+      posts: posts,
+      currentUser: currentUser,
+      userIsAuthenticated: userIsAuthenticated
+    };
+  },
+  components: {
+    LikeAddForm: LikeAddForm,
+    CommentSendForm: CommentSendForm,
+    CommentDeleteForm: CommentDeleteForm
+  },
+  methods: {
+    toggleComments: function toggleComments(postId) {
+      var commentsSection = document.getElementById('comments-' + postId);
+      if (commentsSection) {
+        commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+      } else {
+        console.error('Comments section not found for post', postId);
+      }
+    },
+    // Update the like count and likes array when the like is toggled
+    updateLikes: function updateLikes(postId, newLikes) {
+      var post = this.posts.find(function (p) {
+        return p.id === postId;
+      });
+      if (post) {
+        post.likes.count = newLikes;
+      }
+    },
+    updateComments: function updateComments(postId, action, comment) {
+      var post = this.posts.find(function (post) {
+        return post.id === postId;
+      });
+      if (post) {
+        if (action === 'send') {
+          post.comments.push(comment);
+        } else if (action === 'delete') {
+          var index = post.comments.findIndex(function (c) {
+            return c.id === comment.id;
+          });
+          if (index !== -1) {
+            post.comments.splice(index, 1);
+          }
+        }
+      }
+    }
+  }
+});
+;// ./assets/scripts/components/post.vue?vue&type=script&lang=js
+ 
+;// ./assets/scripts/components/post.vue
+
+
+
+
+;
+const post_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(postvue_type_script_lang_js, [['render',postvue_type_template_id_3fb361fb_render]])
+
+/* harmony default export */ const post = (post_exports_);
+;// ./assets/scripts/forms/posts.js
+
+
+function initPosts() {
+  var appElement = document.getElementById('posts-app');
+  if (!appElement) {
+    console.error('Container for posts is not found');
+    return;
+  }
+  var app = createApp({
+    components: {
+      post: post
+    },
+    template: '<post/>'
   });
+  app.mount(appElement);
 }
 ;// ./assets/scripts/index.js
  // Імпорт Bootstrap JS
 
  // Імпорт вашого CSS
-
-
 
 
 
@@ -26998,6 +27207,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var registerFormContainer = document.getElementById('register-app');
   var loginFormContainer = document.getElementById('login-app');
   var logoutFormContainer = document.getElementById('logout-app');
+  var postsContainer = document.getElementById('posts-app');
+  if (postsContainer) {
+    initPosts();
+  }
   if (postFormContainer) {
     initPostForm();
   }
@@ -27022,9 +27235,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (logoutFormContainer) {
     initLogoutForm();
   }
-  initLikeForm();
-  initCommentForm();
-  initCommentDeleteForm();
 
   // Ініціалізуємо навігацію
   initNavigation();
