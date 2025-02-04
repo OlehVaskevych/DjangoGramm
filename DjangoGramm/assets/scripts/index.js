@@ -10,9 +10,7 @@ import { initProfileDeleteForm } from "./forms/profileDeleteForm";
 import { initRegisterForm } from "./forms/registerForm";
 import { initLoginForm } from "./forms/loginForm";
 import { initLogoutForm } from "./forms/logoutForm";
-import { initLikeForm } from "./forms/likeToogleForm";
-import { initCommentForm } from "./forms/commentSendForm";
-import { initCommentDeleteForm } from "./forms/commentDeleteForm";
+import { initPosts } from "./forms/posts";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Ініціалізуємо форму, якщо вона є на сторінці
@@ -24,6 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerFormContainer = document.getElementById('register-app');
     const loginFormContainer = document.getElementById('login-app');
     const logoutFormContainer = document.getElementById('logout-app');
+    const postsContainer = document.getElementById('posts-app');
+
+    if (postsContainer) {
+        initPosts();
+    }
 
     if (postFormContainer) {
         initPostForm();
@@ -56,10 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutFormContainer) {
         initLogoutForm();
     }
-
-    initLikeForm();
-    initCommentForm();
-    initCommentDeleteForm();
 
     // Ініціалізуємо навігацію
     initNavigation();

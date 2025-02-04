@@ -5,7 +5,6 @@ export function initLikeForm() {
     const appElements = document.querySelectorAll('.like-container')
 
     if (appElements.length === 0) {
-        console.error("No like containers found");
         return;
     }
 

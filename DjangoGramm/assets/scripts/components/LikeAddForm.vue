@@ -9,10 +9,12 @@ export default {
   props: {
     postId: Number,
     isLiked: Boolean,
+    likesCount: Number,
   },
   data() {
     return {
       liked: this.isLiked,
+      likes: this.likesCount,
     };
   },
   computed: {
@@ -36,7 +38,7 @@ export default {
 
         if (response.ok) {
           this.liked = !this.liked;
-          window.location.reload();
+          this.$emit("like-updated", data.likes_count);
         } else {
           console.error("Failed to update like status");
         }

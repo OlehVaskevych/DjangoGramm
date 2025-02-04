@@ -48,13 +48,16 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          window.location.reload();
+          this.$emit('add-comment', data);
+          this.comment = '';
         } else {
           console.error("Failed to send comment");
         }
       } catch (error) {
         this.isSubmitting = false;
         console.error('Error:', error);
+      } finally {
+        this.isSubmitting = false;
       }
     },
 

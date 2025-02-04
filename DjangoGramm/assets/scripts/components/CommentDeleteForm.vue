@@ -19,7 +19,6 @@
     methods: {
       async submitForm() {
         try {
-          console.log(this.postId, this.commentId);
           const response = await fetch(`/post/${this.postId}/comments/${this.commentId}/`, {
             method: 'POST',
             headers: {
@@ -31,7 +30,7 @@
           const data = await response.json();
 
           if (response.ok) {
-            window.location.reload();
+            this.$emit('delete-comment', data);
           } else {
             console.error('Failed to delete comment');
           }

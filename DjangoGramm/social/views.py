@@ -32,9 +32,61 @@ def user_is_profile_owner(view_func):
 
 def home(request):
     posts = Post.objects.prefetch_related('images').all()
+
+    posts_json = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "description": post.description,
+            "user": {
+                "username": post.user.username,
+                "profile": {
+                    "avatar": {
+                        "url": post.user.profile.avatar.url,
+                    }
+                }
+            },
+            "likes": {
+                "count": post.likes.all().count(),
+                "all": [
+                    {
+                        "username": user.username,
+                    }
+                    for user in post.likes.all()
+                ]
+            },
+            "comments": [
+                {
+                    "id": comment.id,
+                    "author": { "username": comment.author.username },
+                    "text": comment.text,
+                    "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                }
+                for comment in post.comments.all()
+            ],
+            "images": [
+                {
+                    "image_file": { "url": image.image_file.url },
+                }
+                for image in post.images.all()
+            ]
+        }
+        for post in posts
+    ]
+
     context = {
-        'posts': posts,
+        "posts": posts_json,
+        "current_user": {
+            "username": request.user.username if request.user.is_authenticated else None,
+            "profile": {
+                "avatar": {
+                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
+                }
+            } if request.user.is_authenticated else None
+        },
+        "userIsAuthenticated": request.user.is_authenticated,
     }
+
     return render(request, 'home.html', context)
 
 
@@ -109,17 +161,58 @@ def profile_update_view(request, username):
 
 def post_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.all()  # Get all comments related to the post
-    images = post.images.all()  # Get all images related to the post
-    tags = post.tags.all()  # Get all tags related to the post
-    like_count = post.likes.count()  # Get the number of likes for the post
+
+    post_json = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "description": post.description,
+            "user": {
+                "username": post.user.username,
+                "profile": {
+                    "avatar": {
+                        "url": post.user.profile.avatar.url,
+                    }
+                }
+            },
+            "likes": {
+                "count": post.likes.all().count(),
+                "all": [
+                    {
+                        "username": user.username,
+                    }
+                    for user in post.likes.all()
+                ]
+            },
+            "comments": [
+                {
+                    "id": comment.id,
+                    "author": {"username": comment.author.username},
+                    "text": comment.text,
+                    "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                }
+                for comment in post.comments.all()
+            ],
+            "images": [
+                {
+                    "image_file": {"url": image.image_file.url},
+                }
+                for image in post.images.all()
+            ]
+        }
+    ]
 
     context = {
-        'post': post,
-        'comments': comments,
-        'images': images,
-        'tags': tags,
-        'like_count': like_count,
+        "posts": post_json,
+        "current_user": {
+            "username": request.user.username if request.user.is_authenticated else None,
+            "profile": {
+                "avatar": {
+                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
+                }
+            } if request.user.is_authenticated else None
+        },
+        "userIsAuthenticated": request.user.is_authenticated,
     }
     return render(request, 'post.html', context)
 
@@ -185,8 +278,13 @@ def post_comment_view(request, post_id):
     if request.method == 'POST':
         comment_text = request.POST.get('comment')
         if comment_text:
-            Comment.objects.create(post=post, author=request.user, text=comment_text)
-            return JsonResponse({'status': 'success'})
+            created_comment = Comment.objects.create(post=post, author=request.user, text=comment_text)
+            return JsonResponse({
+                "id": created_comment.id,
+                "author": { "username": created_comment.author.username },
+                "text": created_comment.text,
+                "created_at": created_comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            })
         else:
             return JsonResponse({'status': 'error', 'message': 'Comment text is empty'}, status=400)
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
@@ -198,8 +296,9 @@ def post_comment_delete_view(request, post_id, comment_id):
     post = get_object_or_404(Post, id=post_id)
     comment = get_object_or_404(Comment, id=comment_id, post=post)
     if request.user == comment.author:
+        deleted_comment = comment.id
         comment.delete()
-        return JsonResponse({'status': 'success'})
+        return JsonResponse({'id': deleted_comment})
 
 
 @login_required
@@ -306,7 +405,62 @@ def follow_view(request, username):
 def news_feed(request):
     follows = Follow.objects.filter(follower=request.user)
     posts = Post.objects.filter(user_id__in=[follow.following for follow in follows]).order_by('-created_at')
-    return render(request, 'news_feed.html', {'posts': posts})
+
+    posts_json = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "description": post.description,
+            "user": {
+                "username": post.user.username,
+                "profile": {
+                    "avatar": {
+                        "url": post.user.profile.avatar.url,
+                    }
+                }
+            },
+            "likes": {
+                "count": post.likes.all().count(),
+                "all": [
+                    {
+                        "username": user.username,
+                    }
+                    for user in post.likes.all()
+                ]
+            },
+            "comments": [
+                {
+                    "id": comment.id,
+                    "author": {"username": comment.author.username},
+                    "text": comment.text,
+                    "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                }
+                for comment in post.comments.all()
+            ],
+            "images": [
+                {
+                    "image_file": {"url": image.image_file.url},
+                }
+                for image in post.images.all()
+            ]
+        }
+        for post in posts
+    ]
+
+    context = {
+        "posts": posts_json,
+        "current_user": {
+            "username": request.user.username if request.user.is_authenticated else None,
+            "profile": {
+                "avatar": {
+                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
+                }
+            } if request.user.is_authenticated else None
+        },
+        "userIsAuthenticated": request.user.is_authenticated,
+    }
+
+    return render(request, 'news_feed.html', context)
 
 
 @login_required

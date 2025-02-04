@@ -6,6 +6,7 @@
     {% load bootstrap5 %}
     {% load static %}
     {% bootstrap_javascript %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
     <script src="{% static 'dist/bundle.js' %}"></script>
     {% block script %}{% endblock %}
@@ -33,7 +34,7 @@
                         </a>
                     </li>
 
-                    <li class="{% if request.path|slice:':9' == '/profile/' %}active{% endif %}">
+                    <li class="{% if request.path|slice:':9' == '/profile/'%}active{% endif %}">
                         <a href="{% url 'profile' user.username %}">
                             <span class="icon">
                                 <i class="fa-solid fa-user"></i>
@@ -81,7 +82,7 @@
                         </a>
                     </li>
 
-                    <li class="{% if request.path == '/auth/login/' %}active{% endif %}">
+                    <li class="{% if request.path == '/auth/login/' or request.path == '/auth/register/'%}active{% endif %}">
                         <a href="{% url 'login' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-sign-in"></i>
@@ -97,24 +98,6 @@
     {% block content %}
     {% endblock %}
     </div>
-
-    <script>
-        const $list = document.querySelectorAll('li');
-
-        function activeLink() {
-            $list.forEach(($li) => {
-                $li.classList.remove('active')
-            });
-            this.classList.add('active');
-        }
-
-        $list.forEach(($li) => {
-            $li.addEventListener(
-                'click',
-                activeLink,
-            );
-        });
-    </script>
 
 </body>
 </html>

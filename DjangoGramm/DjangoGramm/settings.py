@@ -38,7 +38,6 @@ if DEBUG:
 else:
     os.environ['WEBPACK_MODE'] = 'production'
 
-
 ALLOWED_HOSTS = ['djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
 CSRF_TRUSTED_ORIGINS = ['https://djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
 
