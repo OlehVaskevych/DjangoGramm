@@ -121,7 +121,7 @@ export default {
                 if (action === 'send') {
                     post.comments.push(comment);
                 } else if (action === 'delete') {
-                    const index = post.comments.findIndex(comment => comment.id === comment.id);
+                    const index = post.comments.findIndex(c => c.id === comment.id);
                     if (index !== -1) {
                         post.comments.splice(index, 1);
                     }
