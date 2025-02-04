@@ -161,17 +161,58 @@ def profile_update_view(request, username):
 
 def post_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.all()  # Get all comments related to the post
-    images = post.images.all()  # Get all images related to the post
-    tags = post.tags.all()  # Get all tags related to the post
-    like_count = post.likes.count()  # Get the number of likes for the post
+
+    post_json = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "description": post.description,
+            "user": {
+                "username": post.user.username,
+                "profile": {
+                    "avatar": {
+                        "url": post.user.profile.avatar.url,
+                    }
+                }
+            },
+            "likes": {
+                "count": post.likes.all().count(),
+                "all": [
+                    {
+                        "username": user.username,
+                    }
+                    for user in post.likes.all()
+                ]
+            },
+            "comments": [
+                {
+                    "id": comment.id,
+                    "author": {"username": comment.author.username},
+                    "text": comment.text,
+                    "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                }
+                for comment in post.comments.all()
+            ],
+            "images": [
+                {
+                    "image_file": {"url": image.image_file.url},
+                }
+                for image in post.images.all()
+            ]
+        }
+    ]
 
     context = {
-        'post': post,
-        'comments': comments,
-        'images': images,
-        'tags': tags,
-        'like_count': like_count,
+        "posts": post_json,
+        "current_user": {
+            "username": request.user.username if request.user.is_authenticated else None,
+            "profile": {
+                "avatar": {
+                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
+                }
+            } if request.user.is_authenticated else None
+        },
+        "userIsAuthenticated": request.user.is_authenticated,
     }
     return render(request, 'post.html', context)
 

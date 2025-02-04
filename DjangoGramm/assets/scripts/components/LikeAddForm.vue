@@ -36,8 +36,6 @@ export default {
 
         const data = await response.json();
 
-        console.log(data);
-
         if (response.ok) {
           this.liked = !this.liked;
           this.$emit("like-updated", data.likes_count);
