@@ -9,10 +9,6 @@ fi
 # Встановлення бібліотек
 pip install --no-cache-dir -r requirements.txt
 
-python manage.py makemigrations
-# Виконання міграцій
-python manage.py migrate
-
 # Збір статичних файлів
 python manage.py collectstatic --noinput
 
