@@ -3,6 +3,7 @@
 {% block title %}Реєстрація{% endblock %}
 
 {% load static %}
+{% load socialaccount %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
@@ -14,4 +15,11 @@
 
 {% block content %}
     <div id="register-app"></div>
+
+    <script>
+        window.oauthUrls = {
+            google: "{% provider_login_url 'google' %}",
+            github: "{% provider_login_url 'github' %}",
+        };
+    </script>
 {% endblock %}

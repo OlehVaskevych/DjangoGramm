@@ -26,9 +26,37 @@
             <span class="sr-only">Loading...</span>
           </span>
         </button>
+
+        <!-- Social Login Section -->
+        <div class="social-login">
+          <button @click="redirectToOAuth('google')" type="button" class="gsi-material-button">
+            <div class="gsi-material-button-content-wrapper">
+              <div class="gsi-material-button-icon">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                  <path fill="none" d="M0 0h48v48H0z"></path>
+                </svg>
+              </div>
+            </div>
+          </button>
+          <button @click="redirectToOAuth('github')" type="button" class="gsi-material-button github-button">
+            <div class="gsi-material-button-content-wrapper">
+              <div class="gsi-material-button-icon">
+                <svg viewBox="0 0 24 24" class="github-icon">
+                  <path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.26-.02-2.28-3.34.72-4.05-1.61-4.05-1.61-.54-1.36-1.32-1.72-1.32-1.72-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.81 2.79 1.29 3.47.99.11-.77.42-1.29.76-1.58-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.23-3.23-.12-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.41 3-.41s2.04.14 3 .41c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.24 2.86.12 3.16.76.84 1.23 1.91 1.23 3.23 0 4.63-2.81 5.65-5.49 5.96.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/>
+                </svg>
+              </div>
+            </div>
+          </button>
+        </div>
+
         <p>If you don`t have account <a href="/auth/register/">register here</a></p>
       </div>
     </form>
+
   </div>
 </template>
 
@@ -109,6 +137,13 @@ export default {
         }
       }
       return cookieValue;
+    },
+    redirectToOAuth(provider) {
+      if (window.oauthUrls[provider]) {
+        window.location.href = window.oauthUrls[provider];
+      } else {
+        console.error("Unknown OAuth provider");
+      }
     },
   },
 };

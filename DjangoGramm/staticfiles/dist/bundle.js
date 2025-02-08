@@ -25982,49 +25982,67 @@ function initProfileDeleteForm() {
   });
   app.mount(appElement);
 }
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/RegisterForm.vue?vue&type=template&id=15832b28
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/RegisterForm.vue?vue&type=template&id=25a61ab5
 
-var RegisterFormvue_type_template_id_15832b28_hoisted_1 = {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_1 = {
   "class": "form-container"
 };
-var RegisterFormvue_type_template_id_15832b28_hoisted_2 = {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_2 = {
   key: 0,
   "class": "error-message"
 };
-var RegisterFormvue_type_template_id_15832b28_hoisted_3 = ["for"];
-var RegisterFormvue_type_template_id_15832b28_hoisted_4 = ["id", "onUpdate:modelValue", "type", "name", "required"];
-var RegisterFormvue_type_template_id_15832b28_hoisted_5 = {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_3 = ["for"];
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_4 = ["id", "onUpdate:modelValue", "type", "name", "required"];
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_5 = {
   key: 0,
   "class": "form-text"
 };
-var RegisterFormvue_type_template_id_15832b28_hoisted_6 = {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_6 = {
   "class": "button-container"
 };
-var RegisterFormvue_type_template_id_15832b28_hoisted_7 = ["disabled"];
-var RegisterFormvue_type_template_id_15832b28_hoisted_8 = {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_7 = ["disabled"];
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_8 = {
   key: 0
 };
-var RegisterFormvue_type_template_id_15832b28_hoisted_9 = {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_9 = {
   key: 1,
   "class": "spiner-border",
   role: "status"
 };
-function RegisterFormvue_type_template_id_15832b28_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", RegisterFormvue_type_template_id_15832b28_hoisted_1, [_cache[3] || (_cache[3] = createBaseVNode("h1", {
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_10 = {
+  "class": "social-login"
+};
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_11 = {
+  "class": "gsi-material-button-content-wrapper"
+};
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_12 = {
+  "class": "gsi-material-button-icon"
+};
+var RegisterFormvue_type_template_id_25a61ab5_hoisted_13 = {
+  version: "1.1",
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 48 48",
+  "xmlns:xlink": "http://www.w3.org/1999/xlink",
+  style: {
+    "display": "block"
+  }
+};
+function RegisterFormvue_type_template_id_25a61ab5_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", RegisterFormvue_type_template_id_25a61ab5_hoisted_1, [_cache[7] || (_cache[7] = createBaseVNode("h1", {
     "class": "form-title"
   }, "Реєстрація", -1 /* HOISTED */)), createBaseVNode("form", {
-    onSubmit: _cache[0] || (_cache[0] = withModifiers(function () {
+    onSubmit: _cache[2] || (_cache[2] = withModifiers(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"])),
     enctype: "multipart/form-data",
     "class": "styled-form"
-  }, [$data.errorMessage ? (openBlock(), createElementBlock("div", RegisterFormvue_type_template_id_15832b28_hoisted_2, toDisplayString($data.errorMessage), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList($data.fields, function (field) {
+  }, [$data.errorMessage ? (openBlock(), createElementBlock("div", RegisterFormvue_type_template_id_25a61ab5_hoisted_2, toDisplayString($data.errorMessage), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList($data.fields, function (field) {
     return openBlock(), createElementBlock("div", {
       "class": "form-group",
       key: field.id
     }, [createBaseVNode("label", {
       "for": field.id
-    }, toDisplayString(field.label), 9 /* TEXT, PROPS */, RegisterFormvue_type_template_id_15832b28_hoisted_3), withDirectives(createBaseVNode("input", {
+    }, toDisplayString(field.label), 9 /* TEXT, PROPS */, RegisterFormvue_type_template_id_25a61ab5_hoisted_3), withDirectives(createBaseVNode("input", {
       id: field.id,
       "onUpdate:modelValue": function onUpdateModelValue($event) {
         return field.value = $event;
@@ -26032,23 +26050,45 @@ function RegisterFormvue_type_template_id_15832b28_render(_ctx, _cache, $props, 
       type: field.attrs.type,
       name: field.name,
       required: field.attrs.required
-    }, null, 8 /* PROPS */, RegisterFormvue_type_template_id_15832b28_hoisted_4), [[vModelDynamic, field.value]]), field.helpText ? (openBlock(), createElementBlock("small", RegisterFormvue_type_template_id_15832b28_hoisted_5, toDisplayString(field.helpText), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(field.errors, function (error) {
+    }, null, 8 /* PROPS */, RegisterFormvue_type_template_id_25a61ab5_hoisted_4), [[vModelDynamic, field.value]]), field.helpText ? (openBlock(), createElementBlock("small", RegisterFormvue_type_template_id_25a61ab5_hoisted_5, toDisplayString(field.helpText), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(field.errors, function (error) {
       return openBlock(), createElementBlock("p", {
         key: error,
         "class": "form-error"
       }, toDisplayString(error), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */)), createBaseVNode("div", RegisterFormvue_type_template_id_15832b28_hoisted_6, [createBaseVNode("button", {
+  }), 128 /* KEYED_FRAGMENT */)), createBaseVNode("div", RegisterFormvue_type_template_id_25a61ab5_hoisted_6, [createBaseVNode("button", {
     type: "submit",
     "class": "submit-button btn-form",
     disabled: $data.isSubmitting
-  }, [!$data.isSubmitting ? (openBlock(), createElementBlock("span", RegisterFormvue_type_template_id_15832b28_hoisted_8, "Register")) : (openBlock(), createElementBlock("span", RegisterFormvue_type_template_id_15832b28_hoisted_9, _cache[1] || (_cache[1] = [createBaseVNode("span", {
+  }, [!$data.isSubmitting ? (openBlock(), createElementBlock("span", RegisterFormvue_type_template_id_25a61ab5_hoisted_8, "Register")) : (openBlock(), createElementBlock("span", RegisterFormvue_type_template_id_25a61ab5_hoisted_9, _cache[3] || (_cache[3] = [createBaseVNode("span", {
     "class": "sr-only"
-  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, RegisterFormvue_type_template_id_15832b28_hoisted_7), _cache[2] || (_cache[2] = createBaseVNode("p", null, [createTextVNode("If you already have account "), createBaseVNode("a", {
+  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, RegisterFormvue_type_template_id_25a61ab5_hoisted_7), createCommentVNode(" Social Login Section "), createBaseVNode("div", RegisterFormvue_type_template_id_25a61ab5_hoisted_10, [createBaseVNode("button", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.redirectToOAuth('google');
+    }),
+    type: "button",
+    "class": "gsi-material-button"
+  }, [createBaseVNode("div", RegisterFormvue_type_template_id_25a61ab5_hoisted_11, [createBaseVNode("div", RegisterFormvue_type_template_id_25a61ab5_hoisted_12, [(openBlock(), createElementBlock("svg", RegisterFormvue_type_template_id_25a61ab5_hoisted_13, _cache[4] || (_cache[4] = [createStaticVNode("<path fill=\"#EA4335\" d=\"M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z\"></path><path fill=\"#4285F4\" d=\"M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z\"></path><path fill=\"#FBBC05\" d=\"M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z\"></path><path fill=\"#34A853\" d=\"M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z\"></path><path fill=\"none\" d=\"M0 0h48v48H0z\"></path>", 5)])))])])]), createBaseVNode("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.redirectToOAuth('github');
+    }),
+    type: "button",
+    "class": "gsi-material-button github-button"
+  }, _cache[5] || (_cache[5] = [createBaseVNode("div", {
+    "class": "gsi-material-button-content-wrapper"
+  }, [createBaseVNode("div", {
+    "class": "gsi-material-button-icon"
+  }, [createBaseVNode("svg", {
+    viewBox: "0 0 24 24",
+    "class": "github-icon"
+  }, [createBaseVNode("path", {
+    fill: "currentColor",
+    d: "M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.26-.02-2.28-3.34.72-4.05-1.61-4.05-1.61-.54-1.36-1.32-1.72-1.32-1.72-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.81 2.79 1.29 3.47.99.11-.77.42-1.29.76-1.58-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.23-3.23-.12-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.41 3-.41s2.04.14 3 .41c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.24 2.86.12 3.16.76.84 1.23 1.91 1.23 3.23 0 4.63-2.81 5.65-5.49 5.96.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"
+  })])])], -1 /* HOISTED */)]))]), _cache[6] || (_cache[6] = createBaseVNode("p", null, [createTextVNode("If you already have account "), createBaseVNode("a", {
     href: "/auth/login/"
   }, "login here")], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)]);
 }
-;// ./assets/scripts/components/RegisterForm.vue?vue&type=template&id=15832b28
+;// ./assets/scripts/components/RegisterForm.vue?vue&type=template&id=25a61ab5
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/RegisterForm.vue?vue&type=script&lang=js
 function RegisterFormvue_type_script_lang_js_typeof(o) { "@babel/helpers - typeof"; return RegisterFormvue_type_script_lang_js_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, RegisterFormvue_type_script_lang_js_typeof(o); }
@@ -26191,6 +26231,13 @@ function RegisterFormvue_type_script_lang_js_asyncToGenerator(n) { return functi
         }
       }
       return cookieValue;
+    },
+    redirectToOAuth: function redirectToOAuth(provider) {
+      if (window.oauthUrls[provider]) {
+        window.location.href = window.oauthUrls[provider];
+      } else {
+        console.error("Unknown OAuth provider");
+      }
     }
   }
 });
@@ -26202,7 +26249,7 @@ function RegisterFormvue_type_script_lang_js_asyncToGenerator(n) { return functi
 
 
 ;
-const RegisterForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(RegisterFormvue_type_script_lang_js, [['render',RegisterFormvue_type_template_id_15832b28_render]])
+const RegisterForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(RegisterFormvue_type_script_lang_js, [['render',RegisterFormvue_type_template_id_25a61ab5_render]])
 
 /* harmony default export */ const RegisterForm = (RegisterForm_exports_);
 ;// ./assets/scripts/forms/registerForm.js
@@ -26222,49 +26269,67 @@ function initRegisterForm() {
   });
   app.mount(appElement);
 }
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LoginForm.vue?vue&type=template&id=db91afec
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LoginForm.vue?vue&type=template&id=0e8d64ff
 
-var LoginFormvue_type_template_id_db91afec_hoisted_1 = {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_1 = {
   "class": "form-container"
 };
-var LoginFormvue_type_template_id_db91afec_hoisted_2 = {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_2 = {
   key: 0,
   "class": "error-message"
 };
-var LoginFormvue_type_template_id_db91afec_hoisted_3 = ["for"];
-var LoginFormvue_type_template_id_db91afec_hoisted_4 = ["id", "onUpdate:modelValue", "type", "name", "required"];
-var LoginFormvue_type_template_id_db91afec_hoisted_5 = {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_3 = ["for"];
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_4 = ["id", "onUpdate:modelValue", "type", "name", "required"];
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_5 = {
   key: 0,
   "class": "form-text"
 };
-var LoginFormvue_type_template_id_db91afec_hoisted_6 = {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_6 = {
   "class": "button-container"
 };
-var LoginFormvue_type_template_id_db91afec_hoisted_7 = ["disabled"];
-var LoginFormvue_type_template_id_db91afec_hoisted_8 = {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_7 = ["disabled"];
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_8 = {
   key: 0
 };
-var LoginFormvue_type_template_id_db91afec_hoisted_9 = {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_9 = {
   key: 1,
   "class": "spiner-border",
   role: "status"
 };
-function LoginFormvue_type_template_id_db91afec_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", LoginFormvue_type_template_id_db91afec_hoisted_1, [_cache[3] || (_cache[3] = createBaseVNode("h1", {
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_10 = {
+  "class": "social-login"
+};
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_11 = {
+  "class": "gsi-material-button-content-wrapper"
+};
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_12 = {
+  "class": "gsi-material-button-icon"
+};
+var LoginFormvue_type_template_id_0e8d64ff_hoisted_13 = {
+  version: "1.1",
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 48 48",
+  "xmlns:xlink": "http://www.w3.org/1999/xlink",
+  style: {
+    "display": "block"
+  }
+};
+function LoginFormvue_type_template_id_0e8d64ff_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", LoginFormvue_type_template_id_0e8d64ff_hoisted_1, [_cache[7] || (_cache[7] = createBaseVNode("h1", {
     "class": "form-title"
   }, "Sign-in", -1 /* HOISTED */)), createBaseVNode("form", {
-    onSubmit: _cache[0] || (_cache[0] = withModifiers(function () {
+    onSubmit: _cache[2] || (_cache[2] = withModifiers(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"])),
     enctype: "multipart/form-data",
     "class": "styled-form"
-  }, [$data.errorMessage ? (openBlock(), createElementBlock("div", LoginFormvue_type_template_id_db91afec_hoisted_2, toDisplayString($data.errorMessage), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList($data.fields, function (field) {
+  }, [$data.errorMessage ? (openBlock(), createElementBlock("div", LoginFormvue_type_template_id_0e8d64ff_hoisted_2, toDisplayString($data.errorMessage), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList($data.fields, function (field) {
     return openBlock(), createElementBlock("div", {
       "class": "form-group",
       key: field.id
     }, [createBaseVNode("label", {
       "for": field.id
-    }, toDisplayString(field.label), 9 /* TEXT, PROPS */, LoginFormvue_type_template_id_db91afec_hoisted_3), withDirectives(createBaseVNode("input", {
+    }, toDisplayString(field.label), 9 /* TEXT, PROPS */, LoginFormvue_type_template_id_0e8d64ff_hoisted_3), withDirectives(createBaseVNode("input", {
       id: field.id,
       "onUpdate:modelValue": function onUpdateModelValue($event) {
         return field.value = $event;
@@ -26272,23 +26337,45 @@ function LoginFormvue_type_template_id_db91afec_render(_ctx, _cache, $props, $se
       type: field.attrs.type,
       name: field.name,
       required: field.attrs.required
-    }, null, 8 /* PROPS */, LoginFormvue_type_template_id_db91afec_hoisted_4), [[vModelDynamic, field.value]]), field.helpText ? (openBlock(), createElementBlock("small", LoginFormvue_type_template_id_db91afec_hoisted_5, toDisplayString(field.helpText), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(field.errors, function (error) {
+    }, null, 8 /* PROPS */, LoginFormvue_type_template_id_0e8d64ff_hoisted_4), [[vModelDynamic, field.value]]), field.helpText ? (openBlock(), createElementBlock("small", LoginFormvue_type_template_id_0e8d64ff_hoisted_5, toDisplayString(field.helpText), 1 /* TEXT */)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(field.errors, function (error) {
       return openBlock(), createElementBlock("p", {
         key: error,
         "class": "form-error"
       }, toDisplayString(error), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */)), createBaseVNode("div", LoginFormvue_type_template_id_db91afec_hoisted_6, [createBaseVNode("button", {
+  }), 128 /* KEYED_FRAGMENT */)), createBaseVNode("div", LoginFormvue_type_template_id_0e8d64ff_hoisted_6, [createBaseVNode("button", {
     type: "submit",
     "class": "submit-button",
     disabled: $data.isSubmitting
-  }, [!$data.isSubmitting ? (openBlock(), createElementBlock("span", LoginFormvue_type_template_id_db91afec_hoisted_8, "Login")) : (openBlock(), createElementBlock("span", LoginFormvue_type_template_id_db91afec_hoisted_9, _cache[1] || (_cache[1] = [createBaseVNode("span", {
+  }, [!$data.isSubmitting ? (openBlock(), createElementBlock("span", LoginFormvue_type_template_id_0e8d64ff_hoisted_8, "Login")) : (openBlock(), createElementBlock("span", LoginFormvue_type_template_id_0e8d64ff_hoisted_9, _cache[3] || (_cache[3] = [createBaseVNode("span", {
     "class": "sr-only"
-  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, LoginFormvue_type_template_id_db91afec_hoisted_7), _cache[2] || (_cache[2] = createBaseVNode("p", null, [createTextVNode("If you don`t have account "), createBaseVNode("a", {
+  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, LoginFormvue_type_template_id_0e8d64ff_hoisted_7), createCommentVNode(" Social Login Section "), createBaseVNode("div", LoginFormvue_type_template_id_0e8d64ff_hoisted_10, [createBaseVNode("button", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.redirectToOAuth('google');
+    }),
+    type: "button",
+    "class": "gsi-material-button"
+  }, [createBaseVNode("div", LoginFormvue_type_template_id_0e8d64ff_hoisted_11, [createBaseVNode("div", LoginFormvue_type_template_id_0e8d64ff_hoisted_12, [(openBlock(), createElementBlock("svg", LoginFormvue_type_template_id_0e8d64ff_hoisted_13, _cache[4] || (_cache[4] = [createStaticVNode("<path fill=\"#EA4335\" d=\"M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z\"></path><path fill=\"#4285F4\" d=\"M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z\"></path><path fill=\"#FBBC05\" d=\"M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z\"></path><path fill=\"#34A853\" d=\"M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z\"></path><path fill=\"none\" d=\"M0 0h48v48H0z\"></path>", 5)])))])])]), createBaseVNode("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.redirectToOAuth('github');
+    }),
+    type: "button",
+    "class": "gsi-material-button github-button"
+  }, _cache[5] || (_cache[5] = [createBaseVNode("div", {
+    "class": "gsi-material-button-content-wrapper"
+  }, [createBaseVNode("div", {
+    "class": "gsi-material-button-icon"
+  }, [createBaseVNode("svg", {
+    viewBox: "0 0 24 24",
+    "class": "github-icon"
+  }, [createBaseVNode("path", {
+    fill: "currentColor",
+    d: "M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.26-.02-2.28-3.34.72-4.05-1.61-4.05-1.61-.54-1.36-1.32-1.72-1.32-1.72-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.81 2.79 1.29 3.47.99.11-.77.42-1.29.76-1.58-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.23-3.23-.12-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.41 3-.41s2.04.14 3 .41c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.24 2.86.12 3.16.76.84 1.23 1.91 1.23 3.23 0 4.63-2.81 5.65-5.49 5.96.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"
+  })])])], -1 /* HOISTED */)]))]), _cache[6] || (_cache[6] = createBaseVNode("p", null, [createTextVNode("If you don`t have account "), createBaseVNode("a", {
     href: "/auth/register/"
   }, "register here")], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)]);
 }
-;// ./assets/scripts/components/LoginForm.vue?vue&type=template&id=db91afec
+;// ./assets/scripts/components/LoginForm.vue?vue&type=template&id=0e8d64ff
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LoginForm.vue?vue&type=script&lang=js
 function LoginFormvue_type_script_lang_js_typeof(o) { "@babel/helpers - typeof"; return LoginFormvue_type_script_lang_js_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, LoginFormvue_type_script_lang_js_typeof(o); }
@@ -26421,6 +26508,13 @@ function LoginFormvue_type_script_lang_js_asyncToGenerator(n) { return function 
         }
       }
       return cookieValue;
+    },
+    redirectToOAuth: function redirectToOAuth(provider) {
+      if (window.oauthUrls[provider]) {
+        window.location.href = window.oauthUrls[provider];
+      } else {
+        console.error("Unknown OAuth provider");
+      }
     }
   }
 });
@@ -26432,7 +26526,7 @@ function LoginFormvue_type_script_lang_js_asyncToGenerator(n) { return function 
 
 
 ;
-const LoginForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(LoginFormvue_type_script_lang_js, [['render',LoginFormvue_type_template_id_db91afec_render]])
+const LoginForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(LoginFormvue_type_script_lang_js, [['render',LoginFormvue_type_template_id_0e8d64ff_render]])
 
 /* harmony default export */ const LoginForm = (LoginForm_exports_);
 ;// ./assets/scripts/forms/loginForm.js
@@ -26585,34 +26679,34 @@ function initLogoutForm() {
   });
   app.mount(appElement);
 }
-;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/post.vue?vue&type=template&id=3fb361fb
+;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/post.vue?vue&type=template&id=b40dc36a
 
-var postvue_type_template_id_3fb361fb_hoisted_1 = {
+var postvue_type_template_id_b40dc36a_hoisted_1 = {
   key: 0
 };
-var postvue_type_template_id_3fb361fb_hoisted_2 = {
+var postvue_type_template_id_b40dc36a_hoisted_2 = {
   "class": "card-header d-flex align-items-center mt-2 mb-2"
 };
-var postvue_type_template_id_3fb361fb_hoisted_3 = ["src"];
-var postvue_type_template_id_3fb361fb_hoisted_4 = ["href"];
-var postvue_type_template_id_3fb361fb_hoisted_5 = {
+var postvue_type_template_id_b40dc36a_hoisted_3 = ["src"];
+var postvue_type_template_id_b40dc36a_hoisted_4 = ["href"];
+var postvue_type_template_id_b40dc36a_hoisted_5 = {
   "class": "ms-3 fw-bolder fs-4"
 };
-var postvue_type_template_id_3fb361fb_hoisted_6 = ["href"];
-var postvue_type_template_id_3fb361fb_hoisted_7 = {
+var postvue_type_template_id_b40dc36a_hoisted_6 = ["href"];
+var postvue_type_template_id_b40dc36a_hoisted_7 = {
   key: 0,
   "class": "carousel slide"
 };
-var postvue_type_template_id_3fb361fb_hoisted_8 = {
+var postvue_type_template_id_b40dc36a_hoisted_8 = {
   "class": "carousel-inner"
 };
-var postvue_type_template_id_3fb361fb_hoisted_9 = ["src"];
-var postvue_type_template_id_3fb361fb_hoisted_10 = ["data-bs-target"];
-var postvue_type_template_id_3fb361fb_hoisted_11 = ["data-bs-target"];
-var postvue_type_template_id_3fb361fb_hoisted_12 = {
+var postvue_type_template_id_b40dc36a_hoisted_9 = ["src"];
+var postvue_type_template_id_b40dc36a_hoisted_10 = ["data-bs-target"];
+var postvue_type_template_id_b40dc36a_hoisted_11 = ["data-bs-target"];
+var postvue_type_template_id_b40dc36a_hoisted_12 = {
   "class": "card-body"
 };
-var postvue_type_template_id_3fb361fb_hoisted_13 = {
+var postvue_type_template_id_b40dc36a_hoisted_13 = {
   "class": "card-title card-text-color"
 };
 var _hoisted_14 = {
@@ -26645,28 +26739,28 @@ var _hoisted_23 = {
   "class": "alert alert-warning text-center",
   role: "alert"
 };
-function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, $data, $options) {
+function postvue_type_template_id_b40dc36a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_LikeAddForm = resolveComponent("LikeAddForm");
   var _component_CommentDeleteForm = resolveComponent("CommentDeleteForm");
   var _component_CommentSendForm = resolveComponent("CommentSendForm");
-  return $data.posts.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_3fb361fb_hoisted_1, [(openBlock(true), createElementBlock(Fragment, null, renderList($data.posts, function (post) {
+  return $data.posts.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_b40dc36a_hoisted_1, [(openBlock(true), createElementBlock(Fragment, null, renderList($data.posts, function (post) {
     return openBlock(), createElementBlock("div", {
       key: post.id,
       "class": "card mt-3 card-color"
-    }, [createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_2, [createBaseVNode("img", {
+    }, [createBaseVNode("div", postvue_type_template_id_b40dc36a_hoisted_2, [createBaseVNode("img", {
       src: post.user.profile.avatar.url,
       alt: "Avatar",
       "class": "card-header-image"
-    }, null, 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_3), createBaseVNode("a", {
+    }, null, 8 /* PROPS */, postvue_type_template_id_b40dc36a_hoisted_3), createBaseVNode("a", {
       href: '/profile/' + post.user.username,
       "class": "text-decoration-none user-href"
-    }, [createBaseVNode("span", postvue_type_template_id_3fb361fb_hoisted_5, toDisplayString(post.user.username), 1 /* TEXT */)], 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_4), $data.userIsAuthenticated && post.user.username === $data.currentUser.username ? (openBlock(), createElementBlock("a", {
+    }, [createBaseVNode("span", postvue_type_template_id_b40dc36a_hoisted_5, toDisplayString(post.user.username), 1 /* TEXT */)], 8 /* PROPS */, postvue_type_template_id_b40dc36a_hoisted_4), $data.userIsAuthenticated && post.user.username === $data.currentUser.username ? (openBlock(), createElementBlock("a", {
       key: 0,
       href: '/post/' + post.id + '/update',
       "class": "edit-icon"
     }, _cache[0] || (_cache[0] = [createBaseVNode("span", {
       "class": "fa fa-edit"
-    }, null, -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_6)) : createCommentVNode("v-if", true)]), post.images.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_3fb361fb_hoisted_7, [createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_8, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.images, function (image, index) {
+    }, null, -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_b40dc36a_hoisted_6)) : createCommentVNode("v-if", true)]), post.images.length ? (openBlock(), createElementBlock("div", postvue_type_template_id_b40dc36a_hoisted_7, [createBaseVNode("div", postvue_type_template_id_b40dc36a_hoisted_8, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.images, function (image, index) {
       return openBlock(), createElementBlock("div", {
         key: image.id,
         "class": normalizeClass({
@@ -26677,7 +26771,7 @@ function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, 
         src: image.image_file.url,
         "class": "card-img-top",
         alt: "Post image"
-      }, null, 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_9)], 2 /* CLASS */);
+      }, null, 8 /* PROPS */, postvue_type_template_id_b40dc36a_hoisted_9)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */))]), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
       key: 0,
       "class": "carousel-control-prev",
@@ -26689,7 +26783,7 @@ function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, 
       "aria-hidden": "true"
     }, null, -1 /* HOISTED */), createBaseVNode("span", {
       "class": "visually-hidden"
-    }, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_10)) : createCommentVNode("v-if", true), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
+    }, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_b40dc36a_hoisted_10)) : createCommentVNode("v-if", true), post.images.length > 1 ? (openBlock(), createElementBlock("button", {
       key: 1,
       "class": "carousel-control-next",
       type: "button",
@@ -26700,7 +26794,7 @@ function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, 
       "aria-hidden": "true"
     }, null, -1 /* HOISTED */), createBaseVNode("span", {
       "class": "visually-hidden"
-    }, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_3fb361fb_hoisted_11)) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true), createBaseVNode("div", postvue_type_template_id_3fb361fb_hoisted_12, [createBaseVNode("h3", postvue_type_template_id_3fb361fb_hoisted_13, toDisplayString(post.title), 1 /* TEXT */), createBaseVNode("p", _hoisted_14, toDisplayString(post.description), 1 /* TEXT */), createBaseVNode("p", _hoisted_15, "Likes: " + toDisplayString(post.likes.count), 1 /* TEXT */), createBaseVNode("div", _hoisted_16, [$data.userIsAuthenticated ? (openBlock(), createBlock(_component_LikeAddForm, {
+    }, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, postvue_type_template_id_b40dc36a_hoisted_11)) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true), createBaseVNode("div", postvue_type_template_id_b40dc36a_hoisted_12, [createBaseVNode("h3", postvue_type_template_id_b40dc36a_hoisted_13, toDisplayString(post.title), 1 /* TEXT */), createBaseVNode("p", _hoisted_14, toDisplayString(post.description), 1 /* TEXT */), createBaseVNode("p", _hoisted_15, "Likes: " + toDisplayString(post.likes.count), 1 /* TEXT */), createBaseVNode("div", _hoisted_16, [$data.userIsAuthenticated ? (openBlock(), createBlock(_component_LikeAddForm, {
       key: 0,
       postId: post.id,
       isLiked: post.likes.all.some(function (like) {
@@ -26730,13 +26824,13 @@ function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, 
       style: {
         "display": "none"
       }
-    }, [_cache[6] || (_cache[6] = createBaseVNode("h5", {
+    }, [_cache[7] || (_cache[7] = createBaseVNode("h5", {
       "class": "card-title card-text-color"
     }, "Comments", -1 /* HOISTED */)), createBaseVNode("ul", _hoisted_20, [(openBlock(true), createElementBlock(Fragment, null, renderList(post.comments, function (comment) {
       return openBlock(), createElementBlock("li", {
         key: comment.id,
         "class": "list-group-item card-color comment-text"
-      }, [createBaseVNode("strong", _hoisted_21, toDisplayString(comment.author.username) + ":", 1 /* TEXT */), createTextVNode(" " + toDisplayString(comment.text) + " ", 1 /* TEXT */), _cache[5] || (_cache[5] = createBaseVNode("br", null, null, -1 /* HOISTED */)), createBaseVNode("small", _hoisted_22, toDisplayString(comment.created_at), 1 /* TEXT */), createBaseVNode("p", null, "comment - " + toDisplayString(comment.id) + " post - " + toDisplayString(post.id), 1 /* TEXT */), comment.id && post.id && comment.author.username === $data.currentUser.username ? (openBlock(), createBlock(_component_CommentDeleteForm, {
+      }, [createBaseVNode("strong", _hoisted_21, toDisplayString(comment.author.username) + ":", 1 /* TEXT */), createTextVNode(" " + toDisplayString(comment.text) + " ", 1 /* TEXT */), _cache[5] || (_cache[5] = createBaseVNode("br", null, null, -1 /* HOISTED */)), createBaseVNode("small", _hoisted_22, toDisplayString(comment.created_at), 1 /* TEXT */), _cache[6] || (_cache[6] = createBaseVNode("p", null, null, -1 /* HOISTED */)), comment.id && post.id && $data.currentUser && comment.author.username === $data.currentUser.username ? (openBlock(), createBlock(_component_CommentDeleteForm, {
         key: 0,
         "class": "comment-delete-container",
         "post-id": Number(post.id),
@@ -26754,7 +26848,7 @@ function postvue_type_template_id_3fb361fb_render(_ctx, _cache, $props, $setup, 
     }, null, 8 /* PROPS */, ["is-authenticated", "post-id", "onAddComment"])], 8 /* PROPS */, _hoisted_19)])]);
   }), 128 /* KEYED_FRAGMENT */))])) : (openBlock(), createElementBlock("div", _hoisted_23, " No posts yet. "));
 }
-;// ./assets/scripts/components/post.vue?vue&type=template&id=3fb361fb
+;// ./assets/scripts/components/post.vue?vue&type=template&id=b40dc36a
 
 ;// ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[9].use[0]!./assets/scripts/components/LikeAddForm.vue?vue&type=template&id=4d47e398
 
@@ -27163,7 +27257,7 @@ const CommentDeleteForm_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(
 
 
 ;
-const post_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(postvue_type_script_lang_js, [['render',postvue_type_template_id_3fb361fb_render]])
+const post_exports_ = /*#__PURE__*/(0,exportHelper/* default */.A)(postvue_type_script_lang_js, [['render',postvue_type_template_id_b40dc36a_render]])
 
 /* harmony default export */ const post = (post_exports_);
 ;// ./assets/scripts/forms/posts.js

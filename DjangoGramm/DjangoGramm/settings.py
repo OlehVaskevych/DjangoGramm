@@ -38,6 +38,8 @@ if DEBUG:
 else:
     os.environ['WEBPACK_MODE'] = 'production'
 
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 ALLOWED_HOSTS = ['djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
 CSRF_TRUSTED_ORIGINS = ['https://djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
 
@@ -60,9 +62,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     'social',
-    'bootstrap5'
+    'bootstrap5',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_REQUIRE_POST = True
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -73,6 +88,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 CSRF_COOKIE_SECURE = False
@@ -93,6 +110,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -116,6 +135,14 @@ DATABASES = {
             'sslmode': 'require',
         },
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'DjangoGramm',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'superuser',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
 }
 
 LOGGING = {
@@ -219,3 +246,28 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_VERIFY = True
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '697348972963-bhro627b0lj0up6j60opooicjir7e24f.apps.googleusercontent.com',
+            'secret': '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',
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+    },
+    'github': {
+        'APP': {
+            'client_id': 'Ov23lijeYWUmtwTX0apj',
+            'secret': 'f3db3a8f13050dcb2a746509b9b81626cebe1d2e',
+        }
+    }
+}
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+LOGIN_REDIRECT_URL = '/'

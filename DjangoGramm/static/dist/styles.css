@@ -662,6 +662,52 @@ body {
     font-size: 24px;  /* Встановлюємо однаковий розмір для іконок */
 }
 
+.social-login {
+  text-align: center;
+  margin-top: 0;
+}
+
+.gsi-material-button {
+  background-color: white;
+  border: 1px solid #747775;
+  border-radius: 20px;
+  box-sizing: border-box;
+  color: #1f1f1f;
+  cursor: pointer;
+  font-family: 'Roboto', arial, sans-serif;
+  font-size: 14px;
+  height: 40px;
+  padding: 0;
+  text-align: center;
+  transition: background-color .218s, box-shadow .218s;
+  width: 40px;
+  margin: 1%;
+}
+
+.gsi-material-button .gsi-material-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.gsi-material-button-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.gsi-material-button:disabled {
+  cursor: default;
+  background-color: #ffffff61;
+  border-color: #1f1f1f1f;
+}
+
+.gsi-material-button:not(:disabled):hover {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+}
+
 .image-previews[data-v-6b8b5138] {
     margin-top: 15px;
     margin-bottom: 15px;
