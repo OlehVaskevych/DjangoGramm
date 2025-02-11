@@ -25,12 +25,12 @@ def user_is_profile_owner(view_func):
     def wrapper(request, *args, **kwargs):
         username = kwargs.get('username')
         if request.user.username != username:
-            return redirect('home')
+            return redirect('main')
         return view_func(request, *args, **kwargs)
     return wrapper
 
 
-def home(request):
+def main(request):
     posts = Post.objects.prefetch_related('images').all()
 
     posts_json = [
@@ -87,7 +87,7 @@ def home(request):
         "userIsAuthenticated": request.user.is_authenticated,
     }
 
-    return render(request, 'home.html', context)
+    return render(request, 'main.html', context)
 
 
 def profile_view(request, username):

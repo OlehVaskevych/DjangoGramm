@@ -26,11 +26,11 @@
             {% if user.is_authenticated %}
                 <ul>
                     <li class="{% if request.path == '/' %}active{% endif %}">
-                        <a href="{% url 'home' %}">
+                        <a href="{% url 'main' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-house"></i>
                             </span>
-                            <span class="text">Home</span>
+                            <span class="text">Main</span>
                         </a>
                     </li>
 
@@ -74,11 +74,11 @@
             {% else %}
                 <ul>
                     <li class="{% if request.path == '/' %}active{% endif %}">
-                        <a href="{% url 'home' %}">
+                        <a href="{% url 'main' %}">
                             <span class="icon">
                                 <i class="fa-solid fa-house"></i>
                             </span>
-                            <span class="text">Home</span>
+                            <span class="text">Main</span>
                         </a>
                     </li>
 
