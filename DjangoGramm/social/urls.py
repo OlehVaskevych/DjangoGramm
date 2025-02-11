@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.main, name='main'),
 
     path('profile/<str:username>/', views.profile_view, name='profile'),
     path('profile/<str:username>/upadate', views.profile_update_view, name='profile_update'),

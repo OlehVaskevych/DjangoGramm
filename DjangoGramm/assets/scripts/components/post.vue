@@ -55,9 +55,9 @@
                             <strong class="card-title">{{ comment.author.username }}:</strong> {{ comment.text }}
                             <br>
                             <small class="card-muted-text-color">{{ comment.created_at }}</small>
-                            <p>comment - {{ comment.id }} post - {{ post.id }}</p>
+                            <p></p>
                             <CommentDeleteForm
-                              v-if="comment.id && post.id && comment.author.username === currentUser.username"
+                              v-if="comment.id && post.id && currentUser && comment.author.username === currentUser.username"
                               class="comment-delete-container"
                               :post-id="Number(post.id)"
                               :comment-id="Number(comment.id)"
