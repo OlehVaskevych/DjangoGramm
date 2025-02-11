@@ -38,9 +38,7 @@ if DEBUG:
 else:
     os.environ['WEBPACK_MODE'] = 'production'
 
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
-ALLOWED_HOSTS = ['djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 CSRF_TRUSTED_ORIGINS = ['https://djangogramm-efgzcnhabphsddbp.polandcentral-01.azurewebsites.net']
 
 DEFAULT_AVATAR_PATH = env("DEFAULT_AVATAR_PATH", default="avatars/default_avatar.jpg")
@@ -126,23 +124,15 @@ WSGI_APPLICATION = "DjangoGramm.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'molynzxvuy',
-        'PASSWORD': 'G$loAtpIkeuA8Qmo',
-        'HOST': 'djangogramm-server.postgres.database.azure.com',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
-            'sslmode': 'require',
+            'sslmode': 'require' if os.getenv('DB_HOST') != 'localhost' else 'disable',
         },
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'DjangoGramm',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'superuser',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
 }
 
 LOGGING = {
