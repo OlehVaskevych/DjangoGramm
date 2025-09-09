@@ -3,32 +3,23 @@
 {% block title %}Login{% endblock %}
 
 {% load static %}
+{% load socialaccount %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
+{% block token %}
+    <meta name="csrfToken" content="{{ csrf_token }}">
+{% endblock %}
+
 {% block content %}
-<div class="form-container">
-    <h1 class="form-title">Sign-in</h1>
-    <form action="{% url 'login' %}" method="post" class="styled-form">
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="form-group">
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                    <small class="form-text">{{ field.help_text }}</small>
-                {% endif %}
-                {% for error in field.errors %}
-                    <p class="form-error">{{ error }}</p>
-                {% endfor %}
-            </div>
-        {% endfor %}
-        <div class="button-container">
-            <button type="submit" class="submit-button">Login</button>
-            <p>If you don`t have account <a href="{% url 'register' %}">register here</a></p>
-        </div>
-    </form>
-</div>
+    <div id="login-app"></div>
+
+    <script>
+        window.oauthUrls = {
+            google: "{% provider_login_url 'google' %}",
+            github: "{% provider_login_url 'github' %}",
+        };
+    </script>
 {% endblock %}

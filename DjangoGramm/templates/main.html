@@ -1,0 +1,22 @@
+{% extends 'master.html' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+<main class="container mt-1">
+    <section id="posts">
+        <h2 class="text-center mb-4">Main Page</h2>
+        <div id="posts-app">
+            <!-- Vue component will render here -->
+        </div>
+    </section>
+</main>
+
+<script>
+    let posts = {{ posts | safe }};
+    let userIsAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    let currentUser = {% if user.is_authenticated %}{{ current_user | safe }}{% else %}null{% endif %};  // Fallback to null if not authenticated
+</script>
+
+
+{% endblock %}
