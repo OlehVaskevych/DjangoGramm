@@ -87,7 +87,7 @@ def main(request):
         "userIsAuthenticated": request.user.is_authenticated,
     }
 
-    return render(request, 'main.html', context)
+    return render(request, 'index.html', context)
 
 
 def profile_view(request, username):

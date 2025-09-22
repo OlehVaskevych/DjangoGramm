@@ -1,6 +1,6 @@
 import 'bootstrap'; // Імпорт Bootstrap JS
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/styles.css'; // Імпорт вашого CSS
+import '../styles/styles.scss'; // Імпорт вашого CSS
 import { initNavigation } from './navigation/navigation';
 import { initPostForm } from './forms/postForm';
 import { initPostEditForm } from "./forms/postEditForm";

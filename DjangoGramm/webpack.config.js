@@ -8,7 +8,7 @@ const mode = process.env.WEBPACK_MODE || 'development';
 const isProduction = mode === 'production';
 
 module.exports = {
-    entry: './assets/scripts/index.js', // Головний JS файл
+    entry: './assets/scripts/main.js', // Головний JS файл
     output: {
         path: path.resolve(__dirname, './static/dist/'), // Куди зберігати файли
         filename: 'bundle.js',
@@ -35,9 +35,17 @@ module.exports = {
                 },
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/i,
                 use: [
-                    MiniCssExtractPlugin.loader, // Витягує CSS в окремий файл
+                    'style-loader', // Вставляє стилі у DOM
+                    'css-loader',   // інтерпретує @import і url()
+                    'sass-loader',  // компілює SCSS у CSS
+                ],
+            },
+            {
+                test: /\.css$/i,
+                use: [
+                    'style-loader',
                     'css-loader', // Інтерпретує @import та url() у CSS
                 ],
             },

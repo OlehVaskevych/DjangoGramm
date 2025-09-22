@@ -1,0 +1,18 @@
+{% load static %}
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DjangoGramm</title>
+  <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+</head>
+<body>
+  <div id="app"
+       data-auth="{{ user.is_authenticated|yesno:'true,false' }}"
+       data-path="{{ request.path }}"
+       data-username="{{ user.username }}">
+  </div>
+  <script src="{% static 'dist/bundle.js' %}"></script>
+</body>
+</html>
