@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_protect
 from functools import wraps
 import json
@@ -101,18 +102,32 @@ def profile_view(request, username):
     if request.user.is_authenticated:
         is_following = Follow.objects.filter(follower=request.user, following=user).exists()
 
-    return render(
-        request,
-        'profile.html',
-        {
-            'user': user,
-            'profile': user.profile,
-            'posts': posts,
-            'followers': followers,
-            'followings': followings,
-            'is_following': is_following
-        }
-    )
+    return JsonResponse({
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        },
+        "profile": {
+            "first_name": user.profile.first_name,
+            "last_name": user.profile.last_name,
+            "bio": user.profile.bio,
+            "avatar": user.profile.avatar.url if user.profile.avatar else None,
+        },
+        "posts": [
+            {
+                "id": post.id,
+                "images": [{"image_file": img.image_file.url} for img in post.images.all()],
+                "likes": [like.id for like in post.likes.all()],
+                "comments": [c.id for c in post.comments.all()],
+            }
+            for post in posts
+        ],
+        "followers": followers,
+        "followings": followings,
+        "is_following": is_following,
+        "current_user": request.user.id if request.user.is_authenticated else None,
+    })
 
 
 
@@ -162,7 +177,63 @@ def profile_update_view(request, username):
 def post_view(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    post_json = [
+    post_json = {
+        "id": post.id,
+        "title": post.title,
+        "description": post.description,
+        "user": {
+            "username": post.user.username,
+            "profile": {
+                "avatar": {
+                    "url": post.user.profile.avatar.url,
+                }
+            }
+        },
+        "likes": {
+            "count": post.likes.count(),
+            "all": [
+                {"username": user.username}
+                for user in post.likes.all()
+            ]
+        },
+        "comments": [
+            {
+                "id": comment.id,
+                "author": {"username": comment.author.username},
+                "text": comment.text,
+                "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+            for comment in post.comments.all()
+        ],
+        "images": [
+            {"image_file": {"url": image.image_file.url}}
+            for image in post.images.all()
+        ]
+    }
+
+    return JsonResponse({
+        "post": post_json,   # ✅ тепер один пост, а не масив
+        "currentUser": {
+            "username": request.user.username if request.user.is_authenticated else None,
+            "profile": {
+                "avatar": {
+                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
+                }
+            } if request.user.is_authenticated else None
+        },
+        "userIsAuthenticated": request.user.is_authenticated,
+    })
+
+
+def posts_view(request):
+    page_number = int(request.GET.get("page", 1))
+    per_page = int(request.GET.get("limit", 10))
+
+    posts_qs = Post.objects.all().order_by("-id")  # останні пости
+    paginator = Paginator(posts_qs, per_page)
+    page_obj = paginator.get_page(page_number)
+
+    posts_json = [
         {
             "id": post.id,
             "title": post.title,
@@ -177,44 +248,30 @@ def post_view(request, post_id):
             },
             "likes": {
                 "count": post.likes.all().count(),
-                "all": [
-                    {
-                        "username": user.username,
-                    }
-                    for user in post.likes.all()
-                ]
+                "all": [{"username": u.username} for u in post.likes.all()]
             },
             "comments": [
                 {
-                    "id": comment.id,
-                    "author": {"username": comment.author.username},
-                    "text": comment.text,
-                    "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "id": c.id,
+                    "author": {"username": c.author.username},
+                    "text": c.text,
+                    "created_at": c.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                 }
-                for comment in post.comments.all()
+                for c in post.comments.all()
             ],
             "images": [
-                {
-                    "image_file": {"url": image.image_file.url},
-                }
-                for image in post.images.all()
-            ]
+                {"image_file": {"url": i.image_file.url}}
+                for i in post.images.all()
+            ],
         }
+        for post in page_obj
     ]
 
-    context = {
-        "posts": post_json,
-        "current_user": {
-            "username": request.user.username if request.user.is_authenticated else None,
-            "profile": {
-                "avatar": {
-                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
-                }
-            } if request.user.is_authenticated else None
-        },
-        "userIsAuthenticated": request.user.is_authenticated,
-    }
-    return render(request, 'post.html', context)
+    return JsonResponse({
+        "posts": posts_json,
+        "has_next": page_obj.has_next(),
+        "page": page_number,
+    })
 
 
 @login_required
@@ -307,34 +364,40 @@ def post_update_view(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)
 
     if request.method == 'POST':
-
         method = request.POST.get('_method')
 
         if method == 'PUT':
             form = PostEditForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
                 form.save()
-                return JsonResponse({'status': 'success', 'post_id': post.id, 'redirect_url': f"/post/{post.id}"})
+                return JsonResponse({
+                    'status': 'success',
+                    'post_id': post.id,
+                    'redirect_url': f"/post/{post.id}"
+                })
             else:
-                return JsonResponse({'status': 'error', 'errors': form.errors})
+                return JsonResponse({
+                    'status': 'error',
+                    'errors': form.errors
+                }, status=400)
 
         elif method == 'DELETE':
             post.delete()
-            return JsonResponse({'status': 'success', 'redirect_url': f"/"})
+            return JsonResponse({'status': 'success', 'redirect_url': "/"})
 
         else:
             return HttpResponseBadRequest('Invalid _method specified')
 
     elif request.method == 'GET':
+        # ⚡ віддаємо JSON замість шаблону
         initial_data = {
             'id': post.id,
             'title': post.title,
             'description': post.description,
         }
-        return render(request, 'post_edit.html', {'initial_data': initial_data})
+        return JsonResponse(initial_data)
 
-    else:
-        return HttpResponseBadRequest('Invalid _method specified')
+    return HttpResponseBadRequest('Invalid request method')
 
 
 
