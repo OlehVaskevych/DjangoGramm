@@ -2,7 +2,7 @@
   <div class="form-container">
     <h1 class="form-title">Post Edit</h1>
 
-    <form @submit.prevent="submitForm" enctype="multipart/form-data" class="styled-form">
+    <form @submit.prevent="submitForm('PUT')" enctype="multipart/form-data" class="styled-form">
       <div v-if="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
@@ -20,8 +20,22 @@
         <p v-for="error in field.errors" :key="error" class="form-error">{{ error }}</p>
       </div>
 
+      <!-- Save button -->
       <button type="submit" class="submit-button btn-form" :disabled="isSubmitting">
         <span v-if="!isSubmitting">Save Changes</span>
+        <span v-else class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </span>
+      </button>
+
+      <!-- Delete button -->
+      <button
+        type="button"
+        class="danger-button btn-form"
+        :disabled="isSubmitting"
+        @click="submitForm('DELETE')"
+      >
+        <span v-if="!isSubmitting">Delete Post</span>
         <span v-else class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </span>
@@ -31,10 +45,9 @@
 </template>
 
 <script>
-export default {
-  props: {
+import { getCookie } from "../csrf.js";
 
-  },
+export default {
   data() {
     return {
       fields: [
@@ -43,7 +56,7 @@ export default {
       ],
       errorMessage: '',
       isSubmitting: false,
-      loading: false,
+      postId: null,
     };
   },
   async mounted() {
@@ -57,30 +70,38 @@ export default {
         const data = await res.json();
         this.fields.find(f => f.id === 'title').value = data.title;
         this.fields.find(f => f.id === 'description').value = data.description;
-        console.log(data);
-        console.log(this.fields);
+        this.postId = postId;
       } catch (err) {
         console.error("Failed to load post data:", err);
       }
     },
-    async submitForm() {
+    async submitForm(method = 'PUT') {
       this.isSubmitting = true;
       this.clearErrors();
 
       const formData = new FormData();
       this.fields.forEach(field => formData.append(field.id, field.value));
+      formData.append('_method', method);
 
       try {
         const response = await fetch(`/api/post/${this.postId}/update/`, {
           method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
           body: formData,
         });
+
         const data = await response.json();
 
-        if (response.ok && data.status === 'ok') {
-          this.$router.push(`/post/${this.postId}/`);
+        if (data.status === 'success') {
+          if (method === 'DELETE') {
+            this.$router.push(`/}`); // повернення до списку після видалення
+          } else {
+            this.$router.push(`/posts/${this.postId}`); // після збереження
+          }
         } else {
-          this.errorMessage = data.error_message || 'Failed to update post';
+          this.errorMessage = data.error_message || 'Operation failed';
         }
       } catch (error) {
         console.error('Error submitting form:', error);

@@ -3208,6 +3208,45 @@ function now() {
 
 /***/ }),
 
+/***/ "./assets/scripts/csrf.js":
+/*!********************************!*\
+  !*** ./assets/scripts/csrf.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getCookie: () => (/* binding */ getCookie)
+/* harmony export */ });
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(";");
+    var _iterator = _createForOfIteratorHelper(cookies),
+      _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var cookie = _step.value;
+        cookie = cookie.trim();
+        if (cookie.substring(0, name.length + 1) === name + '=') {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+  }
+  return cookieValue;
+}
+
+/***/ }),
+
 /***/ "./assets/scripts/router.js":
 /*!**********************************!*\
   !*** ./assets/scripts/router.js ***!
@@ -3870,6 +3909,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -3888,6 +3928,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -3937,7 +3978,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return fetch("/auth/login/", {
                 method: 'POST',
                 headers: {
-                  'X-CSRFToken': _this.getCookie('csrftoken')
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
                 },
                 body: formData
               });
@@ -3994,20 +4035,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];
         }
       });
-    },
-    getCookie: function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
     },
     redirectToOAuth: function redirectToOAuth(provider) {
       if (window.oauthUrls[provider]) {
@@ -4242,6 +4269,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
 function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
@@ -4254,8 +4282,8 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {},
   data: function data() {
     return {
       fields: [{
@@ -4279,7 +4307,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }],
       errorMessage: '',
       isSubmitting: false,
-      loading: false
+      postId: null
     };
   },
   mounted: function mounted() {
@@ -4321,67 +4349,76 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _this2.fields.find(function (f) {
                 return f.id === 'description';
               }).value = data.description;
-              console.log(data);
-              console.log(_this2.fields);
-              _context2.next = 17;
+              _this2.postId = postId;
+              _context2.next = 16;
               break;
-            case 14:
-              _context2.prev = 14;
+            case 13:
+              _context2.prev = 13;
               _context2.t0 = _context2["catch"](0);
               console.error("Failed to load post data:", _context2.t0);
-            case 17:
+            case 16:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[0, 14]]);
+        }, _callee2, null, [[0, 13]]);
       }))();
     },
     submitForm: function submitForm() {
-      var _this3 = this;
+      var _arguments = arguments,
+        _this3 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var formData, response, data;
+        var method, formData, response, data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
+              method = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 'PUT';
               _this3.isSubmitting = true;
               _this3.clearErrors();
               formData = new FormData();
               _this3.fields.forEach(function (field) {
                 return formData.append(field.id, field.value);
               });
-              _context3.prev = 4;
-              _context3.next = 7;
+              formData.append('_method', method);
+              _context3.prev = 6;
+              _context3.next = 9;
               return fetch("/api/post/".concat(_this3.postId, "/update/"), {
                 method: 'POST',
+                headers: {
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
+                },
                 body: formData
               });
-            case 7:
+            case 9:
               response = _context3.sent;
-              _context3.next = 10;
+              _context3.next = 12;
               return response.json();
-            case 10:
+            case 12:
               data = _context3.sent;
-              if (response.ok && data.status === 'ok') {
-                _this3.$router.push("/post/".concat(_this3.postId, "/"));
+              if (data.status === 'success') {
+                if (method === 'DELETE') {
+                  _this3.$router.push("/}"); // повернення до списку після видалення
+                } else {
+                  _this3.$router.push("/posts/".concat(_this3.postId)); // після збереження
+                }
               } else {
-                _this3.errorMessage = data.error_message || 'Failed to update post';
+                _this3.errorMessage = data.error_message || 'Operation failed';
               }
-              _context3.next = 18;
+              _context3.next = 20;
               break;
-            case 14:
-              _context3.prev = 14;
-              _context3.t0 = _context3["catch"](4);
+            case 16:
+              _context3.prev = 16;
+              _context3.t0 = _context3["catch"](6);
               console.error('Error submitting form:', _context3.t0);
               _this3.errorMessage = 'Unexpected error. Try again.';
-            case 18:
-              _context3.prev = 18;
+            case 20:
+              _context3.prev = 20;
               _this3.isSubmitting = false;
-              return _context3.finish(18);
-            case 21:
+              return _context3.finish(20);
+            case 23:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[4, 14, 18, 21]]);
+        }, _callee3, null, [[6, 16, 20, 23]]);
       }))();
     },
     clearErrors: function clearErrors() {
@@ -5440,12 +5477,21 @@ var _hoisted_8 = {
   "class": "spinner-border",
   role: "status"
 };
+var _hoisted_9 = ["disabled"];
+var _hoisted_10 = {
+  key: 0
+};
+var _hoisted_11 = {
+  key: 1,
+  "class": "spinner-border",
+  role: "status"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "form-title"
   }, "Post Edit", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submitForm && $options.submitForm.apply($options, arguments);
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $options.submitForm('PUT');
     }, ["prevent"])),
     enctype: "multipart/form-data",
     "class": "styled-form"
@@ -5469,13 +5515,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "form-error"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(error), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Save button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "submit-button btn-form",
     disabled: $data.isSubmitting
-  }, [!$data.isSubmitting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Save Changes")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, _cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [!$data.isSubmitting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Save Changes")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "sr-only"
-  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, _hoisted_6)], 32 /* NEED_HYDRATION */)]);
+  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Delete button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "danger-button btn-form",
+    disabled: $data.isSubmitting,
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.submitForm('DELETE');
+    })
+  }, [!$data.isSubmitting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "Delete Post")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, _cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "sr-only"
+  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, _hoisted_9)], 32 /* NEED_HYDRATION */)]);
 }
 
 /***/ }),
