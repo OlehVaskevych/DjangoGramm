@@ -9,13 +9,12 @@
         <div class="username-and-actions">
           <h2 class="username">{{ user.username }}</h2>
           <div class="actions">
-            <button
-              v-if="isOwner"
-              @click="$emit('edit-profile', user.username)"
-              class="btn btn-warning btn-sm"
-            >
+            <router-link
+                v-if="isOwner"
+                :to="'/profile/' + user.username + '/update/'"
+                class="btn btn-warning btn-sm">
               Edit Profile
-            </button>
+            </router-link>
             <button
               v-else
               @click="toggleFollow"

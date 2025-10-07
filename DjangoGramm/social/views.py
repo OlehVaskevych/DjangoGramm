@@ -25,9 +25,24 @@ def user_is_profile_owner(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         username = kwargs.get('username')
+
+        # 1. Перевірка, чи поточний користувач є власником
         if request.user.username != username:
+
+            # 2. Якщо це AJAX/Fetch запит (або просто небезпечний метод для додаткової стійкості)
+            # В більшості сучасних SPA-фреймворків, якщо запит приходить від Fetch API,
+            # найкраще просто повернути JSON-помилку.
+            if request.method != 'GET' or request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'status': 'error',
+                    'error_message': 'You are not authorized to edit this profile.'
+                }, status=403)
+
+            # 3. Якщо це звичайний перехід (не AJAX), виконуємо перенаправлення
             return redirect('main')
+
         return view_func(request, *args, **kwargs)
+
     return wrapper
 
 
@@ -167,7 +182,7 @@ def profile_update_view(request, username):
             'bio': request.user.profile.bio,
             'avatar': request.user.profile.avatar.url,
         }
-        return render(request, 'profile_edit.html', {'initial_data': initial_data})
+        return JsonResponse({'status': 'success', 'initial_data': initial_data})
 
     else:
         return JsonResponse({'status': 'error', 'error_message': 'Invalid method specified'}, status=400)

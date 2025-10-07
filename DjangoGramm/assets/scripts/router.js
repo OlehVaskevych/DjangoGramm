@@ -9,6 +9,7 @@ import PostPage from './pages/PostPage.vue';
 import PostCreationPage from './pages/PostCreationPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
 import PostEditPage from './pages/PostEditPage.vue';
+import ProfileEditPage from "./pages/ProfileEditPage.vue";
 
 const routes = [
   { path: '/', component: HomePage },
@@ -41,6 +42,7 @@ const routes = [
   { path: '/post/', component: PostCreationPage },
   { path: '/settings/', component: SettingsPage },
   { path: '/post/:id/update', component: PostEditPage },
+  { path: '/profile/:username/update', component: ProfileEditPage },
 ];
 
 const router = createRouter({

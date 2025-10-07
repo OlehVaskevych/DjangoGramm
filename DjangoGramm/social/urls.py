@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.main, name='main'),
 
     # path('profile/<str:username>/', views.profile_view, name='profile'),
-    path('profile/<str:username>/upadate', views.profile_update_view, name='profile_update'),
+    path('profile/<str:username>/update/', views.profile_update_view, name='profile_update'),
     path('profile/<str:username>/follows', views.follow_view, name='follow'),
 
     path('news/', views.news_feed, name='news'),

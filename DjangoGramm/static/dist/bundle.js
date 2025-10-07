@@ -3257,7 +3257,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
 /* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./csrf.js */ "./assets/scripts/csrf.js");
 /* harmony import */ var _pages_HomePage_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/HomePage.vue */ "./assets/scripts/pages/HomePage.vue");
 /* harmony import */ var _pages_LoginPage_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/LoginPage.vue */ "./assets/scripts/pages/LoginPage.vue");
@@ -3267,6 +3267,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_PostCreationPage_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/PostCreationPage.vue */ "./assets/scripts/pages/PostCreationPage.vue");
 /* harmony import */ var _pages_SettingsPage_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/SettingsPage.vue */ "./assets/scripts/pages/SettingsPage.vue");
 /* harmony import */ var _pages_PostEditPage_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/PostEditPage.vue */ "./assets/scripts/pages/PostEditPage.vue");
+/* harmony import */ var _pages_ProfileEditPage_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/ProfileEditPage.vue */ "./assets/scripts/pages/ProfileEditPage.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
 function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
@@ -3279,6 +3280,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 
 
 
@@ -3353,9 +3355,12 @@ var routes = [{
 }, {
   path: '/post/:id/update',
   component: _pages_PostEditPage_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
+}, {
+  path: '/profile/:username/update',
+  component: _pages_ProfileEditPage_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
 }];
-var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_9__.createRouter)({
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_9__.createWebHistory)(),
+var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_10__.createRouter)({
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_10__.createWebHistory)(),
   routes: routes
 });
 console.log('✅ Routes:', router.getRoutes().map(function (r) {
@@ -4586,6 +4591,329 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
+function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
+function _regeneratorKeys(e) { var n = Object(e), r = []; for (var t in n) r.unshift(t); return function e() { for (; r.length;) if ((t = r.pop()) in n) return e.value = t, e.done = !1, e; return e.done = !0, e; }; }
+function _regeneratorAsync(n, e, r, t, o) { var a = _regeneratorAsyncGen(n, e, r, t, o); return a.next().then(function (n) { return n.done ? n.value : a.next(); }); }
+function _regeneratorAsyncGen(r, e, t, o, n) { return new _regeneratorAsyncIterator(_regenerator().w(r, e, t, o), n || Promise); }
+function _regeneratorAsyncIterator(t, e) { function n(r, o, i, f) { try { var c = t[r](o), u = c.value; return u instanceof _OverloadYield ? e.resolve(u.v).then(function (t) { n("next", t, i, f); }, function (t) { n("throw", t, i, f); }) : e.resolve(u).then(function (t) { c.value = t, i(c); }, function (t) { return n("throw", t, i, f); }); } catch (t) { f(t); } } var r; this.next || (_regeneratorDefine2(_regeneratorAsyncIterator.prototype), _regeneratorDefine2(_regeneratorAsyncIterator.prototype, "function" == typeof Symbol && Symbol.asyncIterator || "@asyncIterator", function () { return this; })), _regeneratorDefine2(this, "_invoke", function (t, o, i) { function f() { return new e(function (e, r) { n(t, i, e, r); }); } return r = r ? r.then(f, f) : f(); }, !0); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _OverloadYield(e, d) { this.v = e, this.k = d; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  // 💡 Використовуємо `created` для отримання параметрів маршруту
+  created: function created() {
+    this.username = this.$route.params.username;
+  },
+  data: function data() {
+    return {
+      isLoading: true,
+      // Додаємо прапорець завантаження
+      isAvatarRemoved: false,
+      errorMessage: '',
+      isSubmitting: false,
+      username: '',
+      // Буде заповнено в created
+      // Ініціалізуємо поля зі значеннями за замовчуванням
+      fields: [{
+        id: 'first_name',
+        label: 'First Name:',
+        value: '',
+        attrs: {
+          type: 'text',
+          required: false
+        },
+        errors: []
+      }, {
+        id: 'last_name',
+        label: 'Last Name:',
+        value: '',
+        attrs: {
+          type: 'text',
+          required: false
+        },
+        errors: []
+      }, {
+        id: 'bio',
+        label: 'BIO:',
+        value: '',
+        attrs: {
+          type: 'text',
+          required: false
+        },
+        errors: []
+      }, {
+        id: 'avatar',
+        label: 'Upload avatar:',
+        value: null,
+        preview: null,
+        // Початкове прев'ю буде завантажено з API
+        "class": 'file-input',
+        attrs: {
+          type: 'file',
+          required: false
+        },
+        errors: []
+      }]
+    };
+  },
+  methods: {
+    loadInitialData: function loadInitialData() {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var url, res, errorData, data, initialData;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _this.isLoading = true;
+              _this.errorMessage = ''; // Очищаємо попередні помилки
+              _context.prev = 2;
+              url = "/profile/".concat(_this.username, "/update/");
+              _context.next = 6;
+              return fetch(url, {
+                method: 'GET',
+                credentials: 'include',
+                // <--- дуже важливо
+                headers: {
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
+                }
+              });
+            case 6:
+              res = _context.sent;
+              if (res.ok) {
+                _context.next = 22;
+                break;
+              }
+              _context.prev = 8;
+              _context.next = 11;
+              return res.json();
+            case 11:
+              errorData = _context.sent;
+              _context.next = 19;
+              break;
+            case 14:
+              _context.prev = 14;
+              _context.t0 = _context["catch"](8);
+              // Якщо не вдалося прочитати JSON (бо це HTML-сторінка перенаправлення)
+              if (res.status === 403 || res.status === 401 || res.status === 302) {
+                _this.errorMessage = "Error ".concat(res.status, ": Authorization failed. Are you sure you are logged in and authorized to edit this profile?");
+              } else {
+                // Інша не-JSON помилка (наприклад, 404)
+                _this.errorMessage = "Error ".concat(res.status, ": Could not load profile data. Server returned an unexpected format.");
+              }
+              _this.isLoading = false;
+              return _context.abrupt("return");
+            case 19:
+              // Якщо вдалося прочитати JSON (наприклад, 400 Bad Request від Django)
+              _this.errorMessage = errorData.error_message || "Could not load profile data (Status ".concat(res.status, ").");
+              _this.isLoading = false;
+              return _context.abrupt("return");
+            case 22:
+              _context.next = 24;
+              return res.json();
+            case 24:
+              data = _context.sent;
+              if (data.initial_data) {
+                initialData = data.initial_data; // Оновлення значень полів на основі отриманих даних
+                _this.fields.forEach(function (field) {
+                  if (initialData[field.id] !== undefined && field.id !== 'avatar') {
+                    field.value = initialData[field.id] || '';
+                  } else if (field.id === 'avatar' && initialData.avatar) {
+                    field.preview = initialData.avatar; // Встановлюємо поточний URL аватарки
+                  }
+                });
+              } else {
+                _this.errorMessage = 'Data loaded successfully, but "initial_data" key is missing.';
+              }
+              _context.next = 32;
+              break;
+            case 28:
+              _context.prev = 28;
+              _context.t1 = _context["catch"](2);
+              console.error('Error loading initial profile data:', _context.t1);
+              // Цей блок ловить мережеві помилки або SyntaxError, якщо HTML таки прослизнув
+              _this.errorMessage = 'An unexpected error occurred during the network request. Check console for details.';
+            case 32:
+              _context.prev = 32;
+              _this.isLoading = false;
+              return _context.finish(32);
+            case 35:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[2, 28, 32, 35], [8, 14]]);
+      }))();
+    },
+    submitForm: function submitForm() {
+      var _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var formData, url, response, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this2.isSubmitting = true;
+              _this2.clearErrors();
+              formData = new FormData();
+              _this2.fields.forEach(function (field) {
+                // Якщо це файл і він вибраний
+                if (field.id === 'avatar' && field.value) {
+                  formData.append(field.id, field.value);
+                  // Якщо це не аватар
+                } else if (field.id !== 'avatar') {
+                  formData.append(field.id, field.value);
+                }
+              });
+              if (_this2.isAvatarRemoved) {
+                formData.append('remove_avatar', true);
+              }
+
+              // 💡 Виправлення: Додаємо _method=PUT, як вимагає Django для обробки PUT через POST
+              formData.append('_method', 'PUT');
+
+              // Використовуємо той самий URL, який обробляє POST-запит у Django view
+              url = "/profile/".concat(_this2.username, "/update/");
+              _context2.prev = 7;
+              _context2.next = 10;
+              return fetch(url, {
+                method: 'POST',
+                // 💡 Виправлення: Метод повинен бути POST
+                headers: {
+                  // CSRF токен потрібен для POST/PUT/PATCH запитів
+                  'X-CSRFToken': _this2.getCookie('csrftoken')
+                },
+                body: formData
+              });
+            case 10:
+              response = _context2.sent;
+              _context2.prev = 11;
+              _context2.next = 14;
+              return response.json();
+            case 14:
+              data = _context2.sent;
+              _context2.next = 21;
+              break;
+            case 17:
+              _context2.prev = 17;
+              _context2.t0 = _context2["catch"](11);
+              // Не JSON відповідь при відправці форми
+              _this2.errorMessage = "Error ".concat(response.status, ": Server returned an unexpected response format during update.");
+              return _context2.abrupt("return");
+            case 21:
+              if (response.ok) {
+                // Успішне оновлення, перенаправляємо користувача на сторінку профілю
+                _this2.$router.push("/profile/".concat(_this2.username));
+              } else {
+                // Обробка помилок
+                _this2.errorMessage = data.error_message || 'An error occurred while saving changes.';
+                if (data.errors) {
+                  _this2.updateFieldErrors(data.errors);
+                }
+              }
+              _context2.next = 28;
+              break;
+            case 24:
+              _context2.prev = 24;
+              _context2.t1 = _context2["catch"](7);
+              console.error('Error submitting form:', _context2.t1);
+              _this2.errorMessage = 'An unexpected error occurred. Please try again.';
+            case 28:
+              _context2.prev = 28;
+              _this2.isSubmitting = false;
+              return _context2.finish(28);
+            case 31:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[7, 24, 28, 31], [11, 17]]);
+      }))();
+    },
+    // ... (решта методів залишаються без змін) ...
+    removeAvatarWithConfirmation: function removeAvatarWithConfirmation(field) {
+      // 💡 Важливо: Замість window.confirm використовуйте власну модалку
+      // через обмеження iframe, але для швидкого тестування залишимо confirm
+      var confirmed = window.confirm("Are you sure you want to reset your avatar to the default?");
+      if (confirmed) {
+        this.removeAvatar(field);
+      }
+    },
+    handleFileChange: function handleFileChange(event, field) {
+      var file = event.target.files[0];
+      if (file) {
+        field.value = file;
+        field.preview = URL.createObjectURL(file);
+        this.isAvatarRemoved = false;
+      }
+    },
+    removeAvatar: function removeAvatar(field) {
+      this.isAvatarRemoved = true;
+      field.value = null;
+      field.preview = null;
+    },
+    clearErrors: function clearErrors() {
+      this.errorMessage = '';
+      this.fields.forEach(function (field) {
+        field.errors = [];
+      });
+    },
+    updateFieldErrors: function updateFieldErrors(errors) {
+      var _this3 = this;
+      Object.entries(errors).forEach(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+          fieldName = _ref2[0],
+          fieldErrors = _ref2[1];
+        var field = _this3.fields.find(function (f) {
+          return f.id === fieldName;
+        });
+        if (field) {
+          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];
+        }
+      });
+    },
+    getCookie: function getCookie(name) {
+      // Метод отримання CSRF токена
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + '=') {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  },
+  // 💡 Викликаємо завантаження даних при монтуванні компонента
+  mounted: function mounted() {
+    this.loadInitialData();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfilePage.vue?vue&type=script&lang=js":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfilePage.vue?vue&type=script&lang=js ***!
@@ -5607,6 +5935,120 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-browser.js");
+
+var _hoisted_1 = {
+  "class": "container mt-5"
+};
+var _hoisted_2 = {
+  "class": "form-title"
+};
+var _hoisted_3 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_4 = {
+  key: 0,
+  "class": "error-message"
+};
+var _hoisted_5 = ["for"];
+var _hoisted_6 = {
+  key: 0,
+  "class": "avatar-preview-wrapper"
+};
+var _hoisted_7 = {
+  "class": "avatar-container"
+};
+var _hoisted_8 = ["src"];
+var _hoisted_9 = ["id", "onChange"];
+var _hoisted_10 = ["onClick"];
+var _hoisted_11 = ["id", "onUpdate:modelValue", "type", "name", "required"];
+var _hoisted_12 = ["disabled"];
+var _hoisted_13 = {
+  key: 0
+};
+var _hoisted_14 = {
+  key: 1,
+  "class": "spinner-border",
+  role: "status"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_2, "Edit " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.username) + "'s profile", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Показуємо спіннер, поки дані завантажуються "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, _cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "sr-only"
+  }, "Loading profile data...")], -1 /* HOISTED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
+    key: 1,
+    onSubmit: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submitForm && $options.submitForm.apply($options, arguments);
+    }, ["prevent"])),
+    enctype: "multipart/form-data",
+    "class": "styled-form"
+  }, [$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 💡 Важливо: використовуємо v-if=\"!isLoading\" для форми "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.fields, function (field) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "form-group",
+      key: field.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": field.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(field.label), 9 /* TEXT, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Прев'ю аватара "), field.id === 'avatar' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [field.preview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+      key: 0,
+      src: field.preview,
+      alt: "Avatar preview",
+      "class": "img-fluid rounded-circle avatar-preview"
+    }, null, 8 /* PROPS */, _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !field.preview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
+      key: 1,
+      type: "file",
+      id: field.id,
+      onChange: function onChange($event) {
+        return $options.handleFileChange($event, field);
+      },
+      "class": "file-input"
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_9)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопка видалення аватарки "), field.preview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 2,
+      type: "button",
+      "class": "remove-button",
+      onClick: function onClick($event) {
+        return $options.removeAvatarWithConfirmation(field);
+      }
+    }, null, 8 /* PROPS */, _hoisted_10)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      key: 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Інші поля "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      id: field.id,
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return field.value = $event;
+      },
+      type: field.attrs.type,
+      name: field.id,
+      required: field.attrs.required,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(field["class"])
+    }, null, 10 /* CLASS, PROPS */, _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelDynamic, field.value]])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Помилки "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(field.errors, function (error) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+        key: error,
+        "class": "form-error"
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(error), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))]);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    "class": "submit-button btn-form",
+    disabled: $data.isSubmitting
+  }, [!$data.isSubmitting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, "Save Changes")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "sr-only"
+  }, "Loading...", -1 /* HOISTED */)])))], 8 /* PROPS */, _hoisted_12)], 32 /* NEED_HYDRATION */))]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfilePage.vue?vue&type=template&id=3363d3a8":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfilePage.vue?vue&type=template&id=3363d3a8 ***!
@@ -5664,15 +6106,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: $data.profile.avatar,
     alt: "".concat($data.user.username, "'s Avatar"),
     "class": "img-fluid rounded-circle"
-  }, null, 8 /* PROPS */, _hoisted_4)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user.username), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$options.isOwner ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 8 /* PROPS */, _hoisted_4)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user.username), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$options.isOwner ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_router_link, {
     key: 0,
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.$emit('edit-profile', $data.user.username);
-    }),
+    to: '/profile/' + $data.user.username + '/update/',
     "class": "btn btn-warning btn-sm"
-  }, " Edit Profile ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return _cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Profile ")]);
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["to"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleFollow && $options.toggleFollow.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isFollowing ? 'btn btn-danger btn-sm' : 'btn btn-success btn-sm')
@@ -11178,6 +11623,152 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+/* Стилі залишаються без змін, але я їх включу для повноти файлу */
+.form-title[data-v-5f49d95c] {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+.styled-form[data-v-5f49d95c] {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* Припустимо світлий фон для форми */
+}
+.form-group[data-v-5f49d95c] {
+  margin-bottom: 15px;
+}
+.form-group label[data-v-5f49d95c] {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.form-group input[data-v-5f49d95c] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+.form-group input[data-v-5f49d95c]:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+.error-message[data-v-5f49d95c] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  text-align: center;
+}
+.form-error[data-v-5f49d95c] {
+  color: #dc3545;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+.submit-button[data-v-5f49d95c] {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.submit-button[data-v-5f49d95c]:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+.submit-button[data-v-5f49d95c]:disabled {
+  background-color: #a0c3e8;
+  cursor: not-allowed;
+}
+
+/* Спіннер */
+.spinner-border[data-v-5f49d95c] {
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: text-bottom;
+  border: 0.2em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border-5f49d95c 0.75s linear infinite;
+}
+@keyframes spinner-border-5f49d95c {
+to { transform: rotate(360deg);
+}
+}
+
+/* Специфічні стилі для аватарки */
+.avatar-preview-wrapper[data-v-5f49d95c] {
+  margin-top: 10px;
+}
+.avatar-preview[data-v-5f49d95c] {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.avatar-container[data-v-5f49d95c] {
+  position: relative;
+  display: inline-block; /* Щоб кнопка позиціонувалася відносно картинки */
+}
+.remove-button[data-v-5f49d95c] {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+.remove-button[data-v-5f49d95c]:hover {
+  background-color: #dc3545; /* Червоний колір для видалення */
+}
+.remove-button[data-v-5f49d95c]::before {
+  content: '×';
+  font-size: 20px;
+  font-weight: bold;
+}
+
+`, "",{"version":3,"sources":["webpack://./assets/scripts/pages/ProfileEditPage.vue"],"names":[],"mappings":";AAgTA,kEAAkE;AAClE;EACE,kBAAkB;EAClB,cAAc;EACd,mBAAmB;AACrB;AAEA;EACE,gBAAgB;EAChB,cAAc;EACd,aAAa;EACb,mBAAmB;EACnB,yCAAyC;EACzC,yBAAyB,EAAE,qCAAqC;AAClE;AAEA;EACE,mBAAmB;AACrB;AAEA;EACE,cAAc;EACd,kBAAkB;EAClB,iBAAiB;AACnB;AAEA;EACE,WAAW;EACX,aAAa;EACb,yBAAyB;EACzB,kBAAkB;EAClB,6BAA6B;AAC/B;AAEA;EACE,kCAAkC;EAClC,aAAa;AACf;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,kBAAkB;EAClB,yBAAyB;EACzB,cAAc;EACd,yBAAyB;EACzB,kBAAkB;AACpB;AAEA;EACE,cAAc;EACd,iBAAiB;EACjB,eAAe;AACjB;AAEA;EACE,WAAW;EACX,aAAa;EACb,sCAAsC;EACtC,YAAY;EACZ,YAAY;EACZ,kBAAkB;EAClB,eAAe;EACf,iCAAiC;AACnC;AAEA;EACE,yBAAyB;AAC3B;AAEA;EACE,yBAAyB;EACzB,mBAAmB;AACrB;;AAEA,YAAY;AACZ;EACE,aAAa;EACb,cAAc;EACd,2BAA2B;EAC3B,gCAAgC;EAChC,+BAA+B;EAC/B,kBAAkB;EAClB,wDAA+C;AACjD;AAEA;AACE,KAAK,yBAAyB;AAAE;AAClC;;AAEA,kCAAkC;AAElC;EACE,gBAAgB;AAClB;AAEA;EACE,YAAY;EACZ,aAAa;EACb,iBAAiB;EACjB,kBAAkB;AACpB;AAEA;EACE,kBAAkB;EAClB,qBAAqB,EAAE,iDAAiD;AAC1E;AAEA;EACE,kBAAkB;EAClB,UAAU;EACV,YAAY;EACZ,oCAAoC;EACpC,YAAY;EACZ,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,eAAe;EACf,YAAY;EACZ,sCAAsC;AACxC;AAEA;EACE,yBAAyB,EAAE,iCAAiC;AAC9D;AAEA;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;AACnB","sourcesContent":["<template>\r\n  <div class=\"container mt-5\">\r\n    <h1 class=\"form-title\">Edit {{ username }}'s profile</h1>\r\n\r\n    <!-- Показуємо спіннер, поки дані завантажуються -->\r\n    <div v-if=\"isLoading\" class=\"text-center py-5\">\r\n      <div class=\"spinner-border text-primary\" role=\"status\">\r\n        <span class=\"sr-only\">Loading profile data...</span>\r\n      </div>\r\n    </div>\r\n\r\n    <form v-else @submit.prevent=\"submitForm\" enctype=\"multipart/form-data\" class=\"styled-form\">\r\n      <div v-if=\"errorMessage\" class=\"error-message\">\r\n        {{ errorMessage }}\r\n      </div>\r\n\r\n      <!-- 💡 Важливо: використовуємо v-if=\"!isLoading\" для форми -->\r\n      <div class=\"form-group\" v-for=\"field in fields\" :key=\"field.id\">\r\n        <label :for=\"field.id\">{{ field.label }}</label>\r\n\r\n        <!-- Прев'ю аватара -->\r\n        <div v-if=\"field.id === 'avatar'\" class=\"avatar-preview-wrapper\">\r\n          <div class=\"avatar-container\">\r\n            <img\r\n              v-if=\"field.preview\"\r\n              :src=\"field.preview\"\r\n              alt=\"Avatar preview\"\r\n              class=\"img-fluid rounded-circle avatar-preview\"\r\n            >\r\n            <input\r\n              v-if=\"!field.preview\"\r\n              type=\"file\"\r\n              :id=\"field.id\"\r\n              @change=\"handleFileChange($event, field)\"\r\n              class=\"file-input\"\r\n            >\r\n            <!-- Кнопка видалення аватарки -->\r\n            <button\r\n              type=\"button\"\r\n              class=\"remove-button\"\r\n              @click=\"removeAvatarWithConfirmation(field)\"\r\n              v-if=\"field.preview\"\r\n            >\r\n            </button>\r\n          </div>\r\n        </div>\r\n\r\n        <!-- Інші поля -->\r\n        <input\r\n          v-else\r\n          :id=\"field.id\"\r\n          v-model=\"field.value\"\r\n          :type=\"field.attrs.type\"\r\n          :name=\"field.id\"\r\n          :required=\"field.attrs.required\"\r\n          :class=\"field.class\"\r\n        >\r\n\r\n        <!-- Помилки -->\r\n        <p v-for=\"error in field.errors\" :key=\"error\" class=\"form-error\">\r\n          {{ error }}\r\n        </p>\r\n      </div>\r\n\r\n      <button type=\"submit\" class=\"submit-button btn-form\" :disabled=\"isSubmitting\">\r\n        <span v-if=\"!isSubmitting\">Save Changes</span>\r\n        <span v-else class=\"spinner-border\" role=\"status\">\r\n          <span class=\"sr-only\">Loading...</span>\r\n        </span>\r\n      </button>\r\n    </form>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport { getCookie } from '../csrf.js';\r\n\r\nexport default {\r\n  // 💡 Використовуємо `created` для отримання параметрів маршруту\r\n  created() {\r\n    this.username = this.$route.params.username;\r\n  },\r\n\r\n  data() {\r\n    return {\r\n      isLoading: true, // Додаємо прапорець завантаження\r\n      isAvatarRemoved: false,\r\n      errorMessage: '',\r\n      isSubmitting: false,\r\n      username: '', // Буде заповнено в created\r\n      // Ініціалізуємо поля зі значеннями за замовчуванням\r\n      fields: [\r\n        { id: 'first_name', label: 'First Name:', value: '', attrs: { type: 'text', required: false }, errors: [] },\r\n        { id: 'last_name', label: 'Last Name:', value: '', attrs: { type: 'text', required: false }, errors: [] },\r\n        { id: 'bio', label: 'BIO:', value: '', attrs: { type: 'text', required: false }, errors: [] },\r\n        {\r\n          id: 'avatar',\r\n          label: 'Upload avatar:',\r\n          value: null,\r\n          preview: null, // Початкове прев'ю буде завантажено з API\r\n          class: 'file-input',\r\n          attrs: { type: 'file', required: false },\r\n          errors: [],\r\n        },\r\n      ],\r\n    };\r\n  },\r\n\r\n  methods: {\r\n    async loadInitialData() {\r\n        this.isLoading = true;\r\n        this.errorMessage = ''; // Очищаємо попередні помилки\r\n\r\n        try {\r\n            const url = `/profile/${this.username}/update/`;\r\n            const res = await fetch(url, {\r\n              method: 'GET',\r\n              credentials: 'include', // <--- дуже важливо\r\n              headers: {\r\n                'X-CSRFToken': getCookie('csrftoken'),\r\n              },\r\n            });\r\n\r\n            if (!res.ok) {\r\n                // Якщо відповідь сервера не 200 (наприклад, 401, 403, 404),\r\n                // пробуємо прочитати body як JSON, щоб отримати детальну помилку (якщо вона є)\r\n                let errorData;\r\n                try {\r\n                    errorData = await res.json();\r\n                } catch (e) {\r\n                    // Якщо не вдалося прочитати JSON (бо це HTML-сторінка перенаправлення)\r\n                    if (res.status === 403 || res.status === 401 || res.status === 302) {\r\n                        this.errorMessage = `Error ${res.status}: Authorization failed. Are you sure you are logged in and authorized to edit this profile?`;\r\n                    } else {\r\n                        // Інша не-JSON помилка (наприклад, 404)\r\n                        this.errorMessage = `Error ${res.status}: Could not load profile data. Server returned an unexpected format.`;\r\n                    }\r\n                    this.isLoading = false;\r\n                    return;\r\n                }\r\n\r\n                // Якщо вдалося прочитати JSON (наприклад, 400 Bad Request від Django)\r\n                this.errorMessage = errorData.error_message || `Could not load profile data (Status ${res.status}).`;\r\n                this.isLoading = false;\r\n                return;\r\n            }\r\n\r\n            // Якщо res.ok === true\r\n            const data = await res.json();\r\n\r\n            if (data.initial_data) {\r\n                const initialData = data.initial_data;\r\n                // Оновлення значень полів на основі отриманих даних\r\n                this.fields.forEach(field => {\r\n                    if (initialData[field.id] !== undefined && field.id !== 'avatar') {\r\n                        field.value = initialData[field.id] || '';\r\n                    } else if (field.id === 'avatar' && initialData.avatar) {\r\n                        field.preview = initialData.avatar; // Встановлюємо поточний URL аватарки\r\n                    }\r\n                });\r\n            } else {\r\n                this.errorMessage = 'Data loaded successfully, but \"initial_data\" key is missing.';\r\n            }\r\n        } catch (error) {\r\n            console.error('Error loading initial profile data:', error);\r\n            // Цей блок ловить мережеві помилки або SyntaxError, якщо HTML таки прослизнув\r\n            this.errorMessage = 'An unexpected error occurred during the network request. Check console for details.';\r\n        } finally {\r\n            this.isLoading = false;\r\n        }\r\n    },\r\n\r\n    async submitForm() {\r\n      this.isSubmitting = true;\r\n      this.clearErrors();\r\n\r\n      const formData = new FormData();\r\n\r\n      this.fields.forEach((field) => {\r\n        // Якщо це файл і він вибраний\r\n        if (field.id === 'avatar' && field.value) {\r\n          formData.append(field.id, field.value);\r\n        // Якщо це не аватар\r\n        } else if (field.id !== 'avatar') {\r\n          formData.append(field.id, field.value);\r\n        }\r\n      });\r\n\r\n      if (this.isAvatarRemoved) {\r\n        formData.append('remove_avatar', true);\r\n      }\r\n\r\n      // 💡 Виправлення: Додаємо _method=PUT, як вимагає Django для обробки PUT через POST\r\n      formData.append('_method', 'PUT');\r\n\r\n      // Використовуємо той самий URL, який обробляє POST-запит у Django view\r\n      const url = `/profile/${this.username}/update/`;\r\n\r\n      try {\r\n        const response = await fetch(url, {\r\n          method: 'POST', // 💡 Виправлення: Метод повинен бути POST\r\n          headers: {\r\n            // CSRF токен потрібен для POST/PUT/PATCH запитів\r\n            'X-CSRFToken': this.getCookie('csrftoken'),\r\n          },\r\n          body: formData,\r\n        });\r\n\r\n        // Django часто повертає дані, навіть якщо відповідь не 200\r\n        // Пробуємо прочитати JSON\r\n        let data;\r\n        try {\r\n            data = await response.json();\r\n        } catch (e) {\r\n            // Не JSON відповідь при відправці форми\r\n             this.errorMessage = `Error ${response.status}: Server returned an unexpected response format during update.`;\r\n             return;\r\n        }\r\n\r\n        if (response.ok) {\r\n          // Успішне оновлення, перенаправляємо користувача на сторінку профілю\r\n          this.$router.push(`/profile/${this.username}`);\r\n        } else {\r\n          // Обробка помилок\r\n          this.errorMessage = data.error_message || 'An error occurred while saving changes.';\r\n          if (data.errors) {\r\n            this.updateFieldErrors(data.errors);\r\n          }\r\n        }\r\n      } catch (error) {\r\n        console.error('Error submitting form:', error);\r\n        this.errorMessage = 'An unexpected error occurred. Please try again.';\r\n      } finally {\r\n        this.isSubmitting = false;\r\n      }\r\n    },\r\n\r\n    // ... (решта методів залишаються без змін) ...\r\n    removeAvatarWithConfirmation(field) {\r\n      // 💡 Важливо: Замість window.confirm використовуйте власну модалку\r\n      // через обмеження iframe, але для швидкого тестування залишимо confirm\r\n      const confirmed = window.confirm(\"Are you sure you want to reset your avatar to the default?\");\r\n      if (confirmed) {\r\n        this.removeAvatar(field);\r\n      }\r\n    },\r\n\r\n    handleFileChange(event, field) {\r\n      const file = event.target.files[0];\r\n      if (file) {\r\n        field.value = file;\r\n        field.preview = URL.createObjectURL(file);\r\n        this.isAvatarRemoved = false;\r\n      }\r\n    },\r\n\r\n    removeAvatar(field) {\r\n      this.isAvatarRemoved = true;\r\n      field.value = null;\r\n      field.preview = null;\r\n    },\r\n\r\n    clearErrors() {\r\n      this.errorMessage = '';\r\n      this.fields.forEach((field) => {\r\n        field.errors = [];\r\n      });\r\n    },\r\n\r\n    updateFieldErrors(errors) {\r\n      Object.entries(errors).forEach(([fieldName, fieldErrors]) => {\r\n        const field = this.fields.find((f) => f.id === fieldName);\r\n        if (field) {\r\n          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        }\r\n      });\r\n    },\r\n\r\n    getCookie(name) {\r\n      // Метод отримання CSRF токена\r\n      let cookieValue = null;\r\n      if (document.cookie && document.cookie !== '') {\r\n        const cookies = document.cookie.split(';');\r\n        for (let i = 0; i < cookies.length; i++) {\r\n          const cookie = cookies[i].trim();\r\n          if (cookie.substring(0, name.length + 1) === name + '=') {\r\n            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));\r\n            break;\r\n          }\r\n        }\r\n      }\r\n      return cookieValue;\r\n    },\r\n  },\r\n\r\n  // 💡 Викликаємо завантаження даних при монтуванні компонента\r\n  mounted() {\r\n    this.loadInitialData();\r\n  }\r\n};\r\n</script>\r\n\r\n\r\n<style scoped>\r\n/* Стилі залишаються без змін, але я їх включу для повноти файлу */\r\n.form-title {\r\n  text-align: center;\r\n  color: #343a40;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.styled-form {\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n  padding: 30px;\r\n  border-radius: 12px;\r\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\r\n  background-color: #ffffff; /* Припустимо світлий фон для форми */\r\n}\r\n\r\n.form-group {\r\n  margin-bottom: 15px;\r\n}\r\n\r\n.form-group label {\r\n  display: block;\r\n  margin-bottom: 5px;\r\n  font-weight: bold;\r\n}\r\n\r\n.form-group input {\r\n  width: 100%;\r\n  padding: 10px;\r\n  border: 1px solid #ced4da;\r\n  border-radius: 8px;\r\n  transition: border-color 0.3s;\r\n}\r\n\r\n.form-group input:focus {\r\n  border-color: var(--primary-color);\r\n  outline: none;\r\n}\r\n\r\n.error-message {\r\n  padding: 10px;\r\n  margin-bottom: 15px;\r\n  border-radius: 8px;\r\n  background-color: #f8d7da;\r\n  color: #721c24;\r\n  border: 1px solid #f5c6cb;\r\n  text-align: center;\r\n}\r\n\r\n.form-error {\r\n  color: #dc3545;\r\n  font-size: 0.85em;\r\n  margin-top: 5px;\r\n}\r\n\r\n.submit-button {\r\n  width: 100%;\r\n  padding: 10px;\r\n  background-color: var(--primary-color);\r\n  color: white;\r\n  border: none;\r\n  border-radius: 8px;\r\n  cursor: pointer;\r\n  transition: background-color 0.3s;\r\n}\r\n\r\n.submit-button:hover:not(:disabled) {\r\n  background-color: #0056b3;\r\n}\r\n\r\n.submit-button:disabled {\r\n  background-color: #a0c3e8;\r\n  cursor: not-allowed;\r\n}\r\n\r\n/* Спіннер */\r\n.spinner-border {\r\n  width: 1.5rem;\r\n  height: 1.5rem;\r\n  vertical-align: text-bottom;\r\n  border: 0.2em solid currentColor;\r\n  border-right-color: transparent;\r\n  border-radius: 50%;\r\n  animation: spinner-border 0.75s linear infinite;\r\n}\r\n\r\n@keyframes spinner-border {\r\n  to { transform: rotate(360deg); }\r\n}\r\n\r\n/* Специфічні стилі для аватарки */\r\n\r\n.avatar-preview-wrapper {\r\n  margin-top: 10px;\r\n}\r\n\r\n.avatar-preview {\r\n  width: 150px;\r\n  height: 150px;\r\n  object-fit: cover;\r\n  border-radius: 50%;\r\n}\r\n\r\n.avatar-container {\r\n  position: relative;\r\n  display: inline-block; /* Щоб кнопка позиціонувалася відносно картинки */\r\n}\r\n\r\n.remove-button {\r\n  position: absolute;\r\n  top: -10px;\r\n  right: -10px;\r\n  background-color: rgba(0, 0, 0, 0.4);\r\n  border: none;\r\n  border-radius: 50%;\r\n  width: 30px;\r\n  height: 30px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  cursor: pointer;\r\n  color: white;\r\n  transition: background-color 0.3s ease;\r\n}\r\n\r\n.remove-button:hover {\r\n  background-color: #dc3545; /* Червоний колір для видалення */\r\n}\r\n\r\n.remove-button::before {\r\n  content: '×';\r\n  font-size: 20px;\r\n  font-weight: bold;\r\n}\r\n\r\n</style>\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/runtime/api.js":
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
@@ -11484,6 +12075,58 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -12076,6 +12719,36 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./assets/scripts/pages/ProfileEditPage.vue":
+/*!**************************************************!*\
+  !*** ./assets/scripts/pages/ProfileEditPage.vue ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true");
+/* harmony import */ var _ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=script&lang=js */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js");
+/* harmony import */ var _ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css");
+/* harmony import */ var D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5f49d95c"],['__file',"assets/scripts/pages/ProfileEditPage.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./assets/scripts/pages/ProfilePage.vue":
 /*!**********************************************!*\
   !*** ./assets/scripts/pages/ProfilePage.vue ***!
@@ -12320,6 +12993,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js":
+/*!**************************************************************************!*\
+  !*** ./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./assets/scripts/pages/ProfilePage.vue?vue&type=script&lang=js":
 /*!**********************************************************************!*\
   !*** ./assets/scripts/pages/ProfilePage.vue?vue&type=script&lang=js ***!
@@ -12515,6 +13203,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true":
+/*!********************************************************************************************!*\
+  !*** ./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true");
+
+
+/***/ }),
+
 /***/ "./assets/scripts/pages/ProfilePage.vue?vue&type=template&id=3363d3a8":
 /*!****************************************************************************!*\
   !*** ./assets/scripts/pages/ProfilePage.vue?vue&type=template&id=3363d3a8 ***!
@@ -12568,6 +13271,18 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css":
+/*!**********************************************************************************************************!*\
+  !*** ./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css");
 
 
 /***/ }),
