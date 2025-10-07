@@ -509,3 +509,16 @@ def follow_view(request, username):
 @login_required
 def settings_view(request):
     return render(request, 'settings.html')
+
+@login_required
+def current_user_view(request):
+    user = request.user
+    profile = getattr(user, "profile", None)
+
+    return JsonResponse({
+        "username": user.username,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "avatar": profile.avatar.url if profile and profile.avatar else None,
+    })
