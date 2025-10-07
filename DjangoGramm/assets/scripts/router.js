@@ -10,6 +10,7 @@ import PostCreationPage from './pages/PostCreationPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
 import PostEditPage from './pages/PostEditPage.vue';
 import ProfileEditPage from "./pages/ProfileEditPage.vue";
+import NewsPage from "./pages/NewsPage.vue";
 
 const routes = [
   { path: '/', component: HomePage },
@@ -43,13 +44,12 @@ const routes = [
   { path: '/settings/', component: SettingsPage },
   { path: '/post/:id/update', component: PostEditPage },
   { path: '/profile/:username/update', component: ProfileEditPage },
+  { path: '/news/', component: NewsPage },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-
-console.log('✅ Routes:', router.getRoutes().map(r => r.path));
 
 export default router;

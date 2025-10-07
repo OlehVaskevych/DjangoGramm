@@ -243,8 +243,23 @@ def post_view(request, post_id):
 def posts_view(request):
     page_number = int(request.GET.get("page", 1))
     per_page = int(request.GET.get("limit", 10))
+    feed_type = request.GET.get("feed", "all")  # 'all' або 'news'
 
-    posts_qs = Post.objects.all().order_by("-id")  # останні пости
+    # 🔹 Якщо користувач відкрив сторінку News — потрібен логін
+    if feed_type == "news":
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden("Authentication required to view followed users' posts.")
+
+        # Отримуємо користувачів, на яких поточний користувач підписаний
+        followed_users = Follow.objects.filter(follower=request.user).values_list("following", flat=True)
+
+        # Якщо ще ні на кого не підписаний — порожній список
+        posts_qs = Post.objects.filter(user__id__in=followed_users).order_by("-id")
+
+    else:
+        # 🔹 Для головної сторінки — усі пости
+        posts_qs = Post.objects.all().order_by("-id")
+
     paginator = Paginator(posts_qs, per_page)
     page_obj = paginator.get_page(page_number)
 
@@ -257,12 +272,12 @@ def posts_view(request):
                 "username": post.user.username,
                 "profile": {
                     "avatar": {
-                        "url": post.user.profile.avatar.url,
+                        "url": post.user.profile.avatar.url if getattr(post.user.profile.avatar, "url", None) else "",
                     }
                 }
             },
             "likes": {
-                "count": post.likes.all().count(),
+                "count": post.likes.count(),
                 "all": [{"username": u.username} for u in post.likes.all()]
             },
             "comments": [
@@ -489,67 +504,6 @@ def follow_view(request, username):
 
     except (IntegrityError, DatabaseError):
         return JsonResponse({'status': 'error', 'msg': 'Database error'}, status=500)
-
-@login_required
-def news_feed(request):
-    follows = Follow.objects.filter(follower=request.user)
-    posts = Post.objects.filter(user_id__in=[follow.following for follow in follows]).order_by('-created_at')
-
-    posts_json = [
-        {
-            "id": post.id,
-            "title": post.title,
-            "description": post.description,
-            "user": {
-                "username": post.user.username,
-                "profile": {
-                    "avatar": {
-                        "url": post.user.profile.avatar.url,
-                    }
-                }
-            },
-            "likes": {
-                "count": post.likes.all().count(),
-                "all": [
-                    {
-                        "username": user.username,
-                    }
-                    for user in post.likes.all()
-                ]
-            },
-            "comments": [
-                {
-                    "id": comment.id,
-                    "author": {"username": comment.author.username},
-                    "text": comment.text,
-                    "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-                }
-                for comment in post.comments.all()
-            ],
-            "images": [
-                {
-                    "image_file": {"url": image.image_file.url},
-                }
-                for image in post.images.all()
-            ]
-        }
-        for post in posts
-    ]
-
-    context = {
-        "posts": posts_json,
-        "current_user": {
-            "username": request.user.username if request.user.is_authenticated else None,
-            "profile": {
-                "avatar": {
-                    "url": request.user.profile.avatar.url if request.user.is_authenticated else None,
-                }
-            } if request.user.is_authenticated else None
-        },
-        "userIsAuthenticated": request.user.is_authenticated,
-    }
-
-    return render(request, 'news_feed.html', context)
 
 
 @login_required

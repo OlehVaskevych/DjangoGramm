@@ -12,7 +12,7 @@ urlpatterns = [
     path('profile/<str:username>/update/', views.profile_update_view, name='profile_update'),
     path('profile/<str:username>/follows/', views.follow_view, name='follow'),
 
-    path('news/', views.news_feed, name='news'),
+    # path('news/', views.news_feed, name='news'),
 
     path('post/', views.post_create_view, name='post_create'),
     path('api/post/<int:post_id>/', views.post_view, name='post_detail'),
