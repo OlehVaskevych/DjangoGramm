@@ -115,9 +115,13 @@ export default {
         })
         const data = await res.json()
         if (data.status === 'success') {
-          this.followers = this.followers + 1;
-          this.isFollowing = !this.isFollowing;
-          console.log(data);
+          if (this.isFollowing) {
+            this.followers = Math.max(0, this.followers - 1); // захист від -1
+            this.isFollowing = false;
+          } else {
+            this.followers = this.followers + 1;
+            this.isFollowing = true;
+          }
         }
         else {
           console.warn("You can Follow to this user!")

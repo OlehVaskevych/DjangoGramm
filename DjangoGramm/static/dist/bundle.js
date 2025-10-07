@@ -4989,9 +4989,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 6:
               data = _context.sent;
               if (data.status === 'success') {
-                _this.followers = _this.followers + 1;
-                _this.isFollowing = !_this.isFollowing;
-                console.log(data);
+                if (_this.isFollowing) {
+                  _this.followers = Math.max(0, _this.followers - 1); // захист від -1
+                  _this.isFollowing = false;
+                } else {
+                  _this.followers = _this.followers + 1;
+                  _this.isFollowing = true;
+                }
               } else {
                 console.warn("You can Follow to this user!");
               }
