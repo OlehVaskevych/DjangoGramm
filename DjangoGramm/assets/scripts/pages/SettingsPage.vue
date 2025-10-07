@@ -7,10 +7,13 @@
                   Edit Profile
                   <span class="fa fa-edit"></span>
           </a>
-          <a href="{% url 'logout' %}" class="btn custom-button me-5 ms-5">
-                  Logout
-                  <span class="fa fa-sign-out"></span>
-          </a>
+          <router-link
+            to="/auth/logout/"
+            class="btn custom-button me-5 ms-5"
+          >
+            Logout
+            <span class="fa fa-sign-out"></span>
+          </router-link>
       </div>
   </div>
 </template>
@@ -18,3 +21,5 @@
 <style scoped>
 
 </style>
+<script setup lang="ts">
+</script>
