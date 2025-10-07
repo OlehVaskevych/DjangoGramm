@@ -74,6 +74,7 @@
 
 <script>
 import { useRoute } from 'vue-router'; // 💡 useRoute використовується для доступу до поточного маршруту
+import { getCookie } from '../csrf.js';
 
 export default {
   // Використовуємо Vue 3 setup() для отримання useRoute, або робимо це у beforeMount/created,
@@ -103,10 +104,27 @@ export default {
   },
 
   methods: {
-    toggleFollow() {
-      // Ця функція лише змінює локальний стан.
-      // 💡 Реальна логіка POST-запиту до API для підписки/відписки має бути тут.
-      this.isFollowing = !this.isFollowing;
+    async toggleFollow() {
+      try {
+        const res = await fetch(`/profile/${this.username}/follows/`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+          }
+        })
+        const data = await res.json()
+        if (data.status === 'success') {
+          this.followers = this.followers + 1;
+          this.isFollowing = !this.isFollowing;
+          console.log(data);
+        }
+        else {
+          console.warn("You can Follow to this user!")
+        }
+      } catch (err) {
+        console.error("Error while try to follow: ", err);
+      }
     },
 
     async loadProfileData() {

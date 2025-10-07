@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <div id="app">
     <NavigationBar
       :isAuthenticated="isAuthenticated"
       :currentPath="currentPath"
       :username="username"
     />
-    <router-view />
+    <!-- Added main wrapper with padding for fixed bottom nav -->
+    <main class="main-content">
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -22,3 +25,6 @@ export default {
   components: { NavigationBar }
 }
 </script>
+
+<style lang="scss">
+</style>

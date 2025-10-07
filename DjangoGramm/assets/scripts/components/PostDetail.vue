@@ -1,6 +1,6 @@
 <template>
   <div class="card mt-3 card-color">
-    <div class="card-header d-flex align-items-center mt-2 mb-2">
+    <div class="card-header d-flex align-items-center mt-2">
       <img :src="post.user.profile.avatar.url" alt="Avatar" class="card-header-image">
       <router-link
           :to="'/profile/' + post.user.username"

@@ -4924,7 +4924,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
 function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
@@ -4966,47 +4967,84 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   },
   methods: {
     toggleFollow: function toggleFollow() {
-      // Ця функція лише змінює локальний стан.
-      // 💡 Реальна логіка POST-запиту до API для підписки/відписки має бути тут.
-      this.isFollowing = !this.isFollowing;
-    },
-    loadProfileData: function loadProfileData() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var route, res, data;
+        var res, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              route = (0,vue_router__WEBPACK_IMPORTED_MODULE_0__.useRoute)(); // Отримуємо доступ до об'єкта маршруту
-              _this.username = route.params.username;
-              _context.prev = 2;
-              _context.next = 5;
-              return fetch("/api/profile/".concat(_this.username, "/"));
-            case 5:
+              _context.prev = 0;
+              _context.next = 3;
+              return fetch("/profile/".concat(_this.username, "/follows/"), {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "X-CSRFToken": (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
+                }
+              });
+            case 3:
               res = _context.sent;
-              _context.next = 8;
+              _context.next = 6;
               return res.json();
-            case 8:
+            case 6:
               data = _context.sent;
-              // Оновлюємо стан
-              _this.user = data.user;
-              _this.profile = data.profile;
-              _this.posts = data.posts;
-              _this.followers = data.followers;
-              _this.followings = data.followings;
-              _this.isFollowing = data.is_following;
-              _this.currentUser = window.currentUser; // Об'єкт поточного користувача
-              _context.next = 21;
+              if (data.status === 'success') {
+                _this.followers = _this.followers + 1;
+                _this.isFollowing = !_this.isFollowing;
+                console.log(data);
+              } else {
+                console.warn("You can Follow to this user!");
+              }
+              _context.next = 13;
               break;
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](2);
-              console.error('Failed to load profile: ', _context.t0);
-            case 21:
+            case 10:
+              _context.prev = 10;
+              _context.t0 = _context["catch"](0);
+              console.error("Error while try to follow: ", _context.t0);
+            case 13:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[2, 18]]);
+        }, _callee, null, [[0, 10]]);
+      }))();
+    },
+    loadProfileData: function loadProfileData() {
+      var _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var route, res, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              route = (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.useRoute)(); // Отримуємо доступ до об'єкта маршруту
+              _this2.username = route.params.username;
+              _context2.prev = 2;
+              _context2.next = 5;
+              return fetch("/api/profile/".concat(_this2.username, "/"));
+            case 5:
+              res = _context2.sent;
+              _context2.next = 8;
+              return res.json();
+            case 8:
+              data = _context2.sent;
+              // Оновлюємо стан
+              _this2.user = data.user;
+              _this2.profile = data.profile;
+              _this2.posts = data.posts;
+              _this2.followers = data.followers;
+              _this2.followings = data.followings;
+              _this2.isFollowing = data.is_following;
+              _this2.currentUser = window.currentUser; // Об'єкт поточного користувача
+              _context2.next = 21;
+              break;
+            case 18:
+              _context2.prev = 18;
+              _context2.t0 = _context2["catch"](2);
+              console.error('Failed to load profile: ', _context2.t0);
+            case 21:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[2, 18]]);
       }))();
     }
   },
@@ -5189,14 +5227,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-browser.js");
 
+var _hoisted_1 = {
+  id: "app"
+};
+var _hoisted_2 = {
+  "class": "main-content"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_NavigationBar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NavigationBar");
   var _component_router_view = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-view");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavigationBar, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavigationBar, {
     isAuthenticated: $props.isAuthenticated,
     currentPath: $props.currentPath,
     username: $props.username
-  }, null, 8 /* PROPS */, ["isAuthenticated", "currentPath", "username"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view)]);
+  }, null, 8 /* PROPS */, ["isAuthenticated", "currentPath", "username"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Added main wrapper with padding for fixed bottom nav "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view)])]);
 }
 
 /***/ }),
@@ -5369,7 +5413,7 @@ var _hoisted_1 = {
   "class": "card mt-3 card-color"
 };
 var _hoisted_2 = {
-  "class": "card-header d-flex align-items-center mt-2 mb-2"
+  "class": "card-header d-flex align-items-center mt-2"
 };
 var _hoisted_3 = ["src"];
 var _hoisted_4 = {
@@ -5691,10 +5735,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4 ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -5935,10 +5979,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -6290,7 +6334,7 @@ var _hoisted_1 = {
   "class": "settings-container"
 };
 var _hoisted_2 = {
-  "class": "d-grid gap-2"
+  "class": "d-grid gap-2 styled-form"
 };
 function render(_ctx, _cache) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
@@ -6298,12 +6342,12 @@ function render(_ctx, _cache) {
     "class": "settings-title"
   }, "Settings", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "{% url 'profile_update' user.username %}",
-    "class": "btn custom-button me-5 ms-5"
+    "class": "btn custom-button"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Profile "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fa fa-edit"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/auth/logout/",
-    "class": "btn custom-button me-5 ms-5"
+    "class": "btn custom-button"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Logout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -10880,23 +10924,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://use.fontawesome.com/releases/v6.4.2/css/all.css);"]);
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Poppins);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);"]);
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `@charset "UTF-8";
 :root {
-  /* Основні кольори для темної версії */
-  --primary-color: #66a800; /* Синій для кнопок */
-  --primary-color-hover: #497900; /* Синій для кнопок */
+  --primary-color: #66a800;
+  --primary-color-hover: #497900;
+  --primary-color-light: rgba(102, 168, 0, 0.1);
   --secondary-color: #787c80;
-  --like-btn-color: #ff4d4d; /* Червоний для лайкнутого серця */
-  --background-color: #121212; /* Темний фон */
-  --text-color: #e0e0e0; /* Світлий текст */
-  --card-bg-color: #222; /* Тема карточок */
-  --muted-color-2: #999;
-  --muted-color: #777;
-  --error-color: #b92222;
-  --border-color: #333;
+  --like-btn-color: #ff4d4d;
+  --background-color: #0a0a0a;
+  --surface-color: #141414;
+  --card-bg-color: #1a1a1a;
+  --text-color: #e8e8e8;
+  --text-muted: #999;
+  --text-muted-2: #777;
+  --error-color: #dc3545;
+  --border-color: #2a2a2a;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-primary: 0 4px 20px rgba(102, 168, 0, 0.15);
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 50%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -10906,52 +10967,75 @@ body {
   align-items: center;
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.main-content {
+  padding-bottom: 90px;
+  min-height: 100vh;
+  max-width: 750px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .container {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
-  padding: 20px;
-  /* HEADER */
+  padding: 20px 0;
 }
 .container header {
   display: flex;
   align-items: center;
-  padding: 30px 20px;
+  padding: 30px 0;
 }
 .container header img {
   height: 40px;
   margin-right: 15px;
+  transition: transform var(--transition-base);
+}
+.container header img:hover {
+  transform: scale(1.05);
 }
 .container header h1 {
   font-size: 24px;
+  font-weight: 700;
   color: var(--text-color);
   margin: 0;
 }
 
-/* NAVIGATION */
-.icon .text {
-  color: var(--text-color);
-}
-
 .navigation {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  max-width: 1160px;
+  max-width: 100%;
   height: 70px;
-  background: var(--card-bg-color);
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5), 0 -1px 0 rgba(102, 168, 0, 0.1);
+  z-index: 1000;
+  border-top: 1px solid rgba(102, 168, 0, 0.15);
 }
 .navigation ul {
   display: flex;
   width: auto;
   padding: 0;
+  margin: 0;
 }
 .navigation ul li {
   position: relative;
@@ -10971,63 +11055,44 @@ body {
   font-weight: 500;
   text-decoration: none;
 }
-.navigation ul li a span {
-  color: var(--text-color);
-}
 .navigation ul li a .text {
   position: absolute;
-  font-weight: 400;
-  font-size: 0.75em;
+  font-weight: 600;
+  font-size: 0.7em;
   letter-spacing: 0.05em;
-  transition: 0.5s;
+  transition: var(--transition-slow);
   opacity: 0;
   transform: translateY(20px);
+  color: var(--text-color);
 }
 .navigation ul li a .icon {
-  color: var(--text-color);
+  color: var(--text-muted);
   position: relative;
   display: block;
   line-height: 75px;
   font-size: 1.5em;
   text-align: center;
-  transition: 0.5s;
+  transition: var(--transition-slow);
 }
 .navigation ul li.active a .icon {
   transform: translateY(-35px);
+  color: var(--text-color);
 }
 .navigation ul li.active a .text {
   opacity: 1;
   transform: translateY(10px);
+  color: var(--primary-color);
 }
 .navigation ul .indicator {
   position: absolute;
-  top: -60%;
+  top: -50%;
   width: 70px;
   height: 70px;
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #7bc200 100%);
   box-sizing: border-box;
-  border-radius: 50%;
-  border: 6px solid var(--background-color);
-  transition: 0.5s;
-}
-.navigation ul .indicator::before,
-.navigation ul .indicator::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-}
-.navigation ul .indicator::before {
-  left: -22px;
-  border-top-right-radius: 20px;
-  box-shadow: 1px -10px 0 0 var(--background-color);
-}
-.navigation ul .indicator::after {
-  right: -22px;
-  border-top-left-radius: 20px;
-  box-shadow: -1px -10px 0 0 var(--background-color);
+  border-radius: var(--radius-full);
+  transition: var(--transition-slow);
+  box-shadow: 0 -4px 24px rgba(102, 168, 0, 0.5), 0 0 40px rgba(102, 168, 0, 0.3), 0 -8px 16px rgba(102, 168, 0, 0.2);
 }
 .navigation ul li.active ~ .indicator {
   --x: 0;
@@ -11046,237 +11111,77 @@ body {
   --x: 280px;
 }
 
+.card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  margin-bottom: 24px;
+}
+.card:hover {
+  border-color: rgba(102, 168, 0, 0.3);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
 .card-color {
   background-color: var(--card-bg-color);
   border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+.card-color:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(102, 168, 0, 0.2);
+  transform: translateY(-2px);
+}
+.card-color img:not(.card-header-image):not(.avatar-preview):not(.preview-img):not(.post-image) {
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(26, 26, 26, 0.3);
+  border-bottom: 1px solid rgba(102, 168, 0, 0.08);
 }
 
 .card-header-image {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   object-fit: cover;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--border-color);
+  transition: all var(--transition-base);
+  flex-shrink: 0;
 }
-
-.user-href {
-  color: var(--muted-color);
-}
-
-.user-href:hover,
-.edit-icon:hover {
-  color: var(--primary-color);
-  transform: scale(1.1);
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-.edit-icon {
-  margin-left: auto; /* Зміщує іконку редагування до правого краю */
-  font-size: 1.2rem; /* Розмір іконки */
-  color: var(--secondary-color); /* Основний колір іконки */
-  text-decoration: none; /* Видаляємо підкреслення для посилання */
-}
-
-.custom-btn-like, .custom-btn-comment {
-  border: none;
-  background: transparent;
-  color: #6c757d;
-  font-size: 24px;
-  transition: color 0.3s ease, transform 0.2s ease;
-  text-decoration: none;
-}
-
-.custom-btn-like i {
-  pointer-events: none;
-}
-
-.custom-btn-like .fa-solid {
-  color: #ff4d4d;
-}
-
-.custom-btn-like:hover, .custom-btn-like:focus, .custom-btn-like.active {
-  color: #ff4d4d;
-  transform: scale(1.1);
-}
-
-.custom-btn-comment {
-  border: none;
-  background: transparent;
-  color: #6c757d;
-  font-size: 24px;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.custom-btn-comment:hover, .custom-btn-comment:focus, .custom-btn-comment.active {
-  color: var(--primary-color);
-  transform: scale(1.1);
-}
-
-.comment-text {
-  color: var(--muted-color);
-}
-
-.comment-text-author {
-  color: var(--muted-color-2);
-}
-
-.custom-text-area:hover,
-.custom-text-area:active,
-.custom-text-area:focus,
-.custom-text-area {
-  border: 1px solid var(--muted-color);
-  height: 80px;
-  background-color: var(--card-bg-color);
-  color: var(--muted-color-2);
-}
-
-.custom-comment-button {
-  background-color: var(--primary-color);
-}
-
-.custom-comment-button:hover {
-  background-color: var(--primary-color-hover);
-  transition: color 0.3s ease-in-out;
-}
-
-.form-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: var(--card-bg-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 255, 0, 0.1);
-}
-
-.form-title {
-  color: var(--primary-color);
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-}
-
-.styled-form .form-group {
-  margin-bottom: 1.5rem;
-}
-
-.styled-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-  font-weight: 500;
-}
-
-.styled-form input[type=text],
-.styled-form input[type=password],
-.styled-form input[type=email],
-.styled-form input,
-.styled-form textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--secondary-color);
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: var(--text-color);
-  font-size: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.styled-form input[type=text]:focus,
-.styled-form input[type=password]:focus,
-.styled-form input[type=email]:focus,
-.styled-form input:focus,
-.styled-form textarea:focus,
-.styled-form textarea:active {
-  background-color: rgba(0, 0, 0, 0.2);
-  color: var(--text-color);
-  outline: none;
+.card-header-image:hover {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.2);
+  transform: scale(1.08);
 }
 
-.styled-form .file-input::-webkit-file-upload-button {
-  background-color: var(--muted-color);
-  color: var(--background-color);
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.card-body {
+  padding: 20px;
 }
 
-.styled-form .file-input::-webkit-file-upload-button:hover {
-  background-color: var(--muted-color-2);
-}
-
-.styled-form .form-text {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
   color: var(--text-color);
-  opacity: 0.8;
+  line-height: 1.4;
 }
 
-.styled-form .form-error {
-  color: var(--error-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* Відступ між кнопками */
-}
-
-.styled-form .submit-button {
-  width: 100%; /* Однакова ширина для обох кнопок */
-  padding: 0.75rem;
-  background-color: var(--secondary-color);
-  color: var(--background-color);
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
-  text-decoration: none;
-}
-
-.styled-form .register-button {
-  background-color: var(--secondary-color); /* Інший колір для кнопки реєстрації */
-}
-
-.styled-form .register-button:hover {
-  background-color: var(--primary-color); /* Ефект при наведенні */
-}
-
-.styled-form .submit-button:hover {
-  background-color: var(--primary-color); /* Ефект при наведенні */
-}
-
-@media (max-width: 768px) {
-  .form-container {
-    padding: 1.5rem;
-  }
-}
-.button-container p {
-  font-size: 0.875rem; /* Розмір тексту */
-  color: var(--text-color); /* Колір тексту */
-  text-align: center; /* Центрування тексту */
-  margin: 0; /* Прибирання зайвих відступів */
-}
-
-.button-container p a {
-  color: var(--primary-color); /* Колір посилання */
-  font-weight: bold; /* Напівжирний текст для посилання */
-  text-decoration: none; /* Відключення стандартного підкреслення */
-  transition: color 0.3s ease; /* Ефект зміни кольору при наведенні */
-}
-
-.button-container p a:hover {
-  color: var(--secondary-color); /* Інший колір при наведенні */
-  text-decoration: underline; /* Додавання підкреслення при наведенні */
+.card-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 16px;
 }
 
 .card-text-color {
@@ -11284,189 +11189,264 @@ body {
 }
 
 .card-muted-text-color {
-  color: var(--muted-color);
+  color: var(--text-muted);
+  font-size: 0.875rem;
 }
 
-.settings-container {
-  max-width: 600px;
-  margin: 5% auto;
-  background-color: var(--card-bg-color);
-  min-height: 150px;
-  padding: 2rem;
-  border-radius: 10px;
+.carousel {
+  position: relative;
+  background: var(--surface-color);
 }
-
-.settings-title {
-  color: var(--primary-color);
-  text-align: center;
-  margin: 0;
-  padding-bottom: 2rem;
-  font-size: 1.5rem;
-}
-
-.custom-button {
-  margin: 0.5rem;
-  height: max-content;
-  color: var(--background-color);
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.custom-button:hover {
-  background-color: var(--primary-color-hover);
-  border-color: var(--primary-color-hover);
-}
-
-.delete-form button {
+.carousel-inner {
+  position: relative;
   width: 100%;
+  overflow: hidden;
+}
+.carousel-item {
+  display: none;
+  position: relative;
+  width: 100%;
+}
+.carousel-item.active {
+  display: block;
+}
+.carousel-item img {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: cover;
+  display: block;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(102, 168, 0, 0.1);
+}
+
+.post-tag,
+.hashtag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(102, 168, 0, 0.1);
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.post-tag::before,
+.hashtag::before {
+  content: "#";
+  margin-right: 2px;
+  opacity: 0.8;
+}
+.post-tag:hover,
+.hashtag:hover {
+  background: rgba(102, 168, 0, 0.2);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 168, 0, 0.2);
+}
+.post-tag:active,
+.hashtag:active {
+  transform: translateY(0);
 }
 
 .header {
-  background: #2a2a2a;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 255, 0, 0.1);
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 24px 16px;
 }
-
-.avatar-container {
-  text-align: center;
-  margin-bottom: 30px;
+.header .avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
 }
-.avatar-container img {
-  width: 150px;
-  height: 150px;
+.header .avatar-container img {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  border: 3px solid var(--primary-color);
   object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid var(--primary-color);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.3);
+  transition: all var(--transition-base);
 }
-.avatar-container img:hover {
+.header .avatar-container img:hover {
   transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(102, 168, 0, 0.4);
 }
-
-.profile-main-info {
-  text-align: center;
-  margin-bottom: 30px;
-}
-.profile-main-info .username-and-actions {
+.header .profile-main-info .username-and-actions {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
-.profile-main-info .username {
-  font-size: 28px;
-  font-weight: bold;
-  color: var(--primary-color);
+.header .profile-main-info .username-and-actions .username {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color);
   margin: 0;
 }
-.profile-main-info .actions .btn {
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
+.header .profile-main-info .username-and-actions .actions .btn {
+  padding: 8px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
 }
-.profile-main-info .actions .btn-warning {
+.header .profile-main-info .username-and-actions .actions .btn.btn-warning {
   background: var(--primary-color);
-  color: var(--background-color);
+  color: white;
 }
-.profile-main-info .actions .btn-success {
-  background: var(--secondary-color);
+.header .profile-main-info .username-and-actions .actions .btn.btn-warning:hover {
+  background: var(--primary-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);
+}
+.header .profile-main-info .username-and-actions .actions .btn.btn-success {
+  background: var(--primary-color);
+  color: white;
+}
+.header .profile-main-info .username-and-actions .actions .btn.btn-success:hover {
+  background: var(--primary-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);
+}
+.header .profile-main-info .username-and-actions .actions .btn.btn-danger {
+  background: var(--surface-color);
   color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
-.profile-main-info .actions .btn-danger {
-  background: #dc3545;
-  color: var(--text-color);
-}
-.profile-main-info .actions .btn:hover {
-  opacity: 0.8;
+.header .profile-main-info .username-and-actions .actions .btn.btn-danger:hover {
+  background: var(--card-bg-color);
+  border-color: var(--text-muted);
   transform: translateY(-2px);
 }
-.profile-main-info .stats {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  font-size: 16px;
-  margin-top: 20px;
-}
-.profile-main-info .stats div {
+.header .profile-main-info .profile-details {
   text-align: center;
+  margin-bottom: 20px;
 }
-.profile-main-info .stats h3 {
-  margin: 0;
-  font-size: 24px;
+.header .profile-main-info .profile-details .full-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+.header .profile-main-info .profile-details .bio {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-top: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.header .profile-main-info .stats {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 24px;
+}
+.header .profile-main-info .stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+.header .profile-main-info .stats > div:hover {
+  transform: translateY(-2px);
+}
+.header .profile-main-info .stats > div:hover h3 {
   color: var(--primary-color);
 }
-.profile-main-info .stats span {
-  font-size: 14px;
-  color: var(--muted-color);
-}
-
-#profile-info {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-#profile-info h3 {
-  margin: 10px 0;
-  font-size: 18px;
-  font-weight: normal;
+.header .profile-main-info .stats > div h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text-color);
+  margin: 0 0 4px 0;
+  transition: color var(--transition-base);
+}
+.header .profile-main-info .stats > div span {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 #posts {
-  margin-top: 50px;
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 0 16px 100px 16px;
 }
-
 #posts h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 25px;
-  text-align: center;
-  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 20px;
 }
-
-.posts-grid {
+#posts h4 {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px 0;
+  font-weight: 500;
+}
+#posts .posts-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 20px;
+  gap: 12px;
 }
-
-.post-item {
+#posts .posts-grid .post-item {
   position: relative;
-  display: block;
   width: 100%;
-  padding-top: 100%;
+  aspect-ratio: 1/1;
   overflow: hidden;
-  border-radius: 8px;
-  background: var(--primary-color-hover);
-  box-shadow: 0 4px 8px rgba(0, 255, 0, 0.1);
-  transition: transform 0.3s ease;
+  background: var(--surface-color);
+  border-radius: 4px;
+  cursor: pointer;
 }
-
-.post-item:hover {
-  transform: scale(1.03);
+#posts .posts-grid .post-item a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  overflow: hidden;
 }
-
-.post-image {
+#posts .posts-grid .post-item img,
+#posts .posts-grid .post-item .post-image {
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  object-position: center;
+  transition: transform var(--transition-base);
+  z-index: 1;
 }
-
-.post-overlay {
+#posts .posts-grid .post-item .post-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -11474,295 +11454,547 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: var(--text-color);
-  font-size: 14px;
-  font-weight: bold;
+  justify-content: center;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition-base);
+  z-index: 2;
+  pointer-events: none;
 }
-
-.post-item:hover .post-overlay {
+#posts .posts-grid .post-item .post-overlay span {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+#posts .posts-grid .post-item .post-overlay span i {
+  margin-left: 6px;
+}
+#posts .posts-grid .post-item .post-overlay span i.fa-heart {
+  color: var(--like-btn-color);
+}
+#posts .posts-grid .post-item:hover img,
+#posts .posts-grid .post-item:hover .post-image {
+  transform: scale(1.1);
+}
+#posts .posts-grid .post-item:hover .post-overlay {
   opacity: 1;
 }
-
-.error-message {
-  color: #f44336; /* Колір для повідомлень про помилки */
-  font-size: 14px;
-  margin-top: 10px;
+@media (max-width: 768px) {
+  #posts .posts-grid {
+    gap: 8px;
+  }
 }
 
-.btn-form {
-  margin-top: 3%;
-}
-
-.like-comment-container {
-  display: flex;
-  align-items: center; /* Вертикальне вирівнювання елементів */
-  gap: 10px; /* Відстань між кнопками */
-}
-
-.custom-btn-like, .custom-btn-comment {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.custom-btn-like i, .custom-btn-comment i {
-  font-size: 24px; /* Встановлюємо однаковий розмір для іконок */
-}
-
-.social-login {
+.form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color);
   text-align: center;
-  margin-top: 0;
+  margin-bottom: 32px;
+  padding-top: 20px;
 }
 
-.gsi-material-button {
-  background-color: white;
-  border: 1px solid #747775;
-  border-radius: 20px;
-  box-sizing: border-box;
-  color: #1f1f1f;
-  cursor: pointer;
-  font-family: "Roboto", arial, sans-serif;
-  font-size: 14px;
-  height: 40px;
-  padding: 0;
-  text-align: center;
-  transition: background-color 0.218s, box-shadow 0.218s;
-  width: 40px;
-  margin: 1%;
-}
-
-.gsi-material-button .gsi-material-button-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
-
-.gsi-material-button-icon svg {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
-.gsi-material-button:disabled {
-  cursor: default;
-  background-color: rgba(255, 255, 255, 0.3803921569);
-  border-color: rgba(31, 31, 31, 0.1215686275);
-}
-
-.gsi-material-button:not(:disabled):hover {
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-}`, "",{"version":3,"sources":["webpack://./assets/styles/styles.scss"],"names":[],"mappings":"AAAA,gBAAgB;AAGhB;EACI,sCAAA;EACA,wBAAA,EAAA,qBAAA;EACA,8BAAA,EAAA,qBAAA;EACA,0BAAA;EACA,yBAAA,EAAA,kCAAA;EACA,2BAAA,EAAA,eAAA;EACA,qBAAA,EAAA,kBAAA;EACA,qBAAA,EAAA,kBAAA;EACA,qBAAA;EACH,mBAAA;EACA,sBAAA;EACG,oBAAA;AACJ;;AAEA;EACC,iBAAA;EACG,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,yCAAA;EACA,wBAAA;EACA,8BAAA;EACA,SAAA;EACA,UAAA;AACJ;;AAEA;EACI,iBAAA;EACA,cAAA;EACA,aAAA;EAEA,WAAA;AAAJ;AAEI;EACI,aAAA;EACA,mBAAA;EACA,kBAAA;AAAR;AAEQ;EACI,YAAA;EACA,kBAAA;AAAZ;AAGQ;EACI,eAAA;EACA,wBAAA;EACA,SAAA;AADZ;;AAKA,eAAA;AAEA;EACI,wBAAA;AAHJ;;AAMA;EACI,kBAAA;EACA,WAAA;EACA,iBAAA;EACA,YAAA;EACA,gCAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,mBAAA;AAHJ;AAKI;EACI,aAAA;EACA,WAAA;EACA,UAAA;AAHR;AAKQ;EACI,kBAAA;EACA,gBAAA;EACA,WAAA;EACA,YAAA;EACA,UAAA;AAHZ;AAKY;EACI,kBAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;EACA,WAAA;EACA,kBAAA;EACA,gBAAA;EACA,qBAAA;AAHhB;AAKgB;EACI,wBAAA;AAHpB;AAMgB;EACI,kBAAA;EACA,gBAAA;EACA,iBAAA;EACA,sBAAA;EACA,gBAAA;EACA,UAAA;EACA,2BAAA;AAJpB;AAOgB;EACI,wBAAA;EACA,kBAAA;EACA,cAAA;EACA,iBAAA;EACA,gBAAA;EACA,kBAAA;EACA,gBAAA;AALpB;AAUQ;EACI,4BAAA;AARZ;AAWQ;EACI,UAAA;EACA,2BAAA;AATZ;AAYQ;EACI,kBAAA;EACA,SAAA;EACA,WAAA;EACA,YAAA;EACA,gCAAA;EACA,sBAAA;EACA,kBAAA;EACA,yCAAA;EACA,gBAAA;AAVZ;AAaQ;;EAEI,WAAA;EACA,kBAAA;EACA,QAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAXZ;AAcQ;EACI,WAAA;EACA,6BAAA;EACA,iDAAA;AAZZ;AAeQ;EACI,YAAA;EACA,4BAAA;EACA,kDAAA;AAbZ;AAgBQ;EACI,MAAA;EACA,+BAAA;AAdZ;AAiBQ;EAAoC,SAAA;AAd5C;AAeQ;EAAoC,UAAA;AAZ5C;AAaQ;EAAoC,UAAA;AAV5C;AAWQ;EAAoC,UAAA;AAR5C;;AAYA;EACI,sCAAA;EACA,qCAAA;AATJ;;AAYA;EACI,WAAA;EACA,YAAA;EACA,iBAAA;EACA,kBAAA;EACA,qCAAA;AATJ;;AAYA;EACI,yBAAA;AATJ;;AAYA;;EAEI,2BAAA;EACA,qBAAA;EACA,8DACI;AAVR;;AAcA;EACI,iBAAA,EAAA,8CAAA;EACA,iBAAA,EAAA,kBAAA;EACA,6BAAA,EAAA,0BAAA;EACA,qBAAA,EAAA,yCAAA;AAXJ;;AAcA;EACI,YAAA;EACA,uBAAA;EACA,cAAA;EACA,eAAA;EACA,gDAAA;EACA,qBAAA;AAXJ;;AAcA;EACI,oBAAA;AAXJ;;AAcA;EACI,cAAA;AAXJ;;AAcA;EACI,cAAA;EACA,qBAAA;AAXJ;;AAcA;EACI,YAAA;EACA,uBAAA;EACA,cAAA;EACA,eAAA;EACA,gDAAA;AAXJ;;AAcA;EACI,2BAAA;EACA,qBAAA;AAXJ;;AAcA;EACI,yBAAA;AAXJ;;AAcA;EACI,2BAAA;AAXJ;;AAcA;;;;EAII,oCAAA;EACA,YAAA;EACA,sCAAA;EACA,2BAAA;AAXJ;;AAcA;EACI,sCAAA;AAXJ;;AAcA;EACI,4CAAA;EACA,kCAAA;AAXJ;;AAcA;EACI,gBAAA;EACA,iBAAA;EACA,aAAA;EACA,sCAAA;EACA,kBAAA;EACA,0CAAA;AAXJ;;AAcA;EACI,2BAAA;EACA,kBAAA;EACA,qBAAA;EACA,iBAAA;AAXJ;;AAcA;EACI,qBAAA;AAXJ;;AAcA;EACI,cAAA;EACA,qBAAA;EACA,2BAAA;EACA,gBAAA;AAXJ;;AAcA;;;;;EAKI,WAAA;EACA,gBAAA;EACA,wCAAA;EACA,kBAAA;EACA,oCAAA;EACA,wBAAA;EACA,eAAA;EACA,wDAAA;AAXJ;;AAcA;;;;;;EAMI,oCAAA;EACA,wBAAA;EACA,aAAA;EACA,kCAAA;EACA,0CAAA;AAXJ;;AAcA;EACI,oCAAA;EACA,8BAAA;EACA,oBAAA;EACA,YAAA;EACA,kBAAA;EACA,eAAA;EACA,sCAAA;AAXJ;;AAcA;EACI,sCAAA;AAXJ;;AAcA;EACI,cAAA;EACA,mBAAA;EACA,mBAAA;EACA,wBAAA;EACA,YAAA;AAXJ;;AAcA;EACI,yBAAA;EACA,mBAAA;EACA,mBAAA;AAXJ;;AAcA;EACI,aAAA;EACA,sBAAA;EACA,SAAA,EAAA,yBAAA;AAXJ;;AAcA;EACI,WAAA,EAAA,oCAAA;EACA,gBAAA;EACA,wCAAA;EACA,8BAAA;EACA,YAAA;EACA,kBAAA;EACA,eAAA;EACA,iBAAA;EACA,eAAA;EACA,sCAAA;EACA,kBAAA;EACA,qBAAA;AAXJ;;AAcA;EACI,wCAAA,EAAA,sCAAA;AAXJ;;AAcA;EACI,sCAAA,EAAA,wBAAA;AAXJ;;AAcA;EACI,sCAAA,EAAA,wBAAA;AAXJ;;AAcA;EACI;IACI,eAAA;EAXN;AACF;AAcA;EACI,mBAAA,EAAA,kBAAA;EACA,wBAAA,EAAA,iBAAA;EACA,kBAAA,EAAA,uBAAA;EACA,SAAA,EAAA,gCAAA;AAZJ;;AAeA;EACI,2BAAA,EAAA,oBAAA;EACA,iBAAA,EAAA,oCAAA;EACA,qBAAA,EAAA,0CAAA;EACA,2BAAA,EAAA,sCAAA;AAZJ;;AAeA;EACI,6BAAA,EAAA,8BAAA;EACA,0BAAA,EAAA,yCAAA;AAZJ;;AAeA;EACI,wBAAA;AAZJ;;AAeA;EACI,yBAAA;AAZJ;;AAeA;EACI,gBAAA;EACA,eAAA;EACA,sCAAA;EACA,iBAAA;EACA,aAAA;EACA,mBAAA;AAZJ;;AAeA;EACI,2BAAA;EACA,kBAAA;EACA,SAAA;EACA,oBAAA;EACA,iBAAA;AAZJ;;AAeA;EACI,cAAA;EACA,mBAAA;EACA,8BAAA;EACA,sCAAA;EACA,kCAAA;AAZJ;;AAeA;EACI,4CAAA;EACA,wCAAA;AAZJ;;AAeA;EACI,WAAA;AAZJ;;AAeA;EACI,mBAAA;EACA,aAAA;EACA,mBAAA;EACA,2CAAA;AAZJ;;AAeA;EACI,kBAAA;EACA,mBAAA;AAZJ;AAcI;EACI,YAAA;EACA,aAAA;EACA,iBAAA;EACA,kBAAA;EACA,sCAAA;EACA,+BAAA;AAZR;AAeI;EACI,sBAAA;AAbR;;AAiBA;EACI,kBAAA;EACA,mBAAA;AAdJ;AAgBI;EACI,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,SAAA;EACA,mBAAA;AAdR;AAiBI;EACI,eAAA;EACA,iBAAA;EACA,2BAAA;EACA,SAAA;AAfR;AAkBI;EACI,kBAAA;EACA,eAAA;EACA,iBAAA;EACA,YAAA;EACA,kBAAA;EACA,eAAA;EACA,yBAAA;AAhBR;AAmBI;EACI,gCAAA;EACA,8BAAA;AAjBR;AAoBI;EACI,kCAAA;EACA,wBAAA;AAlBR;AAqBI;EACI,mBAAA;EACA,wBAAA;AAnBR;AAsBI;EACI,YAAA;EACA,2BAAA;AApBR;AAuBI;EACI,aAAA;EACA,uBAAA;EACA,SAAA;EACA,eAAA;EACA,gBAAA;AArBR;AAwBI;EACI,kBAAA;AAtBR;AAyBI;EACI,SAAA;EACA,eAAA;EACA,2BAAA;AAvBR;AA0BI;EACI,eAAA;EACA,yBAAA;AAxBR;;AA4BA;EACI,kBAAA;EACA,gBAAA;EACA,eAAA;EACA,gBAAA;AAzBJ;;AA4BA;EACI,cAAA;EACA,eAAA;EACA,mBAAA;EACA,wBAAA;AAzBJ;;AA4BA;EACI,gBAAA;AAzBJ;;AA4BA;EACI,eAAA;EACA,iBAAA;EACA,mBAAA;EACA,kBAAA;EACA,2BAAA;AAzBJ;;AA4BA;EACI,aAAA;EACA,qCAAA;EACA,SAAA;EACA,gBAAA;AAzBJ;;AA4BA;EACI,kBAAA;EACA,cAAA;EACA,WAAA;EACA,iBAAA;EACA,gBAAA;EACA,kBAAA;EACA,sCAAA;EACA,0CAAA;EACA,+BAAA;AAzBJ;;AA4BA;EACI,sBAAA;AAzBJ;;AA4BA;EACI,kBAAA;EACA,MAAA;EACA,OAAA;EACA,WAAA;EACA,YAAA;EACA,iBAAA;EACA,kBAAA;AAzBJ;;AA4BA;EACI,kBAAA;EACA,MAAA;EACA,OAAA;EACA,WAAA;EACA,YAAA;EACA,8BAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,wBAAA;EACA,eAAA;EACA,iBAAA;EACA,UAAA;EACA,6BAAA;AAzBJ;;AA4BA;EACI,UAAA;AAzBJ;;AA4BA;EACE,cAAA,EAAA,sCAAA;EACA,eAAA;EACA,gBAAA;AAzBF;;AA4BA;EACI,cAAA;AAzBJ;;AA4BA;EACI,aAAA;EACA,mBAAA,EAAA,uCAAA;EACA,SAAA,EAAA,0BAAA;AAzBJ;;AA4BA;EACI,gBAAA;EACA,YAAA;EACA,eAAA;AAzBJ;;AA4BA;EACI,eAAA,EAAA,6CAAA;AAzBJ;;AA4BA;EACE,kBAAA;EACA,aAAA;AAzBF;;AA4BA;EACE,uBAAA;EACA,yBAAA;EACA,mBAAA;EACA,sBAAA;EACA,cAAA;EACA,eAAA;EACA,wCAAA;EACA,eAAA;EACA,YAAA;EACA,UAAA;EACA,kBAAA;EACA,sDAAA;EACA,WAAA;EACA,UAAA;AAzBF;;AA4BA;EACE,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,YAAA;EACA,WAAA;AAzBF;;AA4BA;EACE,WAAA;EACA,YAAA;EACA,cAAA;AAzBF;;AA4BA;EACE,eAAA;EACA,mDAAA;EACA,4CAAA;AAzBF;;AA4BA;EACE,mFAAA;AAzBF","sourcesContent":["@import url(\"https://use.fontawesome.com/releases/v6.4.2/css/all.css\");\r\n@import url(\"https://fonts.googleapis.com/css?family=Poppins\");\r\n\r\n:root {\r\n    /* Основні кольори для темної версії */\r\n    --primary-color: #66a800; /* Синій для кнопок */\r\n    --primary-color-hover: #497900; /* Синій для кнопок */\r\n    --secondary-color: #787c80;\r\n    --like-btn-color: #ff4d4d; /* Червоний для лайкнутого серця */\r\n    --background-color: #121212; /* Темний фон */\r\n    --text-color: #e0e0e0; /* Світлий текст */\r\n    --card-bg-color: #222; /* Тема карточок */\r\n    --muted-color-2: #999;\r\n\t--muted-color: #777;\r\n\t--error-color: #b92222;\r\n    --border-color: #333;\r\n}\r\n\r\nbody {\r\n\tmin-height: 100vh;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    background-color: var(--background-color);\r\n    color: var(--text-color);\r\n    font-family: Arial, sans-serif;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n.container {\r\n    max-width: 1200px;\r\n    margin: 0 auto;\r\n    padding: 20px;\r\n\r\n    /* HEADER */\r\n\r\n    header {\r\n        display: flex;\r\n        align-items: center;\r\n        padding: 30px 20px;\r\n\r\n        img {\r\n            height: 40px;\r\n            margin-right: 15px;\r\n        }\r\n\r\n        h1 {\r\n            font-size: 24px;\r\n            color: var(--text-color);\r\n            margin: 0;\r\n        }\r\n    }\r\n}\r\n/* NAVIGATION */\r\n\r\n.icon .text {\r\n    color: var(--text-color);\r\n}\r\n\r\n.navigation {\r\n    position: relative;\r\n    width: 100%;\r\n    max-width: 1160px;\r\n    height: 70px;\r\n    background: var(--card-bg-color);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    border-radius: 10px;\r\n\r\n    ul {\r\n        display: flex;\r\n        width: auto;\r\n        padding: 0;\r\n\r\n        li {\r\n            position: relative;\r\n            list-style: none;\r\n            width: 70px;\r\n            height: 70px;\r\n            z-index: 1;\r\n\r\n            a {\r\n                position: relative;\r\n                display: flex;\r\n                justify-content: center;\r\n                align-items: center;\r\n                flex-direction: column;\r\n                width: 100%;\r\n                text-align: center;\r\n                font-weight: 500;\r\n                text-decoration: none;\r\n\r\n                span {\r\n                    color: var(--text-color);\r\n                }\r\n\r\n                .text {\r\n                    position: absolute;\r\n                    font-weight: 400;\r\n                    font-size: 0.75em;\r\n                    letter-spacing: 0.05em;\r\n                    transition: 0.5s;\r\n                    opacity: 0;\r\n                    transform: translateY(20px);\r\n                }\r\n\r\n                .icon {\r\n                    color: var(--text-color);\r\n                    position: relative;\r\n                    display: block;\r\n                    line-height: 75px;\r\n                    font-size: 1.5em;\r\n                    text-align: center;\r\n                    transition: 0.5s;\r\n                }\r\n            }\r\n        }\r\n\r\n        li.active a .icon {\r\n            transform: translateY(-35px);\r\n        }\r\n\r\n        li.active a .text {\r\n            opacity: 1;\r\n            transform: translateY(10px);\r\n        }\r\n\r\n        .indicator {\r\n            position: absolute;\r\n            top: -60%;\r\n            width: 70px;\r\n            height: 70px;\r\n            background: var(--primary-color);\r\n            box-sizing: border-box;\r\n            border-radius: 50%;\r\n            border: 6px solid var(--background-color);\r\n            transition: 0.5s;\r\n        }\r\n\r\n        .indicator::before,\r\n        .indicator::after {\r\n            content: \"\";\r\n            position: absolute;\r\n            top: 50%;\r\n            width: 20px;\r\n            height: 20px;\r\n            background: transparent;\r\n        }\r\n\r\n        .indicator::before {\r\n            left: -22px;\r\n            border-top-right-radius: 20px;\r\n            box-shadow: 1px -10px 0 0 var(--background-color);\r\n        }\r\n\r\n        .indicator::after {\r\n            right: -22px;\r\n            border-top-left-radius: 20px;\r\n            box-shadow: -1px -10px 0 0 var(--background-color);\r\n        }\r\n\r\n        li.active~.indicator {\r\n            --x: 0;\r\n            transform: translateX(var(--x));\r\n        }\r\n\r\n        li:nth-child(2).active~.indicator { --x: 70px; }\r\n        li:nth-child(3).active~.indicator { --x: 140px; }\r\n        li:nth-child(4).active~.indicator { --x: 210px; }\r\n        li:nth-child(5).active~.indicator { --x: 280px; }\r\n    }\r\n}\r\n\r\n.card-color {\r\n    background-color: var(--card-bg-color);\r\n    border: 1px solid var(--border-color);\r\n}\r\n\r\n.card-header-image {\r\n    width: 50px;\r\n    height: 50px;\r\n    object-fit: cover;\r\n    border-radius: 50%;\r\n    border: 1px solid var(--border-color);\r\n}\r\n\r\n.user-href {\r\n    color: var(--muted-color);\r\n}\r\n\r\n.user-href:hover,\r\n.edit-icon:hover {\r\n    color: var(--primary-color);\r\n    transform: scale(1.1);\r\n    transition:\r\n        transform 0.2s ease-in-out,\r\n        color 0.2s ease-in-out;\r\n}\r\n\r\n.edit-icon {\r\n    margin-left: auto; /* Зміщує іконку редагування до правого краю */\r\n    font-size: 1.2rem; /* Розмір іконки */\r\n    color: var(--secondary-color); /* Основний колір іконки */\r\n    text-decoration: none; /* Видаляємо підкреслення для посилання */\r\n}\r\n\r\n.custom-btn-like, .custom-btn-comment {\r\n    border: none;\r\n    background: transparent;\r\n    color: #6c757d;\r\n    font-size: 24px;\r\n    transition: color 0.3s ease, transform 0.2s ease;\r\n    text-decoration: none;\r\n}\r\n\r\n.custom-btn-like i {\r\n    pointer-events: none;\r\n}\r\n\r\n.custom-btn-like .fa-solid {\r\n    color: #ff4d4d;\r\n}\r\n\r\n.custom-btn-like:hover, .custom-btn-like:focus, .custom-btn-like.active {\r\n    color: #ff4d4d;\r\n    transform: scale(1.1);\r\n}\r\n\r\n.custom-btn-comment {\r\n    border: none;\r\n    background: transparent;\r\n    color: #6c757d;\r\n    font-size: 24px;\r\n    transition: color 0.3s ease, transform 0.2s ease;\r\n}\r\n\r\n.custom-btn-comment:hover, .custom-btn-comment:focus, .custom-btn-comment.active {\r\n    color: var(--primary-color);\r\n    transform: scale(1.1);\r\n}\r\n\r\n.comment-text {\r\n    color: var(--muted-color);\r\n}\r\n\r\n.comment-text-author {\r\n    color: var(--muted-color-2);\r\n}\r\n\r\n.custom-text-area:hover,\r\n.custom-text-area:active,\r\n.custom-text-area:focus,\r\n.custom-text-area {\r\n    border: 1px solid var(--muted-color);\r\n    height: 80px;\r\n    background-color: var(--card-bg-color);\r\n    color: var(--muted-color-2);\r\n}\r\n\r\n.custom-comment-button {\r\n    background-color: var(--primary-color);\r\n}\r\n\r\n.custom-comment-button:hover {\r\n    background-color: var(--primary-color-hover);\r\n    transition: color 0.3s ease-in-out;\r\n}\r\n\r\n.form-container {\r\n    max-width: 400px;\r\n    margin: 2rem auto;\r\n    padding: 2rem;\r\n    background-color: var(--card-bg-color);\r\n    border-radius: 8px;\r\n    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.1);\r\n}\r\n\r\n.form-title {\r\n    color: var(--primary-color);\r\n    text-align: center;\r\n    margin-bottom: 1.5rem;\r\n    font-size: 1.5rem;\r\n}\r\n\r\n.styled-form .form-group {\r\n    margin-bottom: 1.5rem;\r\n}\r\n\r\n.styled-form label {\r\n    display: block;\r\n    margin-bottom: 0.5rem;\r\n    color: var(--primary-color);\r\n    font-weight: 500;\r\n}\r\n\r\n.styled-form input[type=\"text\"],\r\n.styled-form input[type=\"password\"],\r\n.styled-form input[type=\"email\"],\r\n.styled-form input,\r\n.styled-form textarea {\r\n    width: 100%;\r\n    padding: 0.75rem;\r\n    border: 1px solid var(--secondary-color);\r\n    border-radius: 4px;\r\n    background-color: rgba(0, 0, 0, 0.2);\r\n    color: var(--text-color);\r\n    font-size: 1rem;\r\n    transition: border-color 0.3s ease, box-shadow 0.3s ease;\r\n}\r\n\r\n.styled-form input[type=\"text\"]:focus,\r\n.styled-form input[type=\"password\"]:focus,\r\n.styled-form input[type=\"email\"]:focus,\r\n.styled-form input:focus,\r\n.styled-form textarea:focus,\r\n.styled-form textarea:active {\r\n    background-color: rgba(0, 0, 0, 0.2);\r\n    color: var(--text-color);\r\n    outline: none;\r\n    border-color: var(--primary-color);\r\n    box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.2);\r\n}\r\n\r\n.styled-form .file-input::-webkit-file-upload-button {\r\n    background-color: var(--muted-color);\r\n    color: var(--background-color);\r\n    padding: 0.5rem 1rem;\r\n    border: none;\r\n    border-radius: 4px;\r\n    cursor: pointer;\r\n    transition: background-color 0.3s ease;\r\n}\r\n\r\n.styled-form .file-input::-webkit-file-upload-button:hover {\r\n    background-color: var(--muted-color-2);\r\n}\r\n\r\n.styled-form .form-text {\r\n    display: block;\r\n    margin-top: 0.25rem;\r\n    font-size: 0.875rem;\r\n    color: var(--text-color);\r\n    opacity: 0.8;\r\n}\r\n\r\n.styled-form .form-error {\r\n    color: var(--error-color);\r\n    font-size: 0.875rem;\r\n    margin-top: 0.25rem;\r\n}\r\n\r\n.button-container {\r\n    display: flex;\r\n    flex-direction: column;\r\n    gap: 1rem; /* Відступ між кнопками */\r\n}\r\n\r\n.styled-form .submit-button {\r\n    width: 100%; /* Однакова ширина для обох кнопок */\r\n    padding: 0.75rem;\r\n    background-color: var(--secondary-color);\r\n    color: var(--background-color);\r\n    border: none;\r\n    border-radius: 4px;\r\n    font-size: 1rem;\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n    transition: background-color 0.3s ease;\r\n    text-align: center;\r\n    text-decoration: none;\r\n}\r\n\r\n.styled-form .register-button {\r\n    background-color: var(--secondary-color); /* Інший колір для кнопки реєстрації */\r\n}\r\n\r\n.styled-form .register-button:hover {\r\n    background-color: var(--primary-color); /* Ефект при наведенні */\r\n}\r\n\r\n.styled-form .submit-button:hover {\r\n    background-color: var(--primary-color); /* Ефект при наведенні */\r\n}\r\n\r\n@media (max-width: 768px) {\r\n    .form-container {\r\n        padding: 1.5rem;\r\n    }\r\n}\r\n\r\n.button-container p {\r\n    font-size: 0.875rem; /* Розмір тексту */\r\n    color: var(--text-color); /* Колір тексту */\r\n    text-align: center; /* Центрування тексту */\r\n    margin: 0; /* Прибирання зайвих відступів */\r\n}\r\n\r\n.button-container p a {\r\n    color: var(--primary-color); /* Колір посилання */\r\n    font-weight: bold; /* Напівжирний текст для посилання */\r\n    text-decoration: none; /* Відключення стандартного підкреслення */\r\n    transition: color 0.3s ease; /* Ефект зміни кольору при наведенні */\r\n}\r\n\r\n.button-container p a:hover {\r\n    color: var(--secondary-color); /* Інший колір при наведенні */\r\n    text-decoration: underline; /* Додавання підкреслення при наведенні */\r\n}\r\n\r\n.card-text-color {\r\n    color: var(--text-color);\r\n}\r\n\r\n.card-muted-text-color {\r\n    color: var(--muted-color);\r\n}\r\n\r\n.settings-container {\r\n    max-width: 600px;\r\n    margin: 5% auto;\r\n    background-color: var(--card-bg-color);\r\n    min-height: 150px;\r\n    padding: 2rem;\r\n    border-radius: 10px;\r\n}\r\n\r\n.settings-title {\r\n    color: var(--primary-color);\r\n    text-align: center;\r\n    margin: 0;\r\n    padding-bottom: 2rem;\r\n    font-size: 1.5rem;\r\n}\r\n\r\n.custom-button {\r\n    margin: 0.5rem;\r\n    height: max-content;\r\n    color: var(--background-color);\r\n    background-color: var(--primary-color);\r\n    border-color: var(--primary-color);\r\n}\r\n\r\n.custom-button:hover {\r\n    background-color: var(--primary-color-hover);\r\n    border-color: var(--primary-color-hover);\r\n}\r\n\r\n.delete-form button {\r\n    width: 100%;\r\n}\r\n\r\n.header {\r\n    background: #2a2a2a;\r\n    padding: 30px;\r\n    border-radius: 15px;\r\n    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.1);\r\n}\r\n\r\n.avatar-container {\r\n    text-align: center;\r\n    margin-bottom: 30px;\r\n\r\n    img {\r\n        width: 150px;\r\n        height: 150px;\r\n        object-fit: cover;\r\n        border-radius: 50%;\r\n        border: 4px solid var(--primary-color);\r\n        transition: transform 0.3s ease;\r\n    }\r\n\r\n    img:hover {\r\n        transform: scale(1.05);\r\n    }\r\n}\r\n\r\n.profile-main-info {\r\n    text-align: center;\r\n    margin-bottom: 30px;\r\n\r\n    .username-and-actions {\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        flex-wrap: wrap;\r\n        gap: 15px;\r\n        margin-bottom: 20px;\r\n    }\r\n\r\n    .username {\r\n        font-size: 28px;\r\n        font-weight: bold;\r\n        color: var(--primary-color);\r\n        margin: 0;\r\n    }\r\n\r\n    .actions .btn {\r\n        padding: 10px 20px;\r\n        font-size: 14px;\r\n        font-weight: bold;\r\n        border: none;\r\n        border-radius: 5px;\r\n        cursor: pointer;\r\n        transition: all 0.3s ease;\r\n    }\r\n\r\n    .actions .btn-warning {\r\n        background: var(--primary-color);\r\n        color: var(--background-color);\r\n    }\r\n\r\n    .actions .btn-success {\r\n        background: var(--secondary-color);\r\n        color: var(--text-color);\r\n    }\r\n\r\n    .actions .btn-danger {\r\n        background: #dc3545;\r\n        color: var(--text-color);\r\n    }\r\n\r\n    .actions .btn:hover {\r\n        opacity: 0.8;\r\n        transform: translateY(-2px);\r\n    }\r\n\r\n    .stats {\r\n        display: flex;\r\n        justify-content: center;\r\n        gap: 40px;\r\n        font-size: 16px;\r\n        margin-top: 20px;\r\n    }\r\n\r\n    .stats div {\r\n        text-align: center;\r\n    }\r\n\r\n    .stats h3 {\r\n        margin: 0;\r\n        font-size: 24px;\r\n        color: var(--primary-color);\r\n    }\r\n\r\n    .stats span {\r\n        font-size: 14px;\r\n        color: var(--muted-color);\r\n    }\r\n}\r\n\r\n#profile-info {\r\n    text-align: center;\r\n    margin-top: 30px;\r\n    font-size: 16px;\r\n    line-height: 1.6;\r\n}\r\n\r\n#profile-info h3 {\r\n    margin: 10px 0;\r\n    font-size: 18px;\r\n    font-weight: normal;\r\n    color: var(--text-color);\r\n}\r\n\r\n#posts {\r\n    margin-top: 50px;\r\n}\r\n\r\n#posts h2 {\r\n    font-size: 24px;\r\n    font-weight: bold;\r\n    margin-bottom: 25px;\r\n    text-align: center;\r\n    color: var(--primary-color);\r\n}\r\n\r\n.posts-grid {\r\n    display: grid;\r\n    grid-template-columns: repeat(3, 1fr);\r\n    gap: 20px;\r\n    margin-top: 20px;\r\n}\r\n\r\n.post-item {\r\n    position: relative;\r\n    display: block;\r\n    width: 100%;\r\n    padding-top: 100%;\r\n    overflow: hidden;\r\n    border-radius: 8px;\r\n    background: var(--primary-color-hover);\r\n    box-shadow: 0 4px 8px rgba(0, 255, 0, 0.1);\r\n    transition: transform 0.3s ease;\r\n}\r\n\r\n.post-item:hover {\r\n    transform: scale(1.03);\r\n}\r\n\r\n.post-image {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    object-fit: cover;\r\n    border-radius: 8px;\r\n}\r\n\r\n.post-overlay {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    color: var(--text-color);\r\n    font-size: 14px;\r\n    font-weight: bold;\r\n    opacity: 0;\r\n    transition: opacity 0.3s ease;\r\n}\r\n\r\n.post-item:hover .post-overlay {\r\n    opacity: 1;\r\n}\r\n\r\n.error-message {\r\n  color: #f44336; /* Колір для повідомлень про помилки */\r\n  font-size: 14px;\r\n  margin-top: 10px;\r\n}\r\n\r\n.btn-form {\r\n    margin-top: 3%;\r\n}\r\n\r\n.like-comment-container {\r\n    display: flex;\r\n    align-items: center;  /* Вертикальне вирівнювання елементів */\r\n    gap: 10px;  /* Відстань між кнопками */\r\n}\r\n\r\n.custom-btn-like, .custom-btn-comment {\r\n    background: none;\r\n    border: none;\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-btn-like i, .custom-btn-comment i {\r\n    font-size: 24px;  /* Встановлюємо однаковий розмір для іконок */\r\n}\r\n\r\n.social-login {\r\n  text-align: center;\r\n  margin-top: 0;\r\n}\r\n\r\n.gsi-material-button {\r\n  background-color: white;\r\n  border: 1px solid #747775;\r\n  border-radius: 20px;\r\n  box-sizing: border-box;\r\n  color: #1f1f1f;\r\n  cursor: pointer;\r\n  font-family: 'Roboto', arial, sans-serif;\r\n  font-size: 14px;\r\n  height: 40px;\r\n  padding: 0;\r\n  text-align: center;\r\n  transition: background-color .218s, box-shadow .218s;\r\n  width: 40px;\r\n  margin: 1%;\r\n}\r\n\r\n.gsi-material-button .gsi-material-button-icon {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n.gsi-material-button-icon svg {\r\n  width: 24px;\r\n  height: 24px;\r\n  display: block;\r\n}\r\n\r\n.gsi-material-button:disabled {\r\n  cursor: default;\r\n  background-color: #ffffff61;\r\n  border-color: #1f1f1f1f;\r\n}\r\n\r\n.gsi-material-button:not(:disabled):hover {\r\n  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);\r\n}"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css":
-/*!************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css ***!
-  \************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `
-.image-previews[data-v-07da1fa4] {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-.preview-img[data-v-07da1fa4] {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-}
-.preview[data-v-07da1fa4] {
-    display: inline-block;
-    width: calc(33.333% - 10px);
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-.preview-container[data-v-07da1fa4] {
-    position: relative; /* Додаємо позиціювання для контейнера */
-}
-.remove-button[data-v-07da1fa4] {
-    border-radius: 50%;
-    background-color: var(--background-color);
-    color: var(--error-color);
-    font-size: 14px;
-    cursor: pointer;
-    position: absolute;
-    top: -12px;
-    right: -10px;
-    z-index: 10; /* Зробимо кнопку поверх зображення */
-}
-
-`, "",{"version":3,"sources":["webpack://./assets/scripts/pages/PostCreationPage.vue"],"names":[],"mappings":";AA8LA;IACI,gBAAgB;IAChB,mBAAmB;AACvB;AAEA;IACI,YAAY;IACZ,aAAa;IACb,iBAAiB;IACjB,qCAAqC;IACrC,kBAAkB;AACtB;AAEA;IACI,qBAAqB;IACrB,2BAA2B;IAC3B,kBAAkB;IAClB,mBAAmB;AACvB;AAEA;IACI,kBAAkB,EAAE,wCAAwC;AAChE;AAEA;IACI,kBAAkB;IAClB,yCAAyC;IACzC,yBAAyB;IACzB,eAAe;IACf,eAAe;IACf,kBAAkB;IAClB,UAAU;IACV,YAAY;IACZ,WAAW,EAAE,qCAAqC;AACtD","sourcesContent":["<template>\r\n  <div class=\"form-container\">\r\n    <h1 class=\"form-title\">Create post</h1>\r\n    <form @submit.prevent=\"submitForm\" enctype=\"multipart/form-data\" class=\"styled-form\">\r\n      <div v-if=\"errorMessage\" class=\"error-message\">\r\n        {{ errorMessage }}\r\n      </div>\r\n      <div class=\"form-group\" v-for=\"field in fields\" :key=\"field.id\">\r\n        <label :for=\"field.id\">{{ field.label }}</label>\r\n        <input\r\n          :id=\"field.id\"\r\n          v-model=\"field.value\"\r\n          :type=\"field.attrs.type\"\r\n          :name=\"field.id\"\r\n          :required=\"field.attrs.required\"\r\n        />\r\n        <small v-if=\"field.helpText\" class=\"form-text\">{{ field.helpText }}</small>\r\n        <p v-for=\"error in field.errors\" :key=\"error\" class=\"form-error\">\r\n          {{ error }}\r\n        </p>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label for=\"images\">Upload photos (max 10):</label>\r\n        <input\r\n          ref=\"fileInput\"\r\n          type=\"file\"\r\n          id=\"images\"\r\n          name=\"images\"\r\n          multiple\r\n          class=\"file-input\"\r\n          @change=\"handleFileUpload\"\r\n        />\r\n      </div>\r\n      <p v-if=\"errors.images\" v-for=\"error in errors.images\" :key=\"error\" class=\"form-error\">\r\n        {{ error }}\r\n      </p>\r\n      <div v-if=\"previews.length\" class=\"image-previews\">\r\n        <label>Uploaded photos ({{ previews.length }}/10):</label>\r\n        <div v-for=\"(src, index) in previews\" :key=\"index\" class=\"preview\">\r\n          <div class=\"preview-container\">\r\n            <img :src=\"src\" alt=\"Preview\" class=\"preview-img\" />\r\n            <button\r\n              type=\"button\"\r\n              class=\"remove-button\"\r\n              @click=\"removePreview(index)\"\r\n            >\r\n              &#x2715;\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <button type=\"submit\" class=\"submit-button\" :disabled=\"isSubmitting\">\r\n        <span v-if=\"!isSubmitting\">Create</span>\r\n        <span v-else class=\"spinner-border\" role=\"status\">\r\n          <span class=\"sr-only\">Loading...</span>\r\n        </span>\r\n      </button>\r\n    </form>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport { getCookie } from '../csrf.js';\r\n\r\nexport default {\r\n  data() {\r\n    return {\r\n      fields: [\r\n        { id: 'title', label: 'Title', value: '', attrs: { type: 'text', required: true }, errors: [] },\r\n        { id: 'description', label: 'Description', value: '', attrs: { type: 'text', required: true }, errors: [] },\r\n      ],\r\n      images: [],\r\n      errors: {},\r\n      errorMessage: '',\r\n      isSubmitting: false,\r\n      previews: [],\r\n      removedIndexes: [],\r\n    };\r\n  },\r\n  methods: {\r\n    async submitForm() {\r\n      this.isSubmitting = true;\r\n      this.clearErrors();\r\n\r\n      const formData = new FormData();\r\n\r\n      // Add form fields to FormData\r\n      this.fields.forEach((field) => {\r\n        formData.append(field.id, field.value);\r\n      });\r\n\r\n      // Add files to FormData\r\n      const files = this.$refs.fileInput.files;\r\n      let imageCount = 0;\r\n      for (let i = 0; i < files.length && imageCount < 10; i++) {\r\n        if (!this.removedIndexes.includes(i)) {\r\n          formData.append('images', files[i]);\r\n          imageCount++;\r\n        }\r\n      }\r\n\r\n      try {\r\n        const response = await fetch('/post/', {\r\n          method: 'POST',\r\n          headers: {\r\n            'X-CSRFToken': getCookie('csrftoken'),\r\n          },\r\n          body: formData,\r\n        });\r\n\r\n        const data = await response.json();\r\n\r\n        if (response.ok) {\r\n          window.location.href = data.redirect_url;\r\n        } else {\r\n          if (data.status === 'error') {\r\n            this.errorMessage = data.error_message || 'An error occurred while creating the post.';\r\n            if (data.errors) {\r\n              this.updateFieldErrors(data.errors);\r\n            }\r\n          }\r\n        }\r\n      } catch (error) {\r\n        console.error('Error submitting form:', error);\r\n        this.errorMessage = 'An unexpected error occurred. Please try again.';\r\n      } finally {\r\n        this.isSubmitting = false;\r\n      }\r\n    },\r\n    clearErrors() {\r\n      this.errorMessage = '';\r\n      this.fields.forEach((field) => {\r\n        field.errors = [];\r\n      });\r\n      this.errors = {};\r\n    },\r\n    updateFieldErrors(errors) {\r\n      Object.entries(errors).forEach(([fieldName, fieldErrors]) => {\r\n        const field = this.fields.find((f) => f.id === fieldName);\r\n        if (field) {\r\n          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        } else if (fieldName === 'images') {\r\n          this.errors.images = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        }\r\n      });\r\n    },\r\n    handleFileUpload(event) {\r\n      const files = event.target.files;\r\n      if (files.length > 10) {\r\n        this.errorMessage = 'You can only upload up to 10 images.';\r\n        this.$refs.fileInput.value = ''; // Clear the file input\r\n        return;\r\n      }\r\n\r\n      // Clear previous previews\r\n      this.destroyPreviews();\r\n\r\n      this.previews = Array.from(files).map((file) => URL.createObjectURL(file));\r\n      this.removedIndexes = [];\r\n    },\r\n    removePreview(index) {\r\n      URL.revokeObjectURL(this.previews[index]);\r\n      this.previews.splice(index, 1);\r\n\r\n      const dt = new DataTransfer();\r\n      const files = this.$refs.fileInput.files;\r\n      for (let i = 0; i < files.length; i++) {\r\n        if (i !== index) {\r\n          dt.items.add(files[i]);\r\n        }\r\n      }\r\n      this.$refs.fileInput.files = dt.files;\r\n\r\n      this.removedIndexes = this.removedIndexes.map((i) => (i > index ? i - 1 : i)).filter((i) => i !== index);\r\n    },\r\n    destroyPreviews() {\r\n      if (this.previews.length) {\r\n        this.previews.forEach((src) => URL.revokeObjectURL(src));\r\n        this.previews = [];\r\n      }\r\n      this.removedIndexes = [];\r\n    },\r\n  },\r\n  beforeDestroy() {\r\n    this.destroyPreviews();\r\n  },\r\n};\r\n</script>\r\n\r\n<style scoped>\r\n.image-previews {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.preview-img {\r\n    width: 100px;\r\n    height: 100px;\r\n    object-fit: cover;\r\n    border: 1px solid var(--border-color);\r\n    border-radius: 5px;\r\n}\r\n\r\n.preview {\r\n    display: inline-block;\r\n    width: calc(33.333% - 10px);\r\n    margin-right: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n.preview-container {\r\n    position: relative; /* Додаємо позиціювання для контейнера */\r\n}\r\n\r\n.remove-button {\r\n    border-radius: 50%;\r\n    background-color: var(--background-color);\r\n    color: var(--error-color);\r\n    font-size: 14px;\r\n    cursor: pointer;\r\n    position: absolute;\r\n    top: -12px;\r\n    right: -10px;\r\n    z-index: 10; /* Зробимо кнопку поверх зображення */\r\n}\r\n\r\n</style>\r\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css":
-/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `
-/* Стилі залишаються без змін, але я їх включу для повноти файлу */
-.form-title[data-v-5f49d95c] {
-  text-align: center;
-  color: #343a40;
-  margin-bottom: 20px;
-}
-.styled-form[data-v-5f49d95c] {
+.styled-form {
   max-width: 600px;
   margin: 0 auto;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff; /* Припустимо світлий фон для форми */
+  padding: 32px 24px;
+  background: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 100px;
 }
-.form-group[data-v-5f49d95c] {
-  margin-bottom: 15px;
+.styled-form .error-message {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
-.form-group label[data-v-5f49d95c] {
+.styled-form .form-group {
+  margin-bottom: 24px;
+}
+.styled-form .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
 }
-.form-group input[data-v-5f49d95c] {
+.styled-form .form-group input[type=text],
+.styled-form .form-group input[type=email],
+.styled-form .form-group input[type=password],
+.styled-form .form-group textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
-  transition: border-color 0.3s;
+  padding: 12px 16px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all var(--transition-base);
 }
-.form-group input[data-v-5f49d95c]:focus {
-  border-color: var(--primary-color);
+.styled-form .form-group input[type=text]:focus,
+.styled-form .form-group input[type=email]:focus,
+.styled-form .form-group input[type=password]:focus,
+.styled-form .form-group textarea:focus {
   outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 168, 0, 0.1);
 }
-.error-message[data-v-5f49d95c] {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  text-align: center;
+.styled-form .form-group input[type=text]::placeholder,
+.styled-form .form-group input[type=email]::placeholder,
+.styled-form .form-group input[type=password]::placeholder,
+.styled-form .form-group textarea::placeholder {
+  color: var(--text-muted-2);
 }
-.form-error[data-v-5f49d95c] {
-  color: #dc3545;
-  font-size: 0.85em;
-  margin-top: 5px;
+.styled-form .form-group textarea {
+  min-height: 100px;
+  resize: vertical;
 }
-.submit-button[data-v-5f49d95c] {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.styled-form .form-group .form-error {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 6px;
+  font-weight: 500;
 }
-.submit-button[data-v-5f49d95c]:hover:not(:disabled) {
-  background-color: #0056b3;
+.styled-form .avatar-preview-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
 }
-.submit-button[data-v-5f49d95c]:disabled {
-  background-color: #a0c3e8;
-  cursor: not-allowed;
-}
-
-/* Спіннер */
-.spinner-border[data-v-5f49d95c] {
-  width: 1.5rem;
-  height: 1.5rem;
-  vertical-align: text-bottom;
-  border: 0.2em solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: spinner-border-5f49d95c 0.75s linear infinite;
-}
-@keyframes spinner-border-5f49d95c {
-to { transform: rotate(360deg);
-}
-}
-
-/* Специфічні стилі для аватарки */
-.avatar-preview-wrapper[data-v-5f49d95c] {
-  margin-top: 10px;
-}
-.avatar-preview[data-v-5f49d95c] {
+.styled-form .avatar-preview-wrapper .avatar-container {
+  position: relative;
   width: 150px;
   height: 150px;
+}
+.styled-form .avatar-preview-wrapper .avatar-container .avatar-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
   object-fit: cover;
-  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.3);
+  transition: all var(--transition-base);
 }
-.avatar-container[data-v-5f49d95c] {
-  position: relative;
-  display: inline-block; /* Щоб кнопка позиціонувалася відносно картинки */
+.styled-form .avatar-preview-wrapper .avatar-container .avatar-preview:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(102, 168, 0, 0.4);
 }
-.remove-button[data-v-5f49d95c] {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+.styled-form .avatar-preview-wrapper .avatar-container .file-input {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  background: var(--surface-color);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  text-align: center;
+}
+.styled-form .avatar-preview-wrapper .avatar-container .file-input:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-color-light);
+}
+.styled-form .avatar-preview-wrapper .avatar-container .file-input::file-selector-button {
+  display: none;
+}
+.styled-form .avatar-preview-wrapper .avatar-container .remove-button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 36px;
+  height: 36px;
+  background: var(--error-color);
+  border: 2px solid var(--background-color);
+  border-radius: var(--radius-full);
   color: white;
-  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
 }
-.remove-button[data-v-5f49d95c]:hover {
-  background-color: #dc3545; /* Червоний колір для видалення */
+.styled-form .avatar-preview-wrapper .avatar-container .remove-button::before {
+  content: "×";
+  font-weight: 700;
+  line-height: 1;
 }
-.remove-button[data-v-5f49d95c]::before {
-  content: '×';
-  font-size: 20px;
-  font-weight: bold;
+.styled-form .avatar-preview-wrapper .avatar-container .remove-button:hover {
+  background: #c82333;
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+.styled-form .avatar-preview-wrapper .avatar-container .remove-button:active {
+  transform: scale(0.95);
+}
+.styled-form .submit-button {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-top: 8px;
+}
+.styled-form .submit-button:hover:not(:disabled) {
+  background: var(--primary-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);
+}
+.styled-form .submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+.styled-form .submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.styled-form .submit-button .spinner-border {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+.styled-form .submit-button .spinner-border .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.styled-form .danger-button {
+  width: 100%;
+  padding: 14px 24px;
+  background: transparent;
+  color: var(--error-color);
+  border: 2px solid var(--error-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-top: 16px;
+}
+.styled-form .danger-button:hover:not(:disabled) {
+  background: var(--error-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);
+}
+.styled-form .danger-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+.styled-form .danger-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.styled-form .danger-button .spinner-border {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(220, 53, 69, 0.3);
+  border-top-color: var(--error-color);
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+.styled-form .danger-button .spinner-border .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-`, "",{"version":3,"sources":["webpack://./assets/scripts/pages/ProfileEditPage.vue"],"names":[],"mappings":";AAgTA,kEAAkE;AAClE;EACE,kBAAkB;EAClB,cAAc;EACd,mBAAmB;AACrB;AAEA;EACE,gBAAgB;EAChB,cAAc;EACd,aAAa;EACb,mBAAmB;EACnB,yCAAyC;EACzC,yBAAyB,EAAE,qCAAqC;AAClE;AAEA;EACE,mBAAmB;AACrB;AAEA;EACE,cAAc;EACd,kBAAkB;EAClB,iBAAiB;AACnB;AAEA;EACE,WAAW;EACX,aAAa;EACb,yBAAyB;EACzB,kBAAkB;EAClB,6BAA6B;AAC/B;AAEA;EACE,kCAAkC;EAClC,aAAa;AACf;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,kBAAkB;EAClB,yBAAyB;EACzB,cAAc;EACd,yBAAyB;EACzB,kBAAkB;AACpB;AAEA;EACE,cAAc;EACd,iBAAiB;EACjB,eAAe;AACjB;AAEA;EACE,WAAW;EACX,aAAa;EACb,sCAAsC;EACtC,YAAY;EACZ,YAAY;EACZ,kBAAkB;EAClB,eAAe;EACf,iCAAiC;AACnC;AAEA;EACE,yBAAyB;AAC3B;AAEA;EACE,yBAAyB;EACzB,mBAAmB;AACrB;;AAEA,YAAY;AACZ;EACE,aAAa;EACb,cAAc;EACd,2BAA2B;EAC3B,gCAAgC;EAChC,+BAA+B;EAC/B,kBAAkB;EAClB,wDAA+C;AACjD;AAEA;AACE,KAAK,yBAAyB;AAAE;AAClC;;AAEA,kCAAkC;AAElC;EACE,gBAAgB;AAClB;AAEA;EACE,YAAY;EACZ,aAAa;EACb,iBAAiB;EACjB,kBAAkB;AACpB;AAEA;EACE,kBAAkB;EAClB,qBAAqB,EAAE,iDAAiD;AAC1E;AAEA;EACE,kBAAkB;EAClB,UAAU;EACV,YAAY;EACZ,oCAAoC;EACpC,YAAY;EACZ,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,eAAe;EACf,YAAY;EACZ,sCAAsC;AACxC;AAEA;EACE,yBAAyB,EAAE,iCAAiC;AAC9D;AAEA;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;AACnB","sourcesContent":["<template>\r\n  <div class=\"container mt-5\">\r\n    <h1 class=\"form-title\">Edit {{ username }}'s profile</h1>\r\n\r\n    <!-- Показуємо спіннер, поки дані завантажуються -->\r\n    <div v-if=\"isLoading\" class=\"text-center py-5\">\r\n      <div class=\"spinner-border text-primary\" role=\"status\">\r\n        <span class=\"sr-only\">Loading profile data...</span>\r\n      </div>\r\n    </div>\r\n\r\n    <form v-else @submit.prevent=\"submitForm\" enctype=\"multipart/form-data\" class=\"styled-form\">\r\n      <div v-if=\"errorMessage\" class=\"error-message\">\r\n        {{ errorMessage }}\r\n      </div>\r\n\r\n      <!-- 💡 Важливо: використовуємо v-if=\"!isLoading\" для форми -->\r\n      <div class=\"form-group\" v-for=\"field in fields\" :key=\"field.id\">\r\n        <label :for=\"field.id\">{{ field.label }}</label>\r\n\r\n        <!-- Прев'ю аватара -->\r\n        <div v-if=\"field.id === 'avatar'\" class=\"avatar-preview-wrapper\">\r\n          <div class=\"avatar-container\">\r\n            <img\r\n              v-if=\"field.preview\"\r\n              :src=\"field.preview\"\r\n              alt=\"Avatar preview\"\r\n              class=\"img-fluid rounded-circle avatar-preview\"\r\n            >\r\n            <input\r\n              v-if=\"!field.preview\"\r\n              type=\"file\"\r\n              :id=\"field.id\"\r\n              @change=\"handleFileChange($event, field)\"\r\n              class=\"file-input\"\r\n            >\r\n            <!-- Кнопка видалення аватарки -->\r\n            <button\r\n              type=\"button\"\r\n              class=\"remove-button\"\r\n              @click=\"removeAvatarWithConfirmation(field)\"\r\n              v-if=\"field.preview\"\r\n            >\r\n            </button>\r\n          </div>\r\n        </div>\r\n\r\n        <!-- Інші поля -->\r\n        <input\r\n          v-else\r\n          :id=\"field.id\"\r\n          v-model=\"field.value\"\r\n          :type=\"field.attrs.type\"\r\n          :name=\"field.id\"\r\n          :required=\"field.attrs.required\"\r\n          :class=\"field.class\"\r\n        >\r\n\r\n        <!-- Помилки -->\r\n        <p v-for=\"error in field.errors\" :key=\"error\" class=\"form-error\">\r\n          {{ error }}\r\n        </p>\r\n      </div>\r\n\r\n      <button type=\"submit\" class=\"submit-button btn-form\" :disabled=\"isSubmitting\">\r\n        <span v-if=\"!isSubmitting\">Save Changes</span>\r\n        <span v-else class=\"spinner-border\" role=\"status\">\r\n          <span class=\"sr-only\">Loading...</span>\r\n        </span>\r\n      </button>\r\n    </form>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport { getCookie } from '../csrf.js';\r\n\r\nexport default {\r\n  // 💡 Використовуємо `created` для отримання параметрів маршруту\r\n  created() {\r\n    this.username = this.$route.params.username;\r\n  },\r\n\r\n  data() {\r\n    return {\r\n      isLoading: true, // Додаємо прапорець завантаження\r\n      isAvatarRemoved: false,\r\n      errorMessage: '',\r\n      isSubmitting: false,\r\n      username: '', // Буде заповнено в created\r\n      // Ініціалізуємо поля зі значеннями за замовчуванням\r\n      fields: [\r\n        { id: 'first_name', label: 'First Name:', value: '', attrs: { type: 'text', required: false }, errors: [] },\r\n        { id: 'last_name', label: 'Last Name:', value: '', attrs: { type: 'text', required: false }, errors: [] },\r\n        { id: 'bio', label: 'BIO:', value: '', attrs: { type: 'text', required: false }, errors: [] },\r\n        {\r\n          id: 'avatar',\r\n          label: 'Upload avatar:',\r\n          value: null,\r\n          preview: null, // Початкове прев'ю буде завантажено з API\r\n          class: 'file-input',\r\n          attrs: { type: 'file', required: false },\r\n          errors: [],\r\n        },\r\n      ],\r\n    };\r\n  },\r\n\r\n  methods: {\r\n    async loadInitialData() {\r\n        this.isLoading = true;\r\n        this.errorMessage = ''; // Очищаємо попередні помилки\r\n\r\n        try {\r\n            const url = `/profile/${this.username}/update/`;\r\n            const res = await fetch(url, {\r\n              method: 'GET',\r\n              credentials: 'include', // <--- дуже важливо\r\n              headers: {\r\n                'X-CSRFToken': getCookie('csrftoken'),\r\n              },\r\n            });\r\n\r\n            if (!res.ok) {\r\n                // Якщо відповідь сервера не 200 (наприклад, 401, 403, 404),\r\n                // пробуємо прочитати body як JSON, щоб отримати детальну помилку (якщо вона є)\r\n                let errorData;\r\n                try {\r\n                    errorData = await res.json();\r\n                } catch (e) {\r\n                    // Якщо не вдалося прочитати JSON (бо це HTML-сторінка перенаправлення)\r\n                    if (res.status === 403 || res.status === 401 || res.status === 302) {\r\n                        this.errorMessage = `Error ${res.status}: Authorization failed. Are you sure you are logged in and authorized to edit this profile?`;\r\n                    } else {\r\n                        // Інша не-JSON помилка (наприклад, 404)\r\n                        this.errorMessage = `Error ${res.status}: Could not load profile data. Server returned an unexpected format.`;\r\n                    }\r\n                    this.isLoading = false;\r\n                    return;\r\n                }\r\n\r\n                // Якщо вдалося прочитати JSON (наприклад, 400 Bad Request від Django)\r\n                this.errorMessage = errorData.error_message || `Could not load profile data (Status ${res.status}).`;\r\n                this.isLoading = false;\r\n                return;\r\n            }\r\n\r\n            // Якщо res.ok === true\r\n            const data = await res.json();\r\n\r\n            if (data.initial_data) {\r\n                const initialData = data.initial_data;\r\n                // Оновлення значень полів на основі отриманих даних\r\n                this.fields.forEach(field => {\r\n                    if (initialData[field.id] !== undefined && field.id !== 'avatar') {\r\n                        field.value = initialData[field.id] || '';\r\n                    } else if (field.id === 'avatar' && initialData.avatar) {\r\n                        field.preview = initialData.avatar; // Встановлюємо поточний URL аватарки\r\n                    }\r\n                });\r\n            } else {\r\n                this.errorMessage = 'Data loaded successfully, but \"initial_data\" key is missing.';\r\n            }\r\n        } catch (error) {\r\n            console.error('Error loading initial profile data:', error);\r\n            // Цей блок ловить мережеві помилки або SyntaxError, якщо HTML таки прослизнув\r\n            this.errorMessage = 'An unexpected error occurred during the network request. Check console for details.';\r\n        } finally {\r\n            this.isLoading = false;\r\n        }\r\n    },\r\n\r\n    async submitForm() {\r\n      this.isSubmitting = true;\r\n      this.clearErrors();\r\n\r\n      const formData = new FormData();\r\n\r\n      this.fields.forEach((field) => {\r\n        // Якщо це файл і він вибраний\r\n        if (field.id === 'avatar' && field.value) {\r\n          formData.append(field.id, field.value);\r\n        // Якщо це не аватар\r\n        } else if (field.id !== 'avatar') {\r\n          formData.append(field.id, field.value);\r\n        }\r\n      });\r\n\r\n      if (this.isAvatarRemoved) {\r\n        formData.append('remove_avatar', true);\r\n      }\r\n\r\n      // 💡 Виправлення: Додаємо _method=PUT, як вимагає Django для обробки PUT через POST\r\n      formData.append('_method', 'PUT');\r\n\r\n      // Використовуємо той самий URL, який обробляє POST-запит у Django view\r\n      const url = `/profile/${this.username}/update/`;\r\n\r\n      try {\r\n        const response = await fetch(url, {\r\n          method: 'POST', // 💡 Виправлення: Метод повинен бути POST\r\n          headers: {\r\n            // CSRF токен потрібен для POST/PUT/PATCH запитів\r\n            'X-CSRFToken': this.getCookie('csrftoken'),\r\n          },\r\n          body: formData,\r\n        });\r\n\r\n        // Django часто повертає дані, навіть якщо відповідь не 200\r\n        // Пробуємо прочитати JSON\r\n        let data;\r\n        try {\r\n            data = await response.json();\r\n        } catch (e) {\r\n            // Не JSON відповідь при відправці форми\r\n             this.errorMessage = `Error ${response.status}: Server returned an unexpected response format during update.`;\r\n             return;\r\n        }\r\n\r\n        if (response.ok) {\r\n          // Успішне оновлення, перенаправляємо користувача на сторінку профілю\r\n          this.$router.push(`/profile/${this.username}`);\r\n        } else {\r\n          // Обробка помилок\r\n          this.errorMessage = data.error_message || 'An error occurred while saving changes.';\r\n          if (data.errors) {\r\n            this.updateFieldErrors(data.errors);\r\n          }\r\n        }\r\n      } catch (error) {\r\n        console.error('Error submitting form:', error);\r\n        this.errorMessage = 'An unexpected error occurred. Please try again.';\r\n      } finally {\r\n        this.isSubmitting = false;\r\n      }\r\n    },\r\n\r\n    // ... (решта методів залишаються без змін) ...\r\n    removeAvatarWithConfirmation(field) {\r\n      // 💡 Важливо: Замість window.confirm використовуйте власну модалку\r\n      // через обмеження iframe, але для швидкого тестування залишимо confirm\r\n      const confirmed = window.confirm(\"Are you sure you want to reset your avatar to the default?\");\r\n      if (confirmed) {\r\n        this.removeAvatar(field);\r\n      }\r\n    },\r\n\r\n    handleFileChange(event, field) {\r\n      const file = event.target.files[0];\r\n      if (file) {\r\n        field.value = file;\r\n        field.preview = URL.createObjectURL(file);\r\n        this.isAvatarRemoved = false;\r\n      }\r\n    },\r\n\r\n    removeAvatar(field) {\r\n      this.isAvatarRemoved = true;\r\n      field.value = null;\r\n      field.preview = null;\r\n    },\r\n\r\n    clearErrors() {\r\n      this.errorMessage = '';\r\n      this.fields.forEach((field) => {\r\n        field.errors = [];\r\n      });\r\n    },\r\n\r\n    updateFieldErrors(errors) {\r\n      Object.entries(errors).forEach(([fieldName, fieldErrors]) => {\r\n        const field = this.fields.find((f) => f.id === fieldName);\r\n        if (field) {\r\n          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        }\r\n      });\r\n    },\r\n\r\n    getCookie(name) {\r\n      // Метод отримання CSRF токена\r\n      let cookieValue = null;\r\n      if (document.cookie && document.cookie !== '') {\r\n        const cookies = document.cookie.split(';');\r\n        for (let i = 0; i < cookies.length; i++) {\r\n          const cookie = cookies[i].trim();\r\n          if (cookie.substring(0, name.length + 1) === name + '=') {\r\n            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));\r\n            break;\r\n          }\r\n        }\r\n      }\r\n      return cookieValue;\r\n    },\r\n  },\r\n\r\n  // 💡 Викликаємо завантаження даних при монтуванні компонента\r\n  mounted() {\r\n    this.loadInitialData();\r\n  }\r\n};\r\n</script>\r\n\r\n\r\n<style scoped>\r\n/* Стилі залишаються без змін, але я їх включу для повноти файлу */\r\n.form-title {\r\n  text-align: center;\r\n  color: #343a40;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.styled-form {\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n  padding: 30px;\r\n  border-radius: 12px;\r\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\r\n  background-color: #ffffff; /* Припустимо світлий фон для форми */\r\n}\r\n\r\n.form-group {\r\n  margin-bottom: 15px;\r\n}\r\n\r\n.form-group label {\r\n  display: block;\r\n  margin-bottom: 5px;\r\n  font-weight: bold;\r\n}\r\n\r\n.form-group input {\r\n  width: 100%;\r\n  padding: 10px;\r\n  border: 1px solid #ced4da;\r\n  border-radius: 8px;\r\n  transition: border-color 0.3s;\r\n}\r\n\r\n.form-group input:focus {\r\n  border-color: var(--primary-color);\r\n  outline: none;\r\n}\r\n\r\n.error-message {\r\n  padding: 10px;\r\n  margin-bottom: 15px;\r\n  border-radius: 8px;\r\n  background-color: #f8d7da;\r\n  color: #721c24;\r\n  border: 1px solid #f5c6cb;\r\n  text-align: center;\r\n}\r\n\r\n.form-error {\r\n  color: #dc3545;\r\n  font-size: 0.85em;\r\n  margin-top: 5px;\r\n}\r\n\r\n.submit-button {\r\n  width: 100%;\r\n  padding: 10px;\r\n  background-color: var(--primary-color);\r\n  color: white;\r\n  border: none;\r\n  border-radius: 8px;\r\n  cursor: pointer;\r\n  transition: background-color 0.3s;\r\n}\r\n\r\n.submit-button:hover:not(:disabled) {\r\n  background-color: #0056b3;\r\n}\r\n\r\n.submit-button:disabled {\r\n  background-color: #a0c3e8;\r\n  cursor: not-allowed;\r\n}\r\n\r\n/* Спіннер */\r\n.spinner-border {\r\n  width: 1.5rem;\r\n  height: 1.5rem;\r\n  vertical-align: text-bottom;\r\n  border: 0.2em solid currentColor;\r\n  border-right-color: transparent;\r\n  border-radius: 50%;\r\n  animation: spinner-border 0.75s linear infinite;\r\n}\r\n\r\n@keyframes spinner-border {\r\n  to { transform: rotate(360deg); }\r\n}\r\n\r\n/* Специфічні стилі для аватарки */\r\n\r\n.avatar-preview-wrapper {\r\n  margin-top: 10px;\r\n}\r\n\r\n.avatar-preview {\r\n  width: 150px;\r\n  height: 150px;\r\n  object-fit: cover;\r\n  border-radius: 50%;\r\n}\r\n\r\n.avatar-container {\r\n  position: relative;\r\n  display: inline-block; /* Щоб кнопка позиціонувалася відносно картинки */\r\n}\r\n\r\n.remove-button {\r\n  position: absolute;\r\n  top: -10px;\r\n  right: -10px;\r\n  background-color: rgba(0, 0, 0, 0.4);\r\n  border: none;\r\n  border-radius: 50%;\r\n  width: 30px;\r\n  height: 30px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  cursor: pointer;\r\n  color: white;\r\n  transition: background-color 0.3s ease;\r\n}\r\n\r\n.remove-button:hover {\r\n  background-color: #dc3545; /* Червоний колір для видалення */\r\n}\r\n\r\n.remove-button::before {\r\n  content: '×';\r\n  font-size: 20px;\r\n  font-weight: bold;\r\n}\r\n\r\n</style>\r\n"],"sourceRoot":""}]);
+.form-container {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px 16px 100px 16px;
+  background: none;
+  box-shadow: none;
+}
+
+.styled-form .file-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--surface-color);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+.styled-form .file-input:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-color-light);
+}
+.styled-form .file-input::file-selector-button {
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all var(--transition-base);
+}
+.styled-form .file-input::file-selector-button:hover {
+  background: var(--primary-color-hover);
+}
+.styled-form .image-previews {
+  margin-top: 24px;
+}
+.styled-form .image-previews > label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 16px;
+}
+.styled-form .image-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+}
+.styled-form .image-previews .preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-base);
+}
+.styled-form .image-previews .preview:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.2);
+  transform: translateY(-2px);
+}
+.styled-form .image-previews .preview:hover .remove-button {
+  opacity: 1;
+}
+.styled-form .image-previews .preview .preview-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.styled-form .image-previews .preview .preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.styled-form .image-previews .preview .remove-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: var(--error-color);
+  border: 2px solid white;
+  border-radius: var(--radius-full);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  opacity: 0.9;
+  box-shadow: var(--shadow-md);
+  line-height: 1;
+  padding: 0;
+}
+.styled-form .image-previews .preview .remove-button:hover {
+  background: #c82333;
+  transform: scale(1.1);
+  opacity: 1;
+}
+.styled-form .image-previews .preview .remove-button:active {
+  transform: scale(0.95);
+}
+@media (max-width: 768px) {
+  .styled-form .image-previews {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.75s linear infinite;
+}
+.spinner-border.text-primary {
+  color: var(--primary-color);
+}
+.spinner-border .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.settings-container {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px 16px 100px 16px;
+  background: none;
+  box-shadow: none;
+}
+
+.settings-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.d-grid {
+  display: grid;
+}
+.d-grid.gap-2 {
+  gap: 16px;
+}
+
+.custom-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: var(--primary-color);
+  color: white;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+.custom-button:hover {
+  background: var(--primary-color-hover);
+  border-color: var(--primary-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);
+}
+.custom-button:active {
+  transform: translateY(0);
+}
+.custom-button span {
+  font-size: 1.2rem;
+}
+.custom-button:last-child {
+  background: transparent;
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+.custom-button:last-child:hover {
+  background: var(--error-color);
+  color: white;
+  border-color: var(--error-color);
+  box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);
+}
+
+.me-5 {
+  margin-right: 3rem;
+}
+
+.ms-5 {
+  margin-left: 3rem;
+}
+
+@media (max-width: 768px) {
+  .styled-form {
+    padding: 24px 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .form-title {
+    font-size: 1.5rem;
+  }
+  .avatar-preview-wrapper .avatar-container {
+    width: 120px;
+    height: 120px;
+  }
+  .settings-container {
+    padding: 24px 16px 100px 16px;
+  }
+  .settings-title {
+    font-size: 1.5rem;
+  }
+  .custom-button {
+    margin: 0;
+    padding: 20px 20px;
+    font-size: 1rem;
+  }
+  .me-5,
+  .ms-5 {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}`, "",{"version":3,"sources":["webpack://./assets/styles/styles.scss"],"names":[],"mappings":"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","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap\");\r\n\r\n// Variables\r\n:root {\r\n  // Colors\r\n  --primary-color: #66a800;\r\n  --primary-color-hover: #497900;\r\n  --primary-color-light: rgba(102, 168, 0, 0.1);\r\n  --secondary-color: #787c80;\r\n  --like-btn-color: #ff4d4d;\r\n  --background-color: #0a0a0a;\r\n  --surface-color: #141414;\r\n  --card-bg-color: #1a1a1a;\r\n  --text-color: #e8e8e8;\r\n  --text-muted: #999;\r\n  --text-muted-2: #777;\r\n  --error-color: #dc3545;\r\n  --border-color: #2a2a2a;\r\n\r\n  // Shadows\r\n  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);\r\n  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);\r\n  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);\r\n  --shadow-primary: 0 4px 20px rgba(102, 168, 0, 0.15);\r\n\r\n  // Transitions\r\n  --transition-fast: 0.15s ease;\r\n  --transition-base: 0.3s ease;\r\n  --transition-slow: 0.5s ease;\r\n\r\n  // Spacing\r\n  --radius-sm: 8px;\r\n  --radius-md: 12px;\r\n  --radius-lg: 16px;\r\n  --radius-full: 50%;\r\n}\r\n\r\n// Base Styles\r\n* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nbody {\r\n  min-height: 100vh;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  background-color: var(--background-color);\r\n  color: var(--text-color);\r\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\r\n  line-height: 1.6;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\n#app {\r\n  width: 100%;\r\n  min-height: 100vh;\r\n}\r\n\r\n.main-content {\r\n  padding-bottom: 90px; // Space for fixed bottom navigation\r\n  min-height: 100vh;\r\n  max-width: 750px; // Increased from 640px to make posts wider\r\n  margin: 0 auto;\r\n  padding-left: 16px;\r\n  padding-right: 16px;\r\n}\r\n\r\n// Container\r\n.container {\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  padding: 20px 0;\r\n\r\n  header {\r\n    display: flex;\r\n    align-items: center;\r\n    padding: 30px 0;\r\n\r\n    img {\r\n      height: 40px;\r\n      margin-right: 15px;\r\n      transition: transform var(--transition-base);\r\n\r\n      &:hover {\r\n        transform: scale(1.05);\r\n      }\r\n    }\r\n\r\n    h1 {\r\n      font-size: 24px;\r\n      font-weight: 700;\r\n      color: var(--text-color);\r\n      margin: 0;\r\n    }\r\n  }\r\n}\r\n\r\n// Navigation\r\n.navigation {\r\n  position: fixed;\r\n  bottom: 0;\r\n  left: 0;\r\n  right: 0;\r\n  width: 100%;\r\n  max-width: 100%;\r\n  height: 70px;\r\n  background: rgba(26, 26, 26, 0.85);\r\n  backdrop-filter: blur(20px);\r\n  -webkit-backdrop-filter: blur(20px);\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  border-radius: 0;\r\n  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5), 0 -1px 0 rgba(102, 168, 0, 0.1);\r\n  z-index: 1000;\r\n  border-top: 1px solid rgba(102, 168, 0, 0.15);\r\n\r\n  ul {\r\n    display: flex;\r\n    width: auto;\r\n    padding: 0;\r\n    margin: 0;\r\n\r\n    li {\r\n      position: relative;\r\n      list-style: none;\r\n      width: 70px;\r\n      height: 70px;\r\n      z-index: 1;\r\n\r\n      a {\r\n        position: relative;\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        flex-direction: column;\r\n        width: 100%;\r\n        text-align: center;\r\n        font-weight: 500;\r\n        text-decoration: none;\r\n\r\n        .text {\r\n          position: absolute;\r\n          font-weight: 600;\r\n          font-size: 0.7em;\r\n          letter-spacing: 0.05em;\r\n          transition: var(--transition-slow);\r\n          opacity: 0;\r\n          transform: translateY(20px);\r\n          color: var(--text-color);\r\n        }\r\n\r\n        .icon {\r\n          color: var(--text-muted);\r\n          position: relative;\r\n          display: block;\r\n          line-height: 75px;\r\n          font-size: 1.5em;\r\n          text-align: center;\r\n          transition: var(--transition-slow);\r\n        }\r\n      }\r\n\r\n      &.active a {\r\n        .icon {\r\n          transform: translateY(-35px);\r\n          color: var(--text-color);\r\n        }\r\n\r\n        .text {\r\n          opacity: 1;\r\n          transform: translateY(10px);\r\n          color: var(--primary-color);\r\n        }\r\n      }\r\n    }\r\n\r\n    .indicator {\r\n      position: absolute;\r\n      top: -50%;\r\n      width: 70px;\r\n      height: 70px;\r\n      background: linear-gradient(135deg, var(--primary-color) 0%, #7bc200 100%);\r\n      box-sizing: border-box;\r\n      border-radius: var(--radius-full);\r\n      transition: var(--transition-slow);\r\n      box-shadow:\r\n        0 -4px 24px rgba(102, 168, 0, 0.5),\r\n        0 0 40px rgba(102, 168, 0, 0.3),\r\n        0 -8px 16px rgba(102, 168, 0, 0.2);\r\n    }\r\n\r\n    li.active ~ .indicator {\r\n      --x: 0;\r\n      transform: translateX(var(--x));\r\n    }\r\n\r\n    li:nth-child(2).active ~ .indicator { --x: 70px; }\r\n    li:nth-child(3).active ~ .indicator { --x: 140px; }\r\n    li:nth-child(4).active ~ .indicator { --x: 210px; }\r\n    li:nth-child(5).active ~ .indicator { --x: 280px; }\r\n  }\r\n}\r\n\r\n// Cards\r\n.card {\r\n  // background-color: var(--card-bg-color);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: var(--radius-lg);\r\n  overflow: hidden;\r\n  transition: all var(--transition-base);\r\n  margin-bottom: 24px;\r\n\r\n  &:hover {\r\n    border-color: rgba(102, 168, 0, 0.3);\r\n    box-shadow: var(--shadow-md);\r\n    transform: translateY(-2px);\r\n  }\r\n}\r\n\r\n.card-color {\r\n  background-color: var(--card-bg-color);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: var(--radius-lg);\r\n  box-shadow: var(--shadow-sm);\r\n  transition: all var(--transition-base);\r\n\r\n  &:hover {\r\n    box-shadow: var(--shadow-md);\r\n    border-color: rgba(102, 168, 0, 0.2);\r\n    transform: translateY(-2px);\r\n  }\r\n\r\n  img:not(.card-header-image):not(.avatar-preview):not(.preview-img):not(.post-image) {\r\n    max-height: 500px;\r\n    width: 100%;\r\n    object-fit: cover;\r\n    border-radius: 0;\r\n  }\r\n}\r\n\r\n.card-header {\r\n  display: flex;\r\n  align-items: center;\r\n  padding: 16px 20px;\r\n  background: rgba(26, 26, 26, 0.3);\r\n  border-bottom: 1px solid rgba(102, 168, 0, 0.08);\r\n}\r\n\r\n.card-header-image {\r\n  width: 44px;\r\n  height: 44px;\r\n  object-fit: cover;\r\n  border-radius: var(--radius-full);\r\n  border: 2px solid var(--border-color);\r\n  transition: all var(--transition-base);\r\n  flex-shrink: 0;\r\n\r\n  &:hover {\r\n    border-color: var(--primary-color);\r\n    transform: scale(1.08);\r\n  }\r\n}\r\n\r\n.card-body {\r\n  padding: 20px;\r\n}\r\n\r\n.card-title {\r\n  font-size: 1.25rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n  color: var(--text-color);\r\n  line-height: 1.4;\r\n}\r\n\r\n.card-text {\r\n  font-size: 0.95rem;\r\n  line-height: 1.6;\r\n  color: var(--text-muted);\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.card-text-color {\r\n  color: var(--text-color);\r\n}\r\n\r\n.card-muted-text-color {\r\n  color: var(--text-muted);\r\n  font-size: 0.875rem;\r\n}\r\n\r\n// Carousel\r\n.carousel {\r\n  position: relative;\r\n  background: var(--surface-color);\r\n\r\n  &-inner {\r\n    position: relative;\r\n    width: 100%;\r\n    overflow: hidden;\r\n  }\r\n\r\n  &-item {\r\n    display: none;\r\n    position: relative;\r\n    width: 100%;\r\n\r\n    &.active {\r\n      display: block;\r\n    }\r\n\r\n    img {\r\n      width: 100%;\r\n      height: auto; // Changed from 100% to auto for natural image height\r\n      max-height: 600px; // Added max-height to prevent extremely tall images\r\n      object-fit: cover;\r\n      display: block;\r\n    }\r\n  }\r\n}\r\n\r\n// Hashtag/Tag Styles for Posts\r\n.post-tags {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 8px;\r\n  margin-top: 12px;\r\n  padding-top: 12px;\r\n  border-top: 1px solid rgba(102, 168, 0, 0.1);\r\n}\r\n\r\n.post-tag,\r\n.hashtag {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  padding: 6px 12px;\r\n  background: rgba(102, 168, 0, 0.1);\r\n  color: var(--primary-color);\r\n  font-size: 0.875rem;\r\n  font-weight: 500;\r\n  border-radius: var(--radius-sm);\r\n  text-decoration: none;\r\n  transition: all var(--transition-fast);\r\n  cursor: pointer;\r\n  border: 1px solid transparent;\r\n\r\n  &::before {\r\n    content: '#';\r\n    margin-right: 2px;\r\n    opacity: 0.8;\r\n  }\r\n\r\n  &:hover {\r\n    background: rgba(102, 168, 0, 0.2);\r\n    border-color: var(--primary-color);\r\n    transform: translateY(-1px);\r\n    box-shadow: 0 2px 8px rgba(102, 168, 0, 0.2);\r\n  }\r\n\r\n  &:active {\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n// Profile Page Styles\r\n.header {\r\n  max-width: 750px;\r\n  margin: 0 auto;\r\n  padding: 24px 16px;\r\n\r\n  .avatar-container {\r\n    display: flex;\r\n    justify-content: center;\r\n    margin-bottom: 24px;\r\n\r\n    img {\r\n      width: 120px;\r\n      height: 120px;\r\n      border-radius: var(--radius-full);\r\n      border: 3px solid var(--primary-color);\r\n      object-fit: cover;\r\n      box-shadow: 0 4px 16px rgba(102, 168, 0, 0.3);\r\n      transition: all var(--transition-base);\r\n\r\n      &:hover {\r\n        transform: scale(1.05);\r\n        box-shadow: 0 6px 24px rgba(102, 168, 0, 0.4);\r\n      }\r\n    }\r\n  }\r\n\r\n  .profile-main-info {\r\n    .username-and-actions {\r\n      display: flex;\r\n      justify-content: center;\r\n      align-items: center;\r\n      margin-bottom: 20px;\r\n      flex-wrap: wrap;\r\n      gap: 16px;\r\n\r\n      .username {\r\n        font-size: 1.75rem;\r\n        font-weight: 700;\r\n        color: var(--text-color);\r\n        margin: 0;\r\n      }\r\n\r\n      .actions {\r\n        .btn {\r\n          padding: 8px 24px;\r\n          border-radius: var(--radius-md);\r\n          font-weight: 600;\r\n          font-size: 0.9rem;\r\n          border: none;\r\n          cursor: pointer;\r\n          transition: all var(--transition-base);\r\n          text-decoration: none;\r\n          display: inline-block;\r\n\r\n          &.btn-warning {\r\n            background: var(--primary-color);\r\n            color: white;\r\n\r\n            &:hover {\r\n              background: var(--primary-color-hover);\r\n              transform: translateY(-2px);\r\n              box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);\r\n            }\r\n          }\r\n\r\n          &.btn-success {\r\n            background: var(--primary-color);\r\n            color: white;\r\n\r\n            &:hover {\r\n              background: var(--primary-color-hover);\r\n              transform: translateY(-2px);\r\n              box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);\r\n            }\r\n          }\r\n\r\n          &.btn-danger {\r\n            background: var(--surface-color);\r\n            color: var(--text-color);\r\n            border: 1px solid var(--border-color);\r\n\r\n            &:hover {\r\n              background: var(--card-bg-color);\r\n              border-color: var(--text-muted);\r\n              transform: translateY(-2px);\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n\r\n    .profile-details {\r\n      text-align: center;\r\n      margin-bottom: 20px;\r\n\r\n      .full-name {\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n        color: var(--text-color);\r\n        margin-bottom: 8px;\r\n      }\r\n\r\n      .bio {\r\n        font-size: 0.95rem;\r\n        line-height: 1.6;\r\n        color: var(--text-muted);\r\n        margin-top: 8px;\r\n        white-space: pre-wrap;\r\n        word-wrap: break-word;\r\n        max-width: 600px;\r\n        margin-left: auto;\r\n        margin-right: auto;\r\n      }\r\n    }\r\n\r\n    .stats {\r\n      display: flex;\r\n      gap: 32px;\r\n      justify-content: center;\r\n      padding: 20px 0;\r\n      border-top: 1px solid var(--border-color);\r\n      border-bottom: 1px solid var(--border-color);\r\n      margin-bottom: 24px;\r\n\r\n      > div {\r\n        display: flex;\r\n        flex-direction: column;\r\n        align-items: center;\r\n        cursor: pointer;\r\n        transition: all var(--transition-base);\r\n\r\n        &:hover {\r\n          transform: translateY(-2px);\r\n\r\n          h3 {\r\n            color: var(--primary-color);\r\n          }\r\n        }\r\n\r\n        h3 {\r\n          font-size: 1.5rem;\r\n          font-weight: 700;\r\n          color: var(--text-color);\r\n          margin: 0 0 4px 0;\r\n          transition: color var(--transition-base);\r\n        }\r\n\r\n        span {\r\n          font-size: 0.875rem;\r\n          color: var(--text-muted);\r\n          font-weight: 500;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\n// Posts Section\r\n#posts {\r\n  max-width: 750px;\r\n  margin: 0 auto;\r\n  padding: 0 16px 100px 16px;\r\n\r\n  h2 {\r\n    font-size: 1.5rem;\r\n    font-weight: 700;\r\n    color: var(--text-color);\r\n    margin-bottom: 20px;\r\n  }\r\n\r\n  h4 {\r\n    text-align: center;\r\n    color: var(--text-muted);\r\n    padding: 40px 0;\r\n    font-weight: 500;\r\n  }\r\n\r\n  .posts-grid {\r\n    display: grid;\r\n    grid-template-columns: repeat(3, 1fr);\r\n    gap: 12px; // Increased gap from 4px to 12px for better spacing\r\n\r\n    .post-item {\r\n      position: relative; // Explicitly set position relative for overlay positioning\r\n      width: 100%;\r\n      aspect-ratio: 1 / 1;\r\n      overflow: hidden;\r\n      background: var(--surface-color);\r\n      border-radius: 4px;\r\n      cursor: pointer;\r\n\r\n      a {\r\n        display: block;\r\n        position: absolute;\r\n        top: 0;\r\n        left: 0;\r\n        width: 100%;\r\n        height: 100%;\r\n        text-decoration: none;\r\n        overflow: hidden;\r\n      }\r\n\r\n      img,\r\n      .post-image {\r\n        display: block;\r\n        position: absolute;\r\n        top: 0;\r\n        left: 0;\r\n        width: 100%;\r\n        height: 100%;\r\n        object-fit: cover;\r\n        object-position: center;\r\n        transition: transform var(--transition-base);\r\n        z-index: 1; // Added z-index: 1 to ensure image displays above background\r\n      }\r\n\r\n      .post-overlay {\r\n        position: absolute;\r\n        top: 0;\r\n        left: 0;\r\n        width: 100%;\r\n        height: 100%;\r\n        background: rgba(0, 0, 0, 0.7);\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        opacity: 0;\r\n        transition: opacity var(--transition-base);\r\n        z-index: 2; // Added z-index: 2 to ensure overlay is above image\r\n        pointer-events: none;\r\n\r\n        span {\r\n          color: white;\r\n          font-weight: 600;\r\n          font-size: 1rem;\r\n          display: flex;\r\n          align-items: center;\r\n          gap: 16px;\r\n          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);\r\n\r\n          i {\r\n            margin-left: 6px;\r\n\r\n            &.fa-heart {\r\n              color: var(--like-btn-color);\r\n            }\r\n          }\r\n        }\r\n      }\r\n\r\n      &:hover {\r\n        img,\r\n        .post-image {\r\n          transform: scale(1.1);\r\n        }\r\n\r\n        .post-overlay {\r\n          opacity: 1;\r\n        }\r\n      }\r\n    }\r\n  }\r\n\r\n  @media (max-width: 768px) {\r\n    .posts-grid {\r\n      gap: 8px; // Increased mobile gap from 2px to 8px\r\n    }\r\n  }\r\n}\r\n\r\n// Profile Edit Page Styles\r\n.form-title {\r\n  font-size: 1.75rem;\r\n  font-weight: 700;\r\n  color: var(--text-color);\r\n  text-align: center;\r\n  margin-bottom: 32px;\r\n  padding-top: 20px;\r\n}\r\n\r\n.styled-form {\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n  padding: 32px 24px;\r\n  background: var(--card-bg-color);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: var(--radius-lg);\r\n  box-shadow: var(--shadow-md);\r\n  margin-bottom: 100px;\r\n\r\n  .error-message {\r\n    background: rgba(220, 53, 69, 0.1);\r\n    border: 1px solid var(--error-color);\r\n    color: var(--error-color);\r\n    padding: 12px 16px;\r\n    border-radius: var(--radius-md);\r\n    margin-bottom: 24px;\r\n    font-size: 0.9rem;\r\n    font-weight: 500;\r\n  }\r\n\r\n  .form-group {\r\n    margin-bottom: 24px;\r\n\r\n    label {\r\n      display: block;\r\n      font-size: 0.95rem;\r\n      font-weight: 600;\r\n      color: var(--text-color);\r\n      margin-bottom: 8px;\r\n    }\r\n\r\n    input[type=\"text\"],\r\n    input[type=\"email\"],\r\n    input[type=\"password\"],\r\n    textarea {\r\n      width: 100%;\r\n      padding: 12px 16px;\r\n      background: var(--surface-color);\r\n      border: 1px solid var(--border-color);\r\n      border-radius: var(--radius-md);\r\n      color: var(--text-color);\r\n      font-size: 0.95rem;\r\n      font-family: inherit;\r\n      transition: all var(--transition-base);\r\n\r\n      &:focus {\r\n        outline: none;\r\n        border-color: var(--primary-color);\r\n        box-shadow: 0 0 0 3px rgba(102, 168, 0, 0.1);\r\n      }\r\n\r\n      &::placeholder {\r\n        color: var(--text-muted-2);\r\n      }\r\n    }\r\n\r\n    textarea {\r\n      min-height: 100px;\r\n      resize: vertical;\r\n    }\r\n\r\n    .form-error {\r\n      color: var(--error-color);\r\n      font-size: 0.85rem;\r\n      margin-top: 6px;\r\n      font-weight: 500;\r\n    }\r\n  }\r\n\r\n  // Avatar Preview Section\r\n  .avatar-preview-wrapper {\r\n    display: flex;\r\n    justify-content: center;\r\n    margin: 24px 0;\r\n\r\n    .avatar-container {\r\n      position: relative;\r\n      width: 150px;\r\n      height: 150px;\r\n\r\n      .avatar-preview {\r\n        width: 100%;\r\n        height: 100%;\r\n        border-radius: var(--radius-full);\r\n        object-fit: cover;\r\n        border: 3px solid var(--primary-color);\r\n        box-shadow: 0 4px 16px rgba(102, 168, 0, 0.3);\r\n        transition: all var(--transition-base);\r\n\r\n        &:hover {\r\n          transform: scale(1.05);\r\n          box-shadow: 0 6px 24px rgba(102, 168, 0, 0.4);\r\n        }\r\n      }\r\n\r\n      .file-input {\r\n        width: 100%;\r\n        height: 100%;\r\n        padding: 12px;\r\n        background: var(--surface-color);\r\n        border: 2px dashed var(--border-color);\r\n        border-radius: var(--radius-full);\r\n        color: var(--text-muted);\r\n        font-size: 0.85rem;\r\n        cursor: pointer;\r\n        transition: all var(--transition-base);\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        text-align: center;\r\n\r\n        &:hover {\r\n          border-color: var(--primary-color);\r\n          background: var(--primary-color-light);\r\n        }\r\n\r\n        &::file-selector-button {\r\n          display: none;\r\n        }\r\n      }\r\n\r\n      .remove-button {\r\n        position: absolute;\r\n        top: -8px;\r\n        right: -8px;\r\n        width: 36px;\r\n        height: 36px;\r\n        background: var(--error-color);\r\n        border: 2px solid var(--background-color);\r\n        border-radius: var(--radius-full);\r\n        color: white;\r\n        font-size: 1.2rem;\r\n        cursor: pointer;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        transition: all var(--transition-base);\r\n        box-shadow: var(--shadow-md);\r\n\r\n        &::before {\r\n          content: '×';\r\n          font-weight: 700;\r\n          line-height: 1;\r\n        }\r\n\r\n        &:hover {\r\n          background: #c82333;\r\n          transform: scale(1.1);\r\n          box-shadow: var(--shadow-lg);\r\n        }\r\n\r\n        &:active {\r\n          transform: scale(0.95);\r\n        }\r\n      }\r\n    }\r\n  }\r\n\r\n  .submit-button {\r\n    width: 100%;\r\n    padding: 14px 24px;\r\n    background: var(--primary-color);\r\n    color: white;\r\n    border: none;\r\n    border-radius: var(--radius-md);\r\n    font-size: 1rem;\r\n    font-weight: 600;\r\n    cursor: pointer;\r\n    transition: all var(--transition-base);\r\n    margin-top: 8px;\r\n\r\n    &:hover:not(:disabled) {\r\n      background: var(--primary-color-hover);\r\n      transform: translateY(-2px);\r\n      box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);\r\n    }\r\n\r\n    &:active:not(:disabled) {\r\n      transform: translateY(0);\r\n    }\r\n\r\n    &:disabled {\r\n      opacity: 0.6;\r\n      cursor: not-allowed;\r\n    }\r\n\r\n    .spinner-border {\r\n      width: 20px;\r\n      height: 20px;\r\n      border: 2px solid rgba(255, 255, 255, 0.3);\r\n      border-top-color: white;\r\n      border-radius: var(--radius-full);\r\n      animation: spin 0.8s linear infinite;\r\n\r\n      .sr-only {\r\n        position: absolute;\r\n        width: 1px;\r\n        height: 1px;\r\n        padding: 0;\r\n        margin: -1px;\r\n        overflow: hidden;\r\n        clip: rect(0, 0, 0, 0);\r\n        white-space: nowrap;\r\n        border: 0;\r\n      }\r\n    }\r\n  }\r\n\r\n  .danger-button {\r\n    width: 100%;\r\n    padding: 14px 24px;\r\n    background: transparent;\r\n    color: var(--error-color);\r\n    border: 2px solid var(--error-color);\r\n    border-radius: var(--radius-md);\r\n    font-size: 1rem;\r\n    font-weight: 600;\r\n    cursor: pointer;\r\n    transition: all var(--transition-base);\r\n    margin-top: 16px;\r\n\r\n    &:hover:not(:disabled) {\r\n      background: var(--error-color);\r\n      color: white;\r\n      transform: translateY(-2px);\r\n      box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);\r\n    }\r\n\r\n    &:active:not(:disabled) {\r\n      transform: translateY(0);\r\n    }\r\n\r\n    &:disabled {\r\n      opacity: 0.6;\r\n      cursor: not-allowed;\r\n    }\r\n\r\n    .spinner-border {\r\n      width: 20px;\r\n      height: 20px;\r\n      border: 2px solid rgba(220, 53, 69, 0.3);\r\n      border-top-color: var(--error-color);\r\n      border-radius: var(--radius-full);\r\n      animation: spin 0.8s linear infinite;\r\n\r\n      .sr-only {\r\n        position: absolute;\r\n        width: 1px;\r\n        height: 1px;\r\n        padding: 0;\r\n        margin: -1px;\r\n        overflow: hidden;\r\n        clip: rect(0, 0, 0, 0);\r\n        white-space: nowrap;\r\n        border: 0;\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\n// Post Creating Page Styles\r\n.form-container {\r\n  max-width: 750px;\r\n  margin: 0 auto;\r\n  padding: 20px 16px 100px 16px;\r\n  background: none;\r\n  box-shadow: none;\r\n}\r\n\r\n.styled-form {\r\n  .file-input {\r\n    width: 100%;\r\n    padding: 12px 16px;\r\n    background: var(--surface-color);\r\n    border: 2px dashed var(--border-color);\r\n    border-radius: var(--radius-md);\r\n    color: var(--text-muted);\r\n    font-size: 0.95rem;\r\n    cursor: pointer;\r\n    transition: all var(--transition-base);\r\n\r\n    &:hover {\r\n      border-color: var(--primary-color);\r\n      background: var(--primary-color-light);\r\n    }\r\n\r\n    &::file-selector-button {\r\n      padding: 8px 16px;\r\n      background: var(--primary-color);\r\n      color: white;\r\n      border: none;\r\n      border-radius: var(--radius-sm);\r\n      font-weight: 600;\r\n      cursor: pointer;\r\n      margin-right: 12px;\r\n      transition: all var(--transition-base);\r\n\r\n      &:hover {\r\n        background: var(--primary-color-hover);\r\n      }\r\n    }\r\n  }\r\n\r\n  .image-previews {\r\n    margin-top: 24px;\r\n\r\n    > label {\r\n      display: block;\r\n      font-size: 0.95rem;\r\n      font-weight: 600;\r\n      color: var(--text-color);\r\n      margin-bottom: 16px;\r\n    }\r\n\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));\r\n    gap: 16px;\r\n\r\n    .preview {\r\n      position: relative;\r\n      width: 100%;\r\n      aspect-ratio: 1 / 1;\r\n      border-radius: var(--radius-md);\r\n      overflow: hidden;\r\n      background: var(--surface-color);\r\n      border: 1px solid var(--border-color);\r\n      transition: all var(--transition-base);\r\n\r\n      &:hover {\r\n        border-color: var(--primary-color);\r\n        box-shadow: 0 4px 16px rgba(102, 168, 0, 0.2);\r\n        transform: translateY(-2px);\r\n\r\n        .remove-button {\r\n          opacity: 1;\r\n        }\r\n      }\r\n\r\n      .preview-container {\r\n        position: relative;\r\n        width: 100%;\r\n        height: 100%;\r\n      }\r\n\r\n      .preview-img {\r\n        width: 100%;\r\n        height: 100%;\r\n        object-fit: cover;\r\n        display: block;\r\n      }\r\n\r\n      .remove-button {\r\n        position: absolute;\r\n        top: 8px;\r\n        right: 8px;\r\n        width: 32px;\r\n        height: 32px;\r\n        background: var(--error-color);\r\n        border: 2px solid white;\r\n        border-radius: var(--radius-full);\r\n        color: white;\r\n        font-size: 1.2rem;\r\n        font-weight: 700;\r\n        cursor: pointer;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        transition: all var(--transition-base);\r\n        opacity: 0.9;\r\n        box-shadow: var(--shadow-md);\r\n        line-height: 1;\r\n        padding: 0;\r\n\r\n        &:hover {\r\n          background: #c82333;\r\n          transform: scale(1.1);\r\n          opacity: 1;\r\n        }\r\n\r\n        &:active {\r\n          transform: scale(0.95);\r\n        }\r\n      }\r\n    }\r\n  }\r\n\r\n  @media (max-width: 768px) {\r\n    .image-previews {\r\n      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));\r\n      gap: 12px;\r\n    }\r\n  }\r\n}\r\n\r\n// Loading Spinner\r\n.text-center {\r\n  text-align: center;\r\n}\r\n\r\n.py-5 {\r\n  padding-top: 3rem;\r\n  padding-bottom: 3rem;\r\n}\r\n\r\n.spinner-border {\r\n  display: inline-block;\r\n  width: 2rem;\r\n  height: 2rem;\r\n  vertical-align: text-bottom;\r\n  border: 0.25em solid currentColor;\r\n  border-right-color: transparent;\r\n  border-radius: var(--radius-full);\r\n  animation: spin 0.75s linear infinite;\r\n\r\n  &.text-primary {\r\n    color: var(--primary-color);\r\n  }\r\n\r\n  .sr-only {\r\n    position: absolute;\r\n    width: 1px;\r\n    height: 1px;\r\n    padding: 0;\r\n    margin: -1px;\r\n    overflow: hidden;\r\n    clip: rect(0, 0, 0, 0);\r\n    white-space: nowrap;\r\n    border: 0;\r\n  }\r\n}\r\n\r\n@keyframes spin {\r\n  0% {\r\n    transform: rotate(0deg);\r\n  }\r\n  100% {\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n// Settings Page Styles\r\n.settings-container {\r\n  max-width: 750px;\r\n  margin: 0 auto;\r\n  padding: 20px 16px 100px 16px;\r\n  background: none;\r\n  box-shadow: none;\r\n}\r\n\r\n.settings-title {\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  color: var(--text-color);\r\n  text-align: center;\r\n  margin-bottom: 48px;\r\n}\r\n\r\n.d-grid {\r\n  display: grid;\r\n\r\n  &.gap-2 {\r\n    gap: 16px;\r\n  }\r\n}\r\n\r\n.custom-button {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 12px;\r\n  padding: 16px 32px;\r\n  background: var(--primary-color);\r\n  color: white;\r\n  border: 2px solid var(--primary-color);\r\n  border-radius: var(--radius-md);\r\n  font-size: 1.1rem;\r\n  font-weight: 600;\r\n  text-decoration: none;\r\n  cursor: pointer;\r\n  transition: all var(--transition-base);\r\n  box-shadow: var(--shadow-sm);\r\n\r\n  &:hover {\r\n    background: var(--primary-color-hover);\r\n    border-color: var(--primary-color-hover);\r\n    transform: translateY(-2px);\r\n    box-shadow: 0 4px 16px rgba(102, 168, 0, 0.4);\r\n  }\r\n\r\n  &:active {\r\n    transform: translateY(0);\r\n  }\r\n\r\n  span {\r\n    font-size: 1.2rem;\r\n  }\r\n\r\n  // Logout button variant\r\n  &:last-child {\r\n    background: transparent;\r\n    color: var(--error-color);\r\n    border-color: var(--error-color);\r\n\r\n    &:hover {\r\n      background: var(--error-color);\r\n      color: white;\r\n      border-color: var(--error-color);\r\n      box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);\r\n    }\r\n  }\r\n}\r\n\r\n// Margin utilities\r\n.me-5 {\r\n  margin-right: 3rem;\r\n}\r\n\r\n.ms-5 {\r\n  margin-left: 3rem;\r\n}\r\n\r\n// Responsive adjustments\r\n@media (max-width: 768px) {\r\n  .styled-form {\r\n    padding: 24px 16px;\r\n    margin-left: 16px;\r\n    margin-right: 16px;\r\n  }\r\n\r\n  .form-title {\r\n    font-size: 1.5rem;\r\n  }\r\n\r\n  .avatar-preview-wrapper .avatar-container {\r\n    width: 120px;\r\n    height: 120px;\r\n  }\r\n\r\n  .settings-container {\r\n    padding: 24px 16px 100px 16px;\r\n  }\r\n\r\n  .settings-title {\r\n    font-size: 1.5rem;\r\n  }\r\n\r\n  .custom-button {\r\n    margin: 0;\r\n    padding: 20px 20px;\r\n    font-size: 1rem;\r\n  }\r\n\r\n  .me-5,\r\n  .ms-5 {\r\n    margin-left: 0;\r\n    margin-right: 0;\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12023,110 +12255,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_styles_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_styles_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_styles_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -12645,18 +12773,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _PostCreationPage_vue_vue_type_template_id_07da1fa4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true */ "./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true");
+/* harmony import */ var _PostCreationPage_vue_vue_type_template_id_07da1fa4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostCreationPage.vue?vue&type=template&id=07da1fa4 */ "./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4");
 /* harmony import */ var _PostCreationPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostCreationPage.vue?vue&type=script&lang=js */ "./assets/scripts/pages/PostCreationPage.vue?vue&type=script&lang=js");
-/* harmony import */ var _PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css */ "./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css");
-/* harmony import */ var D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-
-
-const __exports__ = /*#__PURE__*/(0,D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_PostCreationPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_PostCreationPage_vue_vue_type_template_id_07da1fa4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-07da1fa4"],['__file',"assets/scripts/pages/PostCreationPage.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_PostCreationPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_PostCreationPage_vue_vue_type_template_id_07da1fa4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"assets/scripts/pages/PostCreationPage.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12729,18 +12854,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true");
+/* harmony import */ var _ProfileEditPage_vue_vue_type_template_id_5f49d95c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=template&id=5f49d95c */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c");
 /* harmony import */ var _ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=script&lang=js */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=script&lang=js");
-/* harmony import */ var _ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css */ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css");
-/* harmony import */ var D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-
-
-const __exports__ = /*#__PURE__*/(0,D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5f49d95c"],['__file',"assets/scripts/pages/ProfileEditPage.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_FoxMinded_DjangoGramm_DjangoGramm_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_ProfileEditPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ProfileEditPage_vue_vue_type_template_id_5f49d95c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"assets/scripts/pages/ProfileEditPage.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -13158,17 +13280,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true":
-/*!*********************************************************************************************!*\
-  !*** ./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true ***!
-  \*********************************************************************************************/
+/***/ "./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4":
+/*!*********************************************************************************!*\
+  !*** ./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4 ***!
+  \*********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_template_id_07da1fa4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_template_id_07da1fa4__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_template_id_07da1fa4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_template_id_07da1fa4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./PostCreationPage.vue?vue&type=template&id=07da1fa4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=template&id=07da1fa4");
 
 
 /***/ }),
@@ -13203,17 +13325,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true":
-/*!********************************************************************************************!*\
-  !*** ./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true ***!
-  \********************************************************************************************/
+/***/ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c":
+/*!********************************************************************************!*\
+  !*** ./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c ***!
+  \********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_template_id_5f49d95c__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_template_id_5f49d95c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_template_id_5f49d95c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=template&id=5f49d95c */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=template&id=5f49d95c");
 
 
 /***/ }),
@@ -13259,30 +13381,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_SettingsPage_vue_vue_type_template_id_06557e9c__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_1_use_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_SettingsPage_vue_vue_type_template_id_06557e9c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./SettingsPage.vue?vue&type=template&id=06557e9c */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-1.use!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/SettingsPage.vue?vue&type=template&id=06557e9c");
-
-
-/***/ }),
-
-/***/ "./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css":
-/*!***********************************************************************************************************!*\
-  !*** ./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css ***!
-  \***********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_PostCreationPage_vue_vue_type_style_index_0_id_07da1fa4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/PostCreationPage.vue?vue&type=style&index=0&id=07da1fa4&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css":
-/*!**********************************************************************************************************!*\
-  !*** ./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css ***!
-  \**********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_11_use_0_ProfileEditPage_vue_vue_type_style_index_0_id_5f49d95c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./assets/scripts/pages/ProfileEditPage.vue?vue&type=style&index=0&id=5f49d95c&scoped=true&lang=css");
 
 
 /***/ }),

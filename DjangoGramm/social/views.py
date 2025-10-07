@@ -451,33 +451,44 @@ def logout_view(request):
     return render(request, 'logout.html')
 
 
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
+from django.shortcuts import get_object_or_404
+from django.db import IntegrityError, DatabaseError
+
+from .models import Follow
+from django.contrib.auth.models import User
+
+
 @login_required
 @csrf_protect
 def follow_view(request, username):
     user_to_follow = get_object_or_404(User, username=username)
 
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'msg': 'Invalid method'}, status=405)
+
     if request.user == user_to_follow:
-        # Заборонити підписку на себе
-        return redirect('profile', username=username)
+        return JsonResponse({'status': 'error', 'msg': 'You cannot follow yourself'}, status=400)
 
     try:
-        follow, created = Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
-        if not created:
+        follow, created = Follow.objects.get_or_create(
+            follower=request.user,
+            following=user_to_follow
+        )
 
-            try:
-                follow.delete()
+        if created:
+            # ✅ Успішно підписався
+            return JsonResponse({'status': 'success', 'action': 'followed', 'username': username})
 
-            except DatabaseError as e:
-                return redirect('profile', username=username)
+        else:
+            # ❗ Якщо вже підписаний — відписуємося
+            follow.delete()
+            return JsonResponse({'status': 'success', 'action': 'unfollowed', 'username': username})
 
-    except IntegrityError as e:
-        return redirect('profile', username=username)
-
-    except DatabaseError as e:
-        return redirect('profile', username=username)
-
-    return redirect('profile', username=username)
-
+    except (IntegrityError, DatabaseError):
+        return JsonResponse({'status': 'error', 'msg': 'Database error'}, status=500)
 
 @login_required
 def news_feed(request):

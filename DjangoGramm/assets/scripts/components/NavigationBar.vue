@@ -1,4 +1,4 @@
-  <template>
+<template>
     <nav class="navigation">
       <ul>
         <li
@@ -17,57 +17,57 @@
         <div class="indicator"></div>
       </ul>
     </nav>
-  </template>
+</template>
 
-  <script>
-  export default {
-    name: "Navigationbar",
-    props: {
-      isAuthenticated: {
-        type: Boolean,
-        default: false,
-      },
-      currentPath: {
-        type: String,
-        required: true,
-      },
-      username: {
-        type: String,
-        default: "",
-      },
+<script>
+export default {
+  name: "Navigationbar",
+  props: {
+    isAuthenticated: {
+      type: Boolean,
+      default: false,
     },
-    data() {
-      return {
-        activeItem: null,
-      };
+    currentPath: {
+      type: String,
+      required: true,
     },
-    computed: {
-      navItems() {
-        if (this.isAuthenticated) {
-          return [
-            { name: "main", url: "/", label: "Home", icon: "fa-solid fa-house" },
-            { name: "profile", url: `/profile/${this.username}/`, label: "Profile", icon: "fa-solid fa-user" },
-            { name: "news", url: `/news/`, label: "News", icon: "fa-solid fa-newspaper" },
-            { name: "post", url: `/post/`, label: "Create post", icon: "fa-solid fa-plus" },
-            { name: "settings", url: `/settings/`, label: "Settings", icon: "fa-solid fa-gear" },
-          ];
-        }
+    username: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      activeItem: null,
+    };
+  },
+  computed: {
+    navItems() {
+      if (this.isAuthenticated) {
         return [
-          { name: "main", url: "/", label: "Home", icon: "fa-solid fa-house" },
-          { name: "login", url: "/auth/login/", label: "Sign in", icon: "fa-solid fa-sign-in" },
+          {name: "main", url: "/", label: "Home", icon: "fa-solid fa-house"},
+          {name: "profile", url: `/profile/${this.username}/`, label: "Profile", icon: "fa-solid fa-user"},
+          {name: "news", url: `/news/`, label: "News", icon: "fa-solid fa-newspaper"},
+          {name: "post", url: `/post/`, label: "Create post", icon: "fa-solid fa-plus"},
+          {name: "settings", url: `/settings/`, label: "Settings", icon: "fa-solid fa-gear"},
         ];
-      },
+      }
+      return [
+        {name: "main", url: "/", label: "Home", icon: "fa-solid fa-house"},
+        {name: "login", url: "/auth/login/", label: "Sign in", icon: "fa-solid fa-sign-in"},
+      ];
     },
-    methods: {
-      isActive(item) {
-        if (this.activeItem) {
-          return this.activeItem === item.name;
-        }
-        return this.currentPath.startsWith(item.url);
-      },
-      setActive(item) {
-        this.activeItem = item.name;
-      },
+  },
+  methods: {
+    isActive(item) {
+      if (this.activeItem) {
+        return this.activeItem === item.name;
+      }
+      return this.currentPath.startsWith(item.url);
     },
-  };
-  </script>
+    setActive(item) {
+      this.activeItem = item.name;
+    },
+  },
+};
+</script>
