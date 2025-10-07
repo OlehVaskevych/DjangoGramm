@@ -1,11 +1,13 @@
 <template>
   <div>
-    <PostCard
+    <PostDetail
       v-for="post in posts"
       :key="post.id"
       :post="post"
       :currentUser="currentUser"
       :userIsAuthenticated="userIsAuthenticated"
+      @update-post="handlePostUpdate"
+      @update-post-comments="handleCommentsUpdate"
     />
 
     <div v-if="loading" class="text-center my-3">
@@ -14,11 +16,14 @@
   </div>
 </template>
 
+
+
+
 <script>
-import PostCard from '../components/PostCard.vue';
+import PostDetail from '../components/PostDetail.vue';
 
 export default {
-  components: { PostCard },
+  components: { PostDetail },
   data() {
     return {
       posts: [],
@@ -51,6 +56,32 @@ export default {
       const bottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
       if (bottom) {
         this.loadPosts();
+      }
+    },
+    handlePostUpdate(update) {
+      const postIndex = this.posts.findIndex(p => p.id === update.id);
+      if (postIndex !== -1) {
+        // Оновлення кількості лайків (або інших простих полів)
+        if (update.field === 'likes.count') {
+          this.posts[postIndex].likes.count = update.value;
+        }
+        // Тут можна додати інші прості оновлення, якщо вони будуть
+      }
+    },
+
+    handleCommentsUpdate(update) {
+      const postIndex = this.posts.findIndex(p => p.id === update.id);
+      if (postIndex !== -1) {
+        const post = this.posts[postIndex];
+
+        if (update.action === 'send') {
+          // Додавання нового коментаря
+          post.comments.push(update.comment);
+        } else if (update.action === 'delete') {
+          // Видалення коментаря
+          const index = post.comments.findIndex(c => c.id === update.comment.id);
+          if (index !== -1) post.comments.splice(index, 1);
+        }
       }
     }
   },

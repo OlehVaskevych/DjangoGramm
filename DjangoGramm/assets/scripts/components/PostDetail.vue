@@ -11,7 +11,7 @@
 
       <router-link
           v-if="userIsAuthenticated && post.user.username === currentUser.username"
-          :to="'post' + post.id + '/update'"
+          :to="'/post/' + post.id + '/update'"
           class="edit-icon"
       >
           <span class="fa fa-edit"></span>
@@ -83,9 +83,9 @@
 </template>
 
 <script>
-import LikeAddForm from "../components/LikeAddForm.vue";
-import CommentSendForm from "../components/CommentSendForm.vue";
-import CommentDeleteForm from "../components/CommentDeleteForm.vue";
+import LikeAddForm from "./LikeAddForm.vue";
+import CommentSendForm from "./CommentSendForm.vue";
+import CommentDeleteForm from "./CommentDeleteForm.vue";
 
 export default {
   components: { LikeAddForm, CommentSendForm, CommentDeleteForm },
@@ -94,11 +94,9 @@ export default {
     currentUser: { type: Object, default: null },
     userIsAuthenticated: { type: Boolean, default: false }
   },
-  data() {
-    return {
-      localPost: JSON.parse(JSON.stringify(this.post)) // робимо копію, щоб мутувати
-    }
-  },
+  // 💡 Використовуємо data тільки для зберігання локальної копії (якщо потрібно)
+  // Або краще - використовуємо $emit для оновлення батьківського стану
+  // Для простоти та універсальності, обробляємо мутації через $emit
   methods: {
     toggleComments(postId) {
       const commentsSection = document.getElementById('comments-' + postId);
@@ -108,15 +106,20 @@ export default {
       }
     },
     updateLikes(newLikes) {
-      this.localPost.likes.count = newLikes;
+      // 💡 Повідомляємо батьківський компонент про зміну
+      this.$emit('update-post', {
+          id: this.post.id,
+          field: 'likes.count',
+          value: newLikes
+      });
     },
     updateComments(action, comment) {
-      if (action === 'send') {
-        this.localPost.comments.push(comment);
-      } else if (action === 'delete') {
-        const index = this.localPost.comments.findIndex(c => c.id === comment.id);
-        if (index !== -1) this.localPost.comments.splice(index, 1);
-      }
+      // 💡 Повідомляємо батьківський компонент про зміну
+      this.$emit('update-post-comments', {
+          id: this.post.id,
+          action: action,
+          comment: comment
+      });
     }
   }
 };
