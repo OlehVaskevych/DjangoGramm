@@ -3401,6 +3401,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
 function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
@@ -3413,6 +3414,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     postId: {
@@ -3437,7 +3439,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return fetch("/post/".concat(_this.postId, "/comments/").concat(_this.commentId, "/"), {
                 method: 'POST',
                 headers: {
-                  'X-CSRFToken': _this.getCookie('csrftoken'),
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken'),
                   'Content-Type': 'application/json'
                 }
               });
@@ -3464,18 +3466,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee, null, [[0, 10]]);
       }))();
-    },
-    getCookie: function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        document.cookie.split(";").forEach(function (cookie) {
-          cookie = cookie.trim();
-          if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-          }
-        });
-      }
-      return cookieValue;
     }
   }
 });
@@ -3492,6 +3482,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
 function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
@@ -3504,6 +3495,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     postId: {
@@ -3544,7 +3536,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return fetch("/post/".concat(_this.postId, "/comments"), {
                 method: 'POST',
                 headers: {
-                  'X-CSRFToken': _this.getCookie('csrftoken')
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
                 },
                 body: formData
               });
@@ -3577,18 +3569,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee, null, [[5, 15, 19, 22]]);
       }))();
-    },
-    getCookie: function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        document.cookie.split(";").forEach(function (cookie) {
-          cookie = cookie.trim();
-          if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-          }
-        });
-      }
-      return cookieValue;
     }
   }
 });
@@ -3605,6 +3585,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
 function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
@@ -3617,6 +3598,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     postId: Number,
@@ -3647,7 +3629,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return fetch("/post/".concat(_this.postId, "/likes"), {
                 method: "POST",
                 headers: {
-                  "X-CSRFToken": _this.getCookie("csrftoken"),
+                  "X-CSRFToken": (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)("csrftoken"),
                   "Content-Type": "application/json"
                 },
                 credentials: "include"
@@ -3676,18 +3658,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee, null, [[0, 10]]);
       }))();
-    },
-    getCookie: function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        document.cookie.split(";").forEach(function (cookie) {
-          cookie = cookie.trim();
-          if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-          }
-        });
-      }
-      return cookieValue;
     }
   }
 });
@@ -4147,6 +4117,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4165,6 +4136,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -4224,7 +4196,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return fetch('/post/', {
                 method: 'POST',
                 headers: {
-                  'X-CSRFToken': _this.getCookie('csrftoken')
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
                 },
                 body: formData
               });
@@ -4325,20 +4297,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.previews = [];
       }
       this.removedIndexes = [];
-    },
-    getCookie: function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
     }
   },
   beforeDestroy: function beforeDestroy() {
@@ -4758,6 +4716,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _csrf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../csrf.js */ "./assets/scripts/csrf.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4776,6 +4735,7 @@ function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { 
 function _OverloadYield(e, d) { this.v = e, this.k = d; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -4835,7 +4795,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return fetch("/auth/register/", {
                 method: 'POST',
                 headers: {
-                  'X-CSRFToken': _this.getCookie('csrftoken')
+                  'X-CSRFToken': (0,_csrf_js__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken')
                 },
                 body: formData
               });
@@ -4892,20 +4852,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];
         }
       });
-    },
-    getCookie: function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
     },
     redirectToOAuth: function redirectToOAuth(provider) {
       if (window.oauthUrls[provider]) {
@@ -11241,7 +11187,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
     z-index: 10; /* Зробимо кнопку поверх зображення */
 }
 
-`, "",{"version":3,"sources":["webpack://./assets/scripts/pages/PostCreationPage.vue"],"names":[],"mappings":";AA0MA;IACI,gBAAgB;IAChB,mBAAmB;AACvB;AAEA;IACI,YAAY;IACZ,aAAa;IACb,iBAAiB;IACjB,qCAAqC;IACrC,kBAAkB;AACtB;AAEA;IACI,qBAAqB;IACrB,2BAA2B;IAC3B,kBAAkB;IAClB,mBAAmB;AACvB;AAEA;IACI,kBAAkB,EAAE,wCAAwC;AAChE;AAEA;IACI,kBAAkB;IAClB,yCAAyC;IACzC,yBAAyB;IACzB,eAAe;IACf,eAAe;IACf,kBAAkB;IAClB,UAAU;IACV,YAAY;IACZ,WAAW,EAAE,qCAAqC;AACtD","sourcesContent":["<template>\r\n  <div class=\"form-container\">\r\n    <h1 class=\"form-title\">Create post</h1>\r\n    <form @submit.prevent=\"submitForm\" enctype=\"multipart/form-data\" class=\"styled-form\">\r\n      <div v-if=\"errorMessage\" class=\"error-message\">\r\n        {{ errorMessage }}\r\n      </div>\r\n      <div class=\"form-group\" v-for=\"field in fields\" :key=\"field.id\">\r\n        <label :for=\"field.id\">{{ field.label }}</label>\r\n        <input\r\n          :id=\"field.id\"\r\n          v-model=\"field.value\"\r\n          :type=\"field.attrs.type\"\r\n          :name=\"field.id\"\r\n          :required=\"field.attrs.required\"\r\n        />\r\n        <small v-if=\"field.helpText\" class=\"form-text\">{{ field.helpText }}</small>\r\n        <p v-for=\"error in field.errors\" :key=\"error\" class=\"form-error\">\r\n          {{ error }}\r\n        </p>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label for=\"images\">Upload photos (max 10):</label>\r\n        <input\r\n          ref=\"fileInput\"\r\n          type=\"file\"\r\n          id=\"images\"\r\n          name=\"images\"\r\n          multiple\r\n          class=\"file-input\"\r\n          @change=\"handleFileUpload\"\r\n        />\r\n      </div>\r\n      <p v-if=\"errors.images\" v-for=\"error in errors.images\" :key=\"error\" class=\"form-error\">\r\n        {{ error }}\r\n      </p>\r\n      <div v-if=\"previews.length\" class=\"image-previews\">\r\n        <label>Uploaded photos ({{ previews.length }}/10):</label>\r\n        <div v-for=\"(src, index) in previews\" :key=\"index\" class=\"preview\">\r\n          <div class=\"preview-container\">\r\n            <img :src=\"src\" alt=\"Preview\" class=\"preview-img\" />\r\n            <button\r\n              type=\"button\"\r\n              class=\"remove-button\"\r\n              @click=\"removePreview(index)\"\r\n            >\r\n              &#x2715;\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <button type=\"submit\" class=\"submit-button\" :disabled=\"isSubmitting\">\r\n        <span v-if=\"!isSubmitting\">Create</span>\r\n        <span v-else class=\"spinner-border\" role=\"status\">\r\n          <span class=\"sr-only\">Loading...</span>\r\n        </span>\r\n      </button>\r\n    </form>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nexport default {\r\n  data() {\r\n    return {\r\n      fields: [\r\n        { id: 'title', label: 'Title', value: '', attrs: { type: 'text', required: true }, errors: [] },\r\n        { id: 'description', label: 'Description', value: '', attrs: { type: 'text', required: true }, errors: [] },\r\n      ],\r\n      images: [],\r\n      errors: {},\r\n      errorMessage: '',\r\n      isSubmitting: false,\r\n      previews: [],\r\n      removedIndexes: [],\r\n    };\r\n  },\r\n  methods: {\r\n    async submitForm() {\r\n      this.isSubmitting = true;\r\n      this.clearErrors();\r\n\r\n      const formData = new FormData();\r\n\r\n      // Add form fields to FormData\r\n      this.fields.forEach((field) => {\r\n        formData.append(field.id, field.value);\r\n      });\r\n\r\n      // Add files to FormData\r\n      const files = this.$refs.fileInput.files;\r\n      let imageCount = 0;\r\n      for (let i = 0; i < files.length && imageCount < 10; i++) {\r\n        if (!this.removedIndexes.includes(i)) {\r\n          formData.append('images', files[i]);\r\n          imageCount++;\r\n        }\r\n      }\r\n\r\n      try {\r\n        const response = await fetch('/post/', {\r\n          method: 'POST',\r\n          headers: {\r\n            'X-CSRFToken': this.getCookie('csrftoken'),\r\n          },\r\n          body: formData,\r\n        });\r\n\r\n        const data = await response.json();\r\n\r\n        if (response.ok) {\r\n          window.location.href = data.redirect_url;\r\n        } else {\r\n          if (data.status === 'error') {\r\n            this.errorMessage = data.error_message || 'An error occurred while creating the post.';\r\n            if (data.errors) {\r\n              this.updateFieldErrors(data.errors);\r\n            }\r\n          }\r\n        }\r\n      } catch (error) {\r\n        console.error('Error submitting form:', error);\r\n        this.errorMessage = 'An unexpected error occurred. Please try again.';\r\n      } finally {\r\n        this.isSubmitting = false;\r\n      }\r\n    },\r\n    clearErrors() {\r\n      this.errorMessage = '';\r\n      this.fields.forEach((field) => {\r\n        field.errors = [];\r\n      });\r\n      this.errors = {};\r\n    },\r\n    updateFieldErrors(errors) {\r\n      Object.entries(errors).forEach(([fieldName, fieldErrors]) => {\r\n        const field = this.fields.find((f) => f.id === fieldName);\r\n        if (field) {\r\n          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        } else if (fieldName === 'images') {\r\n          this.errors.images = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        }\r\n      });\r\n    },\r\n    handleFileUpload(event) {\r\n      const files = event.target.files;\r\n      if (files.length > 10) {\r\n        this.errorMessage = 'You can only upload up to 10 images.';\r\n        this.$refs.fileInput.value = ''; // Clear the file input\r\n        return;\r\n      }\r\n\r\n      // Clear previous previews\r\n      this.destroyPreviews();\r\n\r\n      this.previews = Array.from(files).map((file) => URL.createObjectURL(file));\r\n      this.removedIndexes = [];\r\n    },\r\n    removePreview(index) {\r\n      URL.revokeObjectURL(this.previews[index]);\r\n      this.previews.splice(index, 1);\r\n\r\n      const dt = new DataTransfer();\r\n      const files = this.$refs.fileInput.files;\r\n      for (let i = 0; i < files.length; i++) {\r\n        if (i !== index) {\r\n          dt.items.add(files[i]);\r\n        }\r\n      }\r\n      this.$refs.fileInput.files = dt.files;\r\n\r\n      this.removedIndexes = this.removedIndexes.map((i) => (i > index ? i - 1 : i)).filter((i) => i !== index);\r\n    },\r\n    destroyPreviews() {\r\n      if (this.previews.length) {\r\n        this.previews.forEach((src) => URL.revokeObjectURL(src));\r\n        this.previews = [];\r\n      }\r\n      this.removedIndexes = [];\r\n    },\r\n    getCookie(name) {\r\n      let cookieValue = null;\r\n      if (document.cookie && document.cookie !== '') {\r\n        const cookies = document.cookie.split(';');\r\n        for (let i = 0; i < cookies.length; i++) {\r\n          const cookie = cookies[i].trim();\r\n          if (cookie.substring(0, name.length + 1) === name + '=') {\r\n            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));\r\n            break;\r\n          }\r\n        }\r\n      }\r\n      return cookieValue;\r\n    },\r\n  },\r\n  beforeDestroy() {\r\n    this.destroyPreviews();\r\n  },\r\n};\r\n</script>\r\n\r\n<style scoped>\r\n.image-previews {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.preview-img {\r\n    width: 100px;\r\n    height: 100px;\r\n    object-fit: cover;\r\n    border: 1px solid var(--border-color);\r\n    border-radius: 5px;\r\n}\r\n\r\n.preview {\r\n    display: inline-block;\r\n    width: calc(33.333% - 10px);\r\n    margin-right: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n.preview-container {\r\n    position: relative; /* Додаємо позиціювання для контейнера */\r\n}\r\n\r\n.remove-button {\r\n    border-radius: 50%;\r\n    background-color: var(--background-color);\r\n    color: var(--error-color);\r\n    font-size: 14px;\r\n    cursor: pointer;\r\n    position: absolute;\r\n    top: -12px;\r\n    right: -10px;\r\n    z-index: 10; /* Зробимо кнопку поверх зображення */\r\n}\r\n\r\n</style>\r\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./assets/scripts/pages/PostCreationPage.vue"],"names":[],"mappings":";AA8LA;IACI,gBAAgB;IAChB,mBAAmB;AACvB;AAEA;IACI,YAAY;IACZ,aAAa;IACb,iBAAiB;IACjB,qCAAqC;IACrC,kBAAkB;AACtB;AAEA;IACI,qBAAqB;IACrB,2BAA2B;IAC3B,kBAAkB;IAClB,mBAAmB;AACvB;AAEA;IACI,kBAAkB,EAAE,wCAAwC;AAChE;AAEA;IACI,kBAAkB;IAClB,yCAAyC;IACzC,yBAAyB;IACzB,eAAe;IACf,eAAe;IACf,kBAAkB;IAClB,UAAU;IACV,YAAY;IACZ,WAAW,EAAE,qCAAqC;AACtD","sourcesContent":["<template>\r\n  <div class=\"form-container\">\r\n    <h1 class=\"form-title\">Create post</h1>\r\n    <form @submit.prevent=\"submitForm\" enctype=\"multipart/form-data\" class=\"styled-form\">\r\n      <div v-if=\"errorMessage\" class=\"error-message\">\r\n        {{ errorMessage }}\r\n      </div>\r\n      <div class=\"form-group\" v-for=\"field in fields\" :key=\"field.id\">\r\n        <label :for=\"field.id\">{{ field.label }}</label>\r\n        <input\r\n          :id=\"field.id\"\r\n          v-model=\"field.value\"\r\n          :type=\"field.attrs.type\"\r\n          :name=\"field.id\"\r\n          :required=\"field.attrs.required\"\r\n        />\r\n        <small v-if=\"field.helpText\" class=\"form-text\">{{ field.helpText }}</small>\r\n        <p v-for=\"error in field.errors\" :key=\"error\" class=\"form-error\">\r\n          {{ error }}\r\n        </p>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label for=\"images\">Upload photos (max 10):</label>\r\n        <input\r\n          ref=\"fileInput\"\r\n          type=\"file\"\r\n          id=\"images\"\r\n          name=\"images\"\r\n          multiple\r\n          class=\"file-input\"\r\n          @change=\"handleFileUpload\"\r\n        />\r\n      </div>\r\n      <p v-if=\"errors.images\" v-for=\"error in errors.images\" :key=\"error\" class=\"form-error\">\r\n        {{ error }}\r\n      </p>\r\n      <div v-if=\"previews.length\" class=\"image-previews\">\r\n        <label>Uploaded photos ({{ previews.length }}/10):</label>\r\n        <div v-for=\"(src, index) in previews\" :key=\"index\" class=\"preview\">\r\n          <div class=\"preview-container\">\r\n            <img :src=\"src\" alt=\"Preview\" class=\"preview-img\" />\r\n            <button\r\n              type=\"button\"\r\n              class=\"remove-button\"\r\n              @click=\"removePreview(index)\"\r\n            >\r\n              &#x2715;\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <button type=\"submit\" class=\"submit-button\" :disabled=\"isSubmitting\">\r\n        <span v-if=\"!isSubmitting\">Create</span>\r\n        <span v-else class=\"spinner-border\" role=\"status\">\r\n          <span class=\"sr-only\">Loading...</span>\r\n        </span>\r\n      </button>\r\n    </form>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport { getCookie } from '../csrf.js';\r\n\r\nexport default {\r\n  data() {\r\n    return {\r\n      fields: [\r\n        { id: 'title', label: 'Title', value: '', attrs: { type: 'text', required: true }, errors: [] },\r\n        { id: 'description', label: 'Description', value: '', attrs: { type: 'text', required: true }, errors: [] },\r\n      ],\r\n      images: [],\r\n      errors: {},\r\n      errorMessage: '',\r\n      isSubmitting: false,\r\n      previews: [],\r\n      removedIndexes: [],\r\n    };\r\n  },\r\n  methods: {\r\n    async submitForm() {\r\n      this.isSubmitting = true;\r\n      this.clearErrors();\r\n\r\n      const formData = new FormData();\r\n\r\n      // Add form fields to FormData\r\n      this.fields.forEach((field) => {\r\n        formData.append(field.id, field.value);\r\n      });\r\n\r\n      // Add files to FormData\r\n      const files = this.$refs.fileInput.files;\r\n      let imageCount = 0;\r\n      for (let i = 0; i < files.length && imageCount < 10; i++) {\r\n        if (!this.removedIndexes.includes(i)) {\r\n          formData.append('images', files[i]);\r\n          imageCount++;\r\n        }\r\n      }\r\n\r\n      try {\r\n        const response = await fetch('/post/', {\r\n          method: 'POST',\r\n          headers: {\r\n            'X-CSRFToken': getCookie('csrftoken'),\r\n          },\r\n          body: formData,\r\n        });\r\n\r\n        const data = await response.json();\r\n\r\n        if (response.ok) {\r\n          window.location.href = data.redirect_url;\r\n        } else {\r\n          if (data.status === 'error') {\r\n            this.errorMessage = data.error_message || 'An error occurred while creating the post.';\r\n            if (data.errors) {\r\n              this.updateFieldErrors(data.errors);\r\n            }\r\n          }\r\n        }\r\n      } catch (error) {\r\n        console.error('Error submitting form:', error);\r\n        this.errorMessage = 'An unexpected error occurred. Please try again.';\r\n      } finally {\r\n        this.isSubmitting = false;\r\n      }\r\n    },\r\n    clearErrors() {\r\n      this.errorMessage = '';\r\n      this.fields.forEach((field) => {\r\n        field.errors = [];\r\n      });\r\n      this.errors = {};\r\n    },\r\n    updateFieldErrors(errors) {\r\n      Object.entries(errors).forEach(([fieldName, fieldErrors]) => {\r\n        const field = this.fields.find((f) => f.id === fieldName);\r\n        if (field) {\r\n          field.errors = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        } else if (fieldName === 'images') {\r\n          this.errors.images = Array.isArray(fieldErrors) ? fieldErrors : [fieldErrors];\r\n        }\r\n      });\r\n    },\r\n    handleFileUpload(event) {\r\n      const files = event.target.files;\r\n      if (files.length > 10) {\r\n        this.errorMessage = 'You can only upload up to 10 images.';\r\n        this.$refs.fileInput.value = ''; // Clear the file input\r\n        return;\r\n      }\r\n\r\n      // Clear previous previews\r\n      this.destroyPreviews();\r\n\r\n      this.previews = Array.from(files).map((file) => URL.createObjectURL(file));\r\n      this.removedIndexes = [];\r\n    },\r\n    removePreview(index) {\r\n      URL.revokeObjectURL(this.previews[index]);\r\n      this.previews.splice(index, 1);\r\n\r\n      const dt = new DataTransfer();\r\n      const files = this.$refs.fileInput.files;\r\n      for (let i = 0; i < files.length; i++) {\r\n        if (i !== index) {\r\n          dt.items.add(files[i]);\r\n        }\r\n      }\r\n      this.$refs.fileInput.files = dt.files;\r\n\r\n      this.removedIndexes = this.removedIndexes.map((i) => (i > index ? i - 1 : i)).filter((i) => i !== index);\r\n    },\r\n    destroyPreviews() {\r\n      if (this.previews.length) {\r\n        this.previews.forEach((src) => URL.revokeObjectURL(src));\r\n        this.previews = [];\r\n      }\r\n      this.removedIndexes = [];\r\n    },\r\n  },\r\n  beforeDestroy() {\r\n    this.destroyPreviews();\r\n  },\r\n};\r\n</script>\r\n\r\n<style scoped>\r\n.image-previews {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.preview-img {\r\n    width: 100px;\r\n    height: 100px;\r\n    object-fit: cover;\r\n    border: 1px solid var(--border-color);\r\n    border-radius: 5px;\r\n}\r\n\r\n.preview {\r\n    display: inline-block;\r\n    width: calc(33.333% - 10px);\r\n    margin-right: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n.preview-container {\r\n    position: relative; /* Додаємо позиціювання для контейнера */\r\n}\r\n\r\n.remove-button {\r\n    border-radius: 50%;\r\n    background-color: var(--background-color);\r\n    color: var(--error-color);\r\n    font-size: 14px;\r\n    cursor: pointer;\r\n    position: absolute;\r\n    top: -12px;\r\n    right: -10px;\r\n    z-index: 10; /* Зробимо кнопку поверх зображення */\r\n}\r\n\r\n</style>\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

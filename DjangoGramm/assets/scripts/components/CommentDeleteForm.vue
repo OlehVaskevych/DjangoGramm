@@ -5,50 +5,40 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      postId: {
-        type: Number,
-        required: true,
-      },
-      commentId: {
-        type: Number,
-        required: true,
-      }
+import { getCookie } from "../csrf.js";
+
+export default {
+  props: {
+    postId: {
+      type: Number,
+      required: true,
     },
-    methods: {
-      async submitForm() {
-        try {
-          const response = await fetch(`/post/${this.postId}/comments/${this.commentId}/`, {
-            method: 'POST',
-            headers: {
-              'X-CSRFToken': this.getCookie('csrftoken'),
-              'Content-Type': 'application/json',
-            },
-          });
-
-          const data = await response.json();
-
-          if (response.ok) {
-            this.$emit('delete-comment', data);
-          } else {
-            console.error('Failed to delete comment');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      },
-      getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        document.cookie.split(";").forEach((cookie) => {
-          cookie = cookie.trim();
-          if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-          }
+    commentId: {
+      type: Number,
+      required: true,
+    }
+  },
+  methods: {
+    async submitForm() {
+      try {
+        const response = await fetch(`/post/${this.postId}/comments/${this.commentId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+          },
         });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          this.$emit('delete-comment', data);
+        } else {
+          console.error('Failed to delete comment');
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
-      return cookieValue;
     },
   },
 };

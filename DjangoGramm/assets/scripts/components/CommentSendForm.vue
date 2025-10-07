@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { getCookie } from '../csrf.js';
+
 export default {
   props: {
     postId: {
@@ -40,7 +42,7 @@ export default {
         const response = await fetch(`/post/${this.postId}/comments`, {
           method: 'POST',
           headers: {
-            'X-CSRFToken': this.getCookie('csrftoken')
+            'X-CSRFToken': getCookie('csrftoken')
           },
           body: formData,
         });
@@ -59,19 +61,6 @@ export default {
       } finally {
         this.isSubmitting = false;
       }
-    },
-
-    getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        document.cookie.split(";").forEach((cookie) => {
-          cookie = cookie.trim();
-          if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-          }
-        });
-      }
-      return cookieValue;
     },
   }
 };
