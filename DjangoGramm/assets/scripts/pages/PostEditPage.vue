@@ -96,7 +96,7 @@ export default {
 
         if (data.status === 'success') {
           if (method === 'DELETE') {
-            this.$router.push(`/}`); // повернення до списку після видалення
+            this.$router.push(`/`); // повернення до списку після видалення
           } else {
             this.$router.push(`/posts/${this.postId}`); // після збереження
           }

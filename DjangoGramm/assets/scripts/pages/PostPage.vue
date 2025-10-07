@@ -11,6 +11,7 @@
         </router-link>
 
         <router-link
+          v-if="userIsAuthenticated && currentUser.username === post.user.username"
           :to="'/post/' + post.id + '/update/'"
           class="edit-icon"
         >

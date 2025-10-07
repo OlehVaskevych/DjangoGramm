@@ -2,15 +2,22 @@
   <div class="card mt-3 card-color">
     <div class="card-header d-flex align-items-center mt-2 mb-2">
       <img :src="post.user.profile.avatar.url" alt="Avatar" class="card-header-image">
-      <a :href="'/profile/' + post.user.username" class="text-decoration-none user-href">
+      <router-link
+          :to="'/profile/' + post.user.username"
+          class="text-decoration-none user-href"
+      >
         <span class="ms-3 fw-bolder fs-4">{{ post.user.username }}</span>
-      </a>
+      </router-link>
 
-      <a v-if="userIsAuthenticated && post.user.username === currentUser.username"
-         :href="'/post/' + post.id + '/update/'" class="edit-icon">
-        <span class="fa fa-edit"></span>
-      </a>
+      <router-link
+          v-if="userIsAuthenticated && post.user.username === currentUser.username"
+          :to="'post' + post.id + '/update'"
+          class="edit-icon"
+      >
+          <span class="fa fa-edit"></span>
+      </router-link>
     </div>
+
     <div v-if="post.images.length" :id="'carousel-' + post.id" class="carousel slide">
         <div class="carousel-inner">
           <div v-for="(image, index) in post.images" :key="index" :class="{'carousel-item': true, 'active': index === 0}">
