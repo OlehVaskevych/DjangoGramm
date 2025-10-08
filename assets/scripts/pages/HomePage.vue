@@ -41,7 +41,7 @@ export default {
       this.loading = true;
       try {
         const res = await fetch(`/api/posts/?page=${this.page}&limit=${this.limit}`);
-        const data = await res.json();
+        const { data } = await res.json();
 
         this.posts.push(...data.posts);
         this.hasNext = data.has_next;

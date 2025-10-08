@@ -43,7 +43,7 @@ export default {
       try {
         // 🔹 Головна відмінність від HomePage.vue:
         const res = await fetch(`/api/posts/?page=${this.page}&limit=${this.limit}&feed=news`);
-        const data = await res.json();
+        const { data } = await res.json();
 
         this.posts.push(...data.posts);
         this.hasNext = data.has_next;

@@ -56,7 +56,7 @@ def user_is_profile_owner(view_func):
                 return JsonResponse(
                     {
                         "status": "error",
-                        "error_message": "You are not authorized to edit this profile.",
+                        "message": "You are not authorized to edit this profile.",
                     },
                     status=403,
                 )
@@ -179,32 +179,35 @@ def profile_view(request, username):
 
     return JsonResponse(
         {
-            "user": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-            },
-            "profile": {
-                "first_name": user.profile.first_name,
-                "last_name": user.profile.last_name,
-                "bio": user.profile.bio,
-                "avatar": user.profile.avatar.url if user.profile.avatar else None,
-            },
-            "posts": [
-                {
-                    "id": post.id,
-                    "images": [
-                        {"image_file": img.image_file.url} for img in post.images.all()
-                    ],
-                    "likes": [like.id for like in post.likes.all()],
-                    "comments": [c.id for c in post.comments.all()],
-                }
-                for post in posts
-            ],
-            "followers": followers,
-            "followings": followings,
-            "is_following": is_following,
-            "current_user": request.user.id if request.user.is_authenticated else None,
+            "status": "success",
+            "data": {
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                },
+                "profile": {
+                    "first_name": user.profile.first_name,
+                    "last_name": user.profile.last_name,
+                    "bio": user.profile.bio,
+                    "avatar": user.profile.avatar.url if user.profile.avatar else None,
+                },
+                "posts": [
+                    {
+                        "id": post.id,
+                        "images": [
+                            {"image_file": img.image_file.url} for img in post.images.all()
+                        ],
+                        "likes": [like.id for like in post.likes.all()],
+                        "comments": [c.id for c in post.comments.all()],
+                    }
+                    for post in posts
+                ],
+                "followers": followers,
+                "followings": followings,
+                "is_following": is_following,
+                "current_user": request.user.id if request.user.is_authenticated else None,
+            }
         }
     )
 
@@ -246,7 +249,7 @@ def profile_update_view(request, username):
                     {
                         "status": "error",
                         "errors": form.errors,
-                        "error_message": "Form validation failed. Please check the input fields.",
+                        "message": "Form validation failed. Please check the input fields.",
                     },
                     status=400,
                 )
@@ -254,7 +257,10 @@ def profile_update_view(request, username):
         elif request.POST.get("_method") == "DELETE":
             # Delete user account
             user.delete()
-            return JsonResponse({"status": "success", "redirect_url": f"/"})
+            return JsonResponse({
+                "status": "success",
+                "redirect_url": f"/"
+            })
 
     elif request.method == "GET":
         # Return current profile data
@@ -266,12 +272,17 @@ def profile_update_view(request, username):
             "bio": request.user.profile.bio,
             "avatar": request.user.profile.avatar.url,
         }
-        return JsonResponse({"status": "success", "initial_data": initial_data})
+        return JsonResponse({
+            "status": "success",
+            "initial_data": initial_data
+        })
 
     else:
-        return JsonResponse(
-            {"status": "error", "error_message": "Invalid method specified"}, status=400
-        )
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid method",
+            "code": "invalid_method"
+        })
 
 
 def post_view(request, post_id):
@@ -322,26 +333,29 @@ def post_view(request, post_id):
 
     return JsonResponse(
         {
-            "post": post_json,
-            "currentUser": {
-                "username": (
-                    request.user.username if request.user.is_authenticated else None
-                ),
-                "profile": (
-                    {
-                        "avatar": {
-                            "url": (
-                                request.user.profile.avatar.url
-                                if request.user.is_authenticated
-                                else None
-                            ),
+            "status": "success",
+            "data": {
+                "post": post_json,
+                "currentUser": {
+                    "username": (
+                        request.user.username if request.user.is_authenticated else None
+                    ),
+                    "profile": (
+                        {
+                            "avatar": {
+                                "url": (
+                                    request.user.profile.avatar.url
+                                    if request.user.is_authenticated
+                                    else None
+                                ),
+                            }
                         }
-                    }
-                    if request.user.is_authenticated
-                    else None
-                ),
-            },
-            "userIsAuthenticated": request.user.is_authenticated,
+                        if request.user.is_authenticated
+                        else None
+                    ),
+                },
+                "userIsAuthenticated": request.user.is_authenticated,
+            }
         }
     )
 
@@ -426,13 +440,14 @@ def posts_view(request):
         for post in page_obj
     ]
 
-    return JsonResponse(
-        {
+    return JsonResponse({
+        "status": "success",
+        "data": {
             "posts": posts_json,
             "has_next": page_obj.has_next(),
             "page": page_number,
         }
-    )
+    })
 
 
 @login_required
@@ -457,7 +472,7 @@ def post_create_view(request):
 
         if not images:
             return JsonResponse(
-                {"status": "error", "error_message": "You must select at least one image."},
+                {"status": "error", "message": "You must select at least one image."},
                 status=400,
             )
 
@@ -467,7 +482,7 @@ def post_create_view(request):
             return JsonResponse(
                 {
                     "status": "error",
-                    "error_message": f"The following images are too large (max 10MB): {', '.join(invalid_images)}",
+                    "message": f"The following images are too large (max 10MB): {', '.join(invalid_images)}",
                 },
                 status=400,
             )
@@ -488,10 +503,12 @@ def post_create_view(request):
                 {"status": "success", "post_id": post.id, "uploaded_files": uploaded_files}
             )
 
-        return JsonResponse({"status": "error", "error_message": "Form is invalid"}, status=400)
+        return JsonResponse({"status": "error", "message": "Form is invalid"}, status=400)
 
         # Якщо GET-запит — просто повертаємо JSON про структуру форми
-    return JsonResponse({"status": "ready"})
+    return JsonResponse({
+        "status": "ready"
+    })
 
 
 @login_required
@@ -510,14 +527,31 @@ def post_like_view(request, post_id):
     Returns:
         JsonResponse with liked status (boolean) and total likes count
     """
+    if request.method != "POST":
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid request method. Only POST allowed."
+        }, status=405)
+
     post = get_object_or_404(Post, id=post_id)
+
     if request.user in post.likes.all():
         post.likes.remove(request.user)
         liked = False
+        message = "Like removed"
     else:
         post.likes.add(request.user)
         liked = True
-    return JsonResponse({"liked": liked, "likes_count": post.likes.count()})
+        message = "Post liked"
+
+    return JsonResponse({
+        "status": "success",
+        "message": message,
+        "data": {
+            "liked": liked,
+            "likes_count": post.likes.count(),
+        }
+    })
 
 
 @login_required
@@ -542,8 +576,9 @@ def post_comment_view(request, post_id):
             created_comment = Comment.objects.create(
                 post=post, author=request.user, text=comment_text
             )
-            return JsonResponse(
-                {
+            return JsonResponse({
+                "status": "success",
+                "data": {
                     "id": created_comment.id,
                     "author": {"username": created_comment.author.username},
                     "text": created_comment.text,
@@ -551,7 +586,7 @@ def post_comment_view(request, post_id):
                         "%Y-%m-%d %H:%M:%S"
                     ),
                 }
-            )
+            })
         else:
             return JsonResponse(
                 {"status": "error", "message": "Comment text is empty"}, status=400
@@ -661,15 +696,24 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return JsonResponse(
-                {"status": "success", "redirect_url": f"/profile/{user.username}/"}
-            )
+            return JsonResponse({
+                "status": "success",
+                "redirect_url": f"/profile/{user.username}/"
+            })
         else:
-            # Повертаємо помилки в JSON
-            return JsonResponse({"status": "error", "errors": form.errors}, status=400)
+            error_message = "; ".join([f"{field}: {', '.join(errors)}" for field, errors in form.errors.items()])
+            return JsonResponse({
+                "status": "error",
+                "message": error_message,
+                "code": "form_invalid"
+            }, status=400)
 
-    # GET-запит — повідомляємо фронтенду, що форма готова
-    return JsonResponse({"status": "ready"})
+    else:
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid method",
+            "code": "invalid_method"
+        })
 
 
 def login_view(request):
@@ -689,11 +733,24 @@ def login_view(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return JsonResponse({"status": "success", "redirect_url": f"/"})
+            return JsonResponse({
+                "status": "success",
+                "redirect_url": f"/"
+            })
         else:
-            return JsonResponse({"status": "error", "errors": form.errors})
+            error_message = "; ".join([f"{field}: {', '.join(errors)}" for field, errors in form.errors.items()])
+            return JsonResponse({
+                "status": "error",
+                "message": error_message,
+                "code": "form_invalid"
+            }, status=400)
 
-    return JsonResponse({"status": "ready"})
+    else:
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid method",
+            "code": "invalid_method"
+        })
 
 
 @login_required
@@ -712,9 +769,16 @@ def logout_view(request):
     """
     if request.method == "POST":
         logout(request)
-        return JsonResponse({"status": "success", "redirect_url": f"/"})
+        return JsonResponse({
+            "status": "success",
+            "redirect_url": f"/"
+        })
     else:
-        return JsonResponse({"status": "error"})
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid method",
+            "code": "invalid_method"
+        })
 
 
 @login_required
@@ -737,12 +801,17 @@ def follow_view(request, username):
     user_to_follow = get_object_or_404(User, username=username)
 
     if request.method != "POST":
-        return JsonResponse({"status": "error", "msg": "Invalid method"}, status=405)
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid method"
+        }, status=405)
 
     if request.user == user_to_follow:
-        return JsonResponse(
-            {"status": "error", "msg": "You cannot follow yourself"}, status=400
-        )
+        return JsonResponse({
+            "status": "error",
+            "message": "You cannot follow yourself",
+            "code": "myself_follow_error"
+        }, status=400)
 
     try:
         follow, created = Follow.objects.get_or_create(
@@ -751,19 +820,27 @@ def follow_view(request, username):
 
         if created:
             # Successfully followed
-            return JsonResponse(
-                {"status": "success", "action": "followed", "username": username}
-            )
+            return JsonResponse({
+                "status": "success",
+                "action": "followed",
+                "username": username
+            })
 
         else:
             # Already following, so unfollow
             follow.delete()
-            return JsonResponse(
-                {"status": "success", "action": "unfollowed", "username": username}
-            )
+            return JsonResponse({
+                "status": "success",
+                "action": "unfollowed",
+                "username": username
+            })
 
     except (IntegrityError, DatabaseError):
-        return JsonResponse({"status": "error", "msg": "Database error"}, status=500)
+        return JsonResponse({
+            "status": "error",
+            "message": "Database error",
+            "code": "database_error"
+        }, status=500)
 
 
 @login_required

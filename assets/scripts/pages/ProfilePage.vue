@@ -137,7 +137,7 @@ export default {
 
       try {
         const res = await fetch(`/api/profile/${this.username}/`);
-        const data = await res.json();
+        const { data } = await res.json();
 
         // Оновлюємо стан
         this.user = data.user;

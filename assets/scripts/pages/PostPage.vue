@@ -55,7 +55,7 @@ export default {
     try {
       const postId = this.$route.params.id;
       const res = await fetch(`/api/post/${postId}/`);
-      const data = await res.json();
+      const { data } = await res.json();
       this.post = data.post;
       this.currentUser = data.currentUser;
       this.userIsAuthenticated = data.userIsAuthenticated;

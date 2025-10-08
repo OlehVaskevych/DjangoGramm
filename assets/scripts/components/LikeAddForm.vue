@@ -36,7 +36,7 @@ export default {
           credentials: "include",
         });
 
-        const data = await response.json();
+        const { data } = await response.json();
 
         if (response.ok) {
           this.liked = !this.liked;

@@ -47,7 +47,7 @@ export default {
           body: formData,
         });
 
-        const data = await response.json();
+        const { data } = await response.json();
 
         if (response.ok) {
           this.$emit('add-comment', data);
