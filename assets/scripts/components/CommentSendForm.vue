@@ -39,7 +39,7 @@ export default {
       formData.append('comment', this.comment);
 
       try {
-        const response = await fetch(`/post/${this.postId}/comments`, {
+        const response = await fetch(`/api/post/${this.postId}/comments`, {
           method: 'POST',
           headers: {
             'X-CSRFToken': getCookie('csrftoken')

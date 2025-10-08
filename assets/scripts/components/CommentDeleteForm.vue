@@ -21,7 +21,7 @@ export default {
   methods: {
     async submitForm() {
       try {
-        const response = await fetch(`/post/${this.postId}/comments/${this.commentId}/`, {
+        const response = await fetch(`/api/post/${this.postId}/comments/${this.commentId}/`, {
           method: 'POST',
           headers: {
             'X-CSRFToken': getCookie('csrftoken'),

@@ -100,7 +100,7 @@ export default {
       }
 
       try {
-        const response = await fetch('/post/', {
+        const response = await fetch('/api/post/', {
           method: 'POST',
           headers: {
             'X-CSRFToken': getCookie('csrftoken'),

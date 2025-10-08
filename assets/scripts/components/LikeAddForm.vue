@@ -27,7 +27,7 @@ export default {
   methods: {
     async toggleLike() {
       try {
-        const response = await fetch(`/post/${this.postId}/likes`, {
+        const response = await fetch(`/api/post/${this.postId}/likes`, {
           method: "POST",
           headers: {
             "X-CSRFToken": getCookie("csrftoken"),

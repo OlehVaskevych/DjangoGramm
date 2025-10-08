@@ -85,7 +85,7 @@ export default {
       });
 
       try {
-        const response = await fetch(`/auth/register/`, {
+        const response = await fetch(`/api/auth/register/`, {
           method: 'POST',
           headers: {
             'X-CSRFToken': getCookie('csrftoken'),

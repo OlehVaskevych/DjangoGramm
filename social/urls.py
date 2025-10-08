@@ -24,30 +24,27 @@ urlpatterns = [
 
     # Profile endpoints
     # View and update user profiles, manage follow relationships
-    path('profile/<str:username>/update/', views.profile_update_view, name='profile_update'),
-    path('profile/<str:username>/follows/', views.follow_view, name='follow'),
+    path('api/profile/<str:username>/update/', views.profile_update_view, name='profile_update'),
+    path('api/profile/<str:username>/follows/', views.follow_view, name='follow'),
 
     # Post management endpoints
     # Create, view, update, and retrieve posts
-    path('post/', views.post_create_view, name='post_create'),
+    path('api/post/', views.post_create_view, name='post_create'),
     path('api/post/<int:post_id>/', views.post_view, name='post_detail'),
     path('api/posts/', views.posts_view, name='posts'),
     path('api/post/<int:post_id>/update/', views.post_update_view, name='post_edit'),
 
     # Post interaction endpoints
     # Like posts, add/delete comments
-    path('post/<int:post_id>/likes', views.post_like_view, name='add_like'),
-    path('post/<int:post_id>/comments', views.post_comment_view, name='add_comment'),
-    path('post/<int:post_id>/comments/<int:comment_id>/', views.post_comment_delete_view, name='comment_delete'),
+    path('api/post/<int:post_id>/likes', views.post_like_view, name='add_like'),
+    path('api/post/<int:post_id>/comments', views.post_comment_view, name='add_comment'),
+    path('api/post/<int:post_id>/comments/<int:comment_id>/', views.post_comment_delete_view, name='comment_delete'),
 
     # Authentication endpoints
     # User registration, login, and logout
-    path('auth/register/', views.register_view, name='register'),
-    path('auth/login/', views.login_view, name='login'),
-    path('auth/logout/', views.logout_view, name='logout'),
-
-    # Settings page
-    path('settings/', views.settings_view, name='settings'),
+    path('api/auth/register/', views.register_view, name='register'),
+    path('api/auth/login/', views.login_view, name='login'),
+    path('api/auth/logout/', views.logout_view, name='logout'),
 
     # API endpoints
     # Retrieve current user data and profile information

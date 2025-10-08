@@ -25,7 +25,7 @@
         const formData = new FormData();
         formData.append('_method', 'DELETE');
 
-        const url = `/profile/${this.username}/upadate`;
+        const url = `/api/profile/${this.username}/update`;
 
         try {
           const response = await fetch(url, {

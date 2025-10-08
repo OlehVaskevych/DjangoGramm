@@ -455,56 +455,43 @@ def post_create_view(request):
         form = PostCreateForm(request.POST)
         images = request.FILES.getlist("images")
 
-        if images:
-            # Validate image sizes
-            invalid_images = [
-                image_file.name
-                for image_file in images
-                if image_file.size > MAX_IMAGE_SIZE
-            ]
-
-            if invalid_images:
-                error_message = f"The following images are too large (max 10MB): {', '.join(invalid_images)}"
-                return JsonResponse(
-                    {"status": "error", "error_message": error_message}, status=400
-                )
-
-            # Validate form
-            if form.is_valid():
-                # Save post
-                post = form.save(commit=False)
-                post.user = request.user
-                post.save()
-
-                # Upload and save images
-                uploaded_files = []
-                for image_file in images:
-                    image_instance = Image.objects.create(
-                        post=post, image_file=image_file
-                    )
-                    uploaded_files.append(image_instance.image_file.url)
-
-                return JsonResponse(
-                    {
-                        "status": "success",
-                        "post_id": post.id,
-                        "redirect_url": f"/post/{post.id}",
-                    }
-                )
-            else:
-                return JsonResponse(
-                    {"status": "error", "error_message": "Form is invalid"}, status=400
-                )
-        else:
-            error_message = "You must select at least one image to create the post."
+        if not images:
             return JsonResponse(
-                {"status": "error", "error_message": error_message}, status=400
+                {"status": "error", "error_message": "You must select at least one image."},
+                status=400,
             )
 
-    else:
-        form = PostCreateForm()
+        # Validate image sizes
+        invalid_images = [img.name for img in images if img.size > MAX_IMAGE_SIZE]
+        if invalid_images:
+            return JsonResponse(
+                {
+                    "status": "error",
+                    "error_message": f"The following images are too large (max 10MB): {', '.join(invalid_images)}",
+                },
+                status=400,
+            )
 
-    return render(request, "post_create.html", {"form": form})
+        # Validate form
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+
+            # Upload and save images
+            uploaded_files = []
+            for image_file in images:
+                image_instance = Image.objects.create(post=post, image_file=image_file)
+                uploaded_files.append(image_instance.image_file.url)
+
+            return JsonResponse(
+                {"status": "success", "post_id": post.id, "uploaded_files": uploaded_files}
+            )
+
+        return JsonResponse({"status": "error", "error_message": "Form is invalid"}, status=400)
+
+        # Якщо GET-запит — просто повертаємо JSON про структуру форми
+    return JsonResponse({"status": "ready"})
 
 
 @login_required
@@ -678,10 +665,11 @@ def register_view(request):
                 {"status": "success", "redirect_url": f"/profile/{user.username}/"}
             )
         else:
-            return JsonResponse({"status": "error", "errors": form.errors})
-    else:
-        form = UserCreationForm()
-    return render(request, "register.html", {"form": form})
+            # Повертаємо помилки в JSON
+            return JsonResponse({"status": "error", "errors": form.errors}, status=400)
+
+    # GET-запит — повідомляємо фронтенду, що форма готова
+    return JsonResponse({"status": "ready"})
 
 
 def login_view(request):
@@ -704,9 +692,8 @@ def login_view(request):
             return JsonResponse({"status": "success", "redirect_url": f"/"})
         else:
             return JsonResponse({"status": "error", "errors": form.errors})
-    else:
-        form = AuthenticationForm()
-    return render(request, "login.html", {"form": form})
+
+    return JsonResponse({"status": "ready"})
 
 
 @login_required
@@ -726,7 +713,8 @@ def logout_view(request):
     if request.method == "POST":
         logout(request)
         return JsonResponse({"status": "success", "redirect_url": f"/"})
-    return render(request, "logout.html")
+    else:
+        return JsonResponse({"status": "error"})
 
 
 @login_required
@@ -776,22 +764,6 @@ def follow_view(request, username):
 
     except (IntegrityError, DatabaseError):
         return JsonResponse({"status": "error", "msg": "Database error"}, status=500)
-
-
-@login_required
-def settings_view(request):
-    """
-    Settings page view.
-
-    Renders the settings page for authenticated users.
-
-    Args:
-        request: The HTTP request object
-
-    Returns:
-        Rendered settings.html template
-    """
-    return render(request, "settings.html")
 
 
 @login_required

@@ -112,7 +112,7 @@ export default {
         this.errorMessage = ''; // Очищаємо попередні помилки
 
         try {
-            const url = `/profile/${this.username}/update/`;
+            const url = `/api/profile/${this.username}/update/`;
             const res = await fetch(url, {
               method: 'GET',
               credentials: 'include', // <--- дуже важливо
@@ -194,7 +194,7 @@ export default {
       formData.append('_method', 'PUT');
 
       // Використовуємо той самий URL, який обробляє POST-запит у Django view
-      const url = `/profile/${this.username}/update/`;
+      const url = `/api/profile/${this.username}/update/`;
 
       try {
         const response = await fetch(url, {

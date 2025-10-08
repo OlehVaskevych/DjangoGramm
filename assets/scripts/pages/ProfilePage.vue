@@ -106,7 +106,7 @@ export default {
   methods: {
     async toggleFollow() {
       try {
-        const res = await fetch(`/profile/${this.username}/follows/`, {
+        const res = await fetch(`/api/profile/${this.username}/follows/`, {
           method: "POST",
           credentials: "include",
           headers: {

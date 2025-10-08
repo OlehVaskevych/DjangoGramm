@@ -20,7 +20,7 @@ const routes = [
     name: 'logout',
     beforeEnter: async (to, from, next) => {
       try {
-        await fetch('/auth/logout/', {
+        await fetch('/api/auth/logout/', {
           method: 'POST',
           credentials: 'include',
           headers: {
