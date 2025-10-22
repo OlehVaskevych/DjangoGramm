@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DjangoGramm</title>
+  <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+</head>
+<body>
+  <div id="app"
+       data-auth="{{ user.is_authenticated|yesno:'true,false' }}"
+       data-path="{{ request.path }}"
+       data-username="{{ user.username }}">
+  </div>
+
+  <script>
+    // 💡 Читаємо дані та ініціалізуємо глобальні змінні
+    const appEl = document.getElementById('app');
+    const isAuth = appEl.dataset.auth === 'true';
+
+    window.userIsAuthenticated = isAuth;
+    window.currentUser = null;
+
+    if (isAuth) {
+      window.currentUser = {
+        // Збираємо усі дані в об'єкт
+        username: appEl.dataset.username
+        // Тут можуть бути інші поля, якщо ви їх додасте у data- атрибути
+      };
+    }
+  </script>
+
+  <script src="{% static 'dist/bundle.js' %}"></script>
+</body>
+</html>
